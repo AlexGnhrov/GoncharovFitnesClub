@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище DModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Хранилище DBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Client">
           <Key>
             <PropertyRef Name="ClientID" />
@@ -18,6 +18,7 @@
           <Property Name="DateOfReg" Type="date" Nullable="false" />
           <Property Name="DateOfEnd" Type="date" />
           <Property Name="SubscriptionID" Type="int" Nullable="false" />
+          <Property Name="StatusID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Coach">
           <Key>
@@ -30,6 +31,7 @@
           <Property Name="PhoneNum" Type="nvarchar" MaxLength="17" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="30" />
           <Property Name="SpecialityID" Type="int" Nullable="false" />
+          <Property Name="Photo" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -45,12 +47,20 @@
           <Property Name="SpecialityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="NameSpeciality" Type="nvarchar" MaxLength="60" Nullable="false" />
         </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="StatusID" />
+          </Key>
+          <Property Name="StatusID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NameStatus" Type="nvarchar" MaxLength="30" />
+        </EntityType>
         <EntityType Name="Subscription">
           <Key>
             <PropertyRef Name="SubscriptionID" />
           </Key>
           <Property Name="SubscriptionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="NameSubscription" Type="nvarchar" MaxLength="90" Nullable="false" />
+          <Property Name="SpecialityID" Type="int" />
           <Property Name="CoachID" Type="int" />
           <Property Name="AmountOfDays" Type="int" Nullable="false" />
           <Property Name="VisitDateID" Type="int" />
@@ -84,6 +94,18 @@
           <Property Name="VisitDateID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DayOfVisit" Type="nvarchar" MaxLength="90" Nullable="false" />
         </EntityType>
+        <Association Name="FK_Client_Status">
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
+          <End Role="Client" Type="Self.Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="StatusID" />
+            </Principal>
+            <Dependent Role="Client">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Client_Subscription">
           <End Role="Subscription" Type="Self.Subscription" Multiplicity="1" />
           <End Role="Client" Type="Self.Client" Multiplicity="*" />
@@ -120,6 +142,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Subscription_Speciality">
+          <End Role="Speciality" Type="Self.Speciality" Multiplicity="0..1" />
+          <End Role="Subscription" Type="Self.Subscription" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Speciality">
+              <PropertyRef Name="SpecialityID" />
+            </Principal>
+            <Dependent Role="Subscription">
+              <PropertyRef Name="SpecialityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Subscription_VisitDate">
           <End Role="VisitDate" Type="Self.VisitDate" Multiplicity="0..1" />
           <End Role="Subscription" Type="Self.Subscription" Multiplicity="*" />
@@ -144,15 +178,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Хранилище DModelContainer">
+        <EntityContainer Name="Хранилище DBModelContainer">
           <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Coach" EntityType="Self.Coach" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Speciality" EntityType="Self.Speciality" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Subscription" EntityType="Self.Subscription" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VisitDate" EntityType="Self.VisitDate" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Client_Status" Association="Self.FK_Client_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Client" EntitySet="Client" />
+          </AssociationSet>
           <AssociationSet Name="FK_Client_Subscription" Association="Self.FK_Client_Subscription">
             <End Role="Subscription" EntitySet="Subscription" />
             <End Role="Client" EntitySet="Client" />
@@ -163,6 +202,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Subscription_Coach" Association="Self.FK_Subscription_Coach">
             <End Role="Coach" EntitySet="Coach" />
+            <End Role="Subscription" EntitySet="Subscription" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Subscription_Speciality" Association="Self.FK_Subscription_Speciality">
+            <End Role="Speciality" EntitySet="Speciality" />
             <End Role="Subscription" EntitySet="Subscription" />
           </AssociationSet>
           <AssociationSet Name="FK_Subscription_VisitDate" Association="Self.FK_Subscription_VisitDate">
@@ -178,7 +221,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="DModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Client">
           <Key>
             <PropertyRef Name="ClientID" />
@@ -192,6 +235,8 @@
           <Property Name="DateOfReg" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="DateOfEnd" Type="DateTime" Precision="0" />
           <Property Name="SubscriptionID" Type="Int32" Nullable="false" />
+          <Property Name="StatusID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Status" Relationship="Self.FK_Client_Status" FromRole="Client" ToRole="Status" />
           <NavigationProperty Name="Subscription" Relationship="Self.FK_Client_Subscription" FromRole="Client" ToRole="Subscription" />
         </EntityType>
         <EntityType Name="Coach">
@@ -205,6 +250,7 @@
           <Property Name="PhoneNum" Type="String" MaxLength="17" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="SpecialityID" Type="Int32" Nullable="false" />
+          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="Speciality" Relationship="Self.FK_Coach_Speciality" FromRole="Coach" ToRole="Speciality" />
           <NavigationProperty Name="Subscription" Relationship="Self.FK_Subscription_Coach" FromRole="Coach" ToRole="Subscription" />
         </EntityType>
@@ -223,6 +269,15 @@
           <Property Name="SpecialityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NameSpeciality" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Coach" Relationship="Self.FK_Coach_Speciality" FromRole="Speciality" ToRole="Coach" />
+          <NavigationProperty Name="Subscription" Relationship="Self.FK_Subscription_Speciality" FromRole="Speciality" ToRole="Subscription" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="StatusID" />
+          </Key>
+          <Property Name="StatusID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NameStatus" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Client" Relationship="Self.FK_Client_Status" FromRole="Status" ToRole="Client" />
         </EntityType>
         <EntityType Name="Subscription">
           <Key>
@@ -230,6 +285,7 @@
           </Key>
           <Property Name="SubscriptionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NameSubscription" Type="String" MaxLength="90" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SpecialityID" Type="Int32" />
           <Property Name="CoachID" Type="Int32" />
           <Property Name="AmountOfDays" Type="Int32" Nullable="false" />
           <Property Name="VisitDateID" Type="Int32" />
@@ -238,6 +294,7 @@
           <Property Name="Price" Type="Decimal" Precision="9" Scale="2" />
           <NavigationProperty Name="Client" Relationship="Self.FK_Client_Subscription" FromRole="Subscription" ToRole="Client" />
           <NavigationProperty Name="Coach" Relationship="Self.FK_Subscription_Coach" FromRole="Subscription" ToRole="Coach" />
+          <NavigationProperty Name="Speciality" Relationship="Self.FK_Subscription_Speciality" FromRole="Subscription" ToRole="Speciality" />
           <NavigationProperty Name="VisitDate" Relationship="Self.FK_Subscription_VisitDate" FromRole="Subscription" ToRole="VisitDate" />
         </EntityType>
         <EntityType Name="sysdiagrams">
@@ -268,6 +325,18 @@
           <Property Name="DayOfVisit" Type="String" MaxLength="90" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Subscription" Relationship="Self.FK_Subscription_VisitDate" FromRole="VisitDate" ToRole="Subscription" />
         </EntityType>
+        <Association Name="FK_Client_Status">
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
+          <End Role="Client" Type="Self.Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="StatusID" />
+            </Principal>
+            <Dependent Role="Client">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Client_Subscription">
           <End Role="Subscription" Type="Self.Subscription" Multiplicity="1" />
           <End Role="Client" Type="Self.Client" Multiplicity="*" />
@@ -316,6 +385,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Subscription_Speciality">
+          <End Role="Speciality" Type="Self.Speciality" Multiplicity="0..1" />
+          <End Role="Subscription" Type="Self.Subscription" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Speciality">
+              <PropertyRef Name="SpecialityID" />
+            </Principal>
+            <Dependent Role="Subscription">
+              <PropertyRef Name="SpecialityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Subscription_VisitDate">
           <End Role="VisitDate" Type="Self.VisitDate" Multiplicity="0..1" />
           <End Role="Subscription" Type="Self.Subscription" Multiplicity="*" />
@@ -333,10 +414,15 @@
           <EntitySet Name="Coach" EntityType="Self.Coach" />
           <EntitySet Name="Role" EntityType="Self.Role" />
           <EntitySet Name="Speciality" EntityType="Self.Speciality" />
+          <EntitySet Name="Status" EntityType="Self.Status" />
           <EntitySet Name="Subscription" EntityType="Self.Subscription" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="User" EntityType="Self.User" />
           <EntitySet Name="VisitDate" EntityType="Self.VisitDate" />
+          <AssociationSet Name="FK_Client_Status" Association="Self.FK_Client_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Client" EntitySet="Client" />
+          </AssociationSet>
           <AssociationSet Name="FK_Client_Subscription" Association="Self.FK_Client_Subscription">
             <End Role="Subscription" EntitySet="Subscription" />
             <End Role="Client" EntitySet="Client" />
@@ -353,6 +439,10 @@
             <End Role="Role" EntitySet="Role" />
             <End Role="User" EntitySet="User" />
           </AssociationSet>
+          <AssociationSet Name="FK_Subscription_Speciality" Association="Self.FK_Subscription_Speciality">
+            <End Role="Speciality" EntitySet="Speciality" />
+            <End Role="Subscription" EntitySet="Subscription" />
+          </AssociationSet>
           <AssociationSet Name="FK_Subscription_VisitDate" Association="Self.FK_Subscription_VisitDate">
             <End Role="VisitDate" EntitySet="VisitDate" />
             <End Role="Subscription" EntitySet="Subscription" />
@@ -363,9 +453,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище DModelContainer" CdmEntityContainer="DBEntities">
+        <EntityContainerMapping StorageEntityContainer="Хранилище DBModelContainer" CdmEntityContainer="DBEntities">
           <EntitySetMapping Name="Client">
-            <EntityTypeMapping TypeName="DModel.Client">
+            <EntityTypeMapping TypeName="DBModel.Client">
               <MappingFragment StoreEntitySet="Client">
                 <ScalarProperty Name="ClientID" ColumnName="ClientID" />
                 <ScalarProperty Name="Surname" ColumnName="Surname" />
@@ -376,11 +466,12 @@
                 <ScalarProperty Name="DateOfReg" ColumnName="DateOfReg" />
                 <ScalarProperty Name="DateOfEnd" ColumnName="DateOfEnd" />
                 <ScalarProperty Name="SubscriptionID" ColumnName="SubscriptionID" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Coach">
-            <EntityTypeMapping TypeName="DModel.Coach">
+            <EntityTypeMapping TypeName="DBModel.Coach">
               <MappingFragment StoreEntitySet="Coach">
                 <ScalarProperty Name="CoachID" ColumnName="CoachID" />
                 <ScalarProperty Name="Surname" ColumnName="Surname" />
@@ -389,11 +480,12 @@
                 <ScalarProperty Name="PhoneNum" ColumnName="PhoneNum" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="SpecialityID" ColumnName="SpecialityID" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Role">
-            <EntityTypeMapping TypeName="DModel.Role">
+            <EntityTypeMapping TypeName="DBModel.Role">
               <MappingFragment StoreEntitySet="Role">
                 <ScalarProperty Name="RoleID" ColumnName="RoleID" />
                 <ScalarProperty Name="NameRole" ColumnName="NameRole" />
@@ -401,18 +493,27 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Speciality">
-            <EntityTypeMapping TypeName="DModel.Speciality">
+            <EntityTypeMapping TypeName="DBModel.Speciality">
               <MappingFragment StoreEntitySet="Speciality">
                 <ScalarProperty Name="SpecialityID" ColumnName="SpecialityID" />
                 <ScalarProperty Name="NameSpeciality" ColumnName="NameSpeciality" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Status">
+            <EntityTypeMapping TypeName="DBModel.Status">
+              <MappingFragment StoreEntitySet="Status">
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="NameStatus" ColumnName="NameStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Subscription">
-            <EntityTypeMapping TypeName="DModel.Subscription">
+            <EntityTypeMapping TypeName="DBModel.Subscription">
               <MappingFragment StoreEntitySet="Subscription">
                 <ScalarProperty Name="SubscriptionID" ColumnName="SubscriptionID" />
                 <ScalarProperty Name="NameSubscription" ColumnName="NameSubscription" />
+                <ScalarProperty Name="SpecialityID" ColumnName="SpecialityID" />
                 <ScalarProperty Name="CoachID" ColumnName="CoachID" />
                 <ScalarProperty Name="AmountOfDays" ColumnName="AmountOfDays" />
                 <ScalarProperty Name="VisitDateID" ColumnName="VisitDateID" />
@@ -423,7 +524,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="DModel.sysdiagrams">
+            <EntityTypeMapping TypeName="DBModel.sysdiagrams">
               <MappingFragment StoreEntitySet="sysdiagrams">
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="principal_id" ColumnName="principal_id" />
@@ -434,7 +535,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="User">
-            <EntityTypeMapping TypeName="DModel.User">
+            <EntityTypeMapping TypeName="DBModel.User">
               <MappingFragment StoreEntitySet="User">
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="Login" ColumnName="Login" />
@@ -444,7 +545,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="VisitDate">
-            <EntityTypeMapping TypeName="DModel.VisitDate">
+            <EntityTypeMapping TypeName="DBModel.VisitDate">
               <MappingFragment StoreEntitySet="VisitDate">
                 <ScalarProperty Name="VisitDateID" ColumnName="VisitDateID" />
                 <ScalarProperty Name="DayOfVisit" ColumnName="DayOfVisit" />

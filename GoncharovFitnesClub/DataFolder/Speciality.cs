@@ -18,6 +18,7 @@ namespace GoncharovFitnesClub.DataFolder
         public Speciality()
         {
             this.Coach = new HashSet<Coach>();
+            this.Subscription = new HashSet<Subscription>();
         }
     
         public int SpecialityID { get; set; }
@@ -25,5 +26,7 @@ namespace GoncharovFitnesClub.DataFolder
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Coach> Coach { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Subscription> Subscription { get; set; }
     }
 }

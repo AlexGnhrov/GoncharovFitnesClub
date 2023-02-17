@@ -55,13 +55,23 @@
                      Grid.Row="4" Grid.Column="1"
                      materialDesign:HintAssist.Hint="Логин" 
                      TextChanged="LoginTB_TextChanged"
-                     BorderBrush="{StaticResource BorderAccentMain}"/>
+                     BorderBrush="{StaticResource BorderAccentMain}"
+                                              
+                         materialDesign:HintAssist.Background="{x:Null}"                  
+                         materialDesign:HintAssist.Foreground="Black"
+                         materialDesign:HintAssist.FloatingScale="0.9" 
+                         materialDesign:HintAssist.FloatingOffset="-10,-38.7"/>
 
             <PasswordBox x:Name="PasswordPB"
                          Grid.Row="5" Grid.Column="1"
                          materialDesign:HintAssist.Hint="Пароль"
                          PasswordChanged="PasswordPB_PasswordChanged" 
-                         BorderBrush="{StaticResource BorderAccentMain}"/>
+                         BorderBrush="{StaticResource BorderAccentMain}"
+                                              
+                         materialDesign:HintAssist.Background="{x:Null}"                  
+                         materialDesign:HintAssist.Foreground="Black"
+                         materialDesign:HintAssist.FloatingScale="0.9" 
+                         materialDesign:HintAssist.FloatingOffset="-10,-38.7"/>
 
             <Button Name="SignInBT" Grid.Row="7" Grid.Column="1"
                     Background="{StaticResource BorderAccentMain}" Content="Войти"

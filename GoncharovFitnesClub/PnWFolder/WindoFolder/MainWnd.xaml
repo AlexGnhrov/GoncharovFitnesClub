@@ -12,7 +12,8 @@
         ResizeMode="CanResizeWithGrip"
         Height="800" Width="1200"
         MinHeight="800" MinWidth="1200"
-        Icon="/GoncharovFitnesClub;component/ResourseFolder/ImageFolder/Logo.png">
+        Icon="/GoncharovFitnesClub;component/ResourseFolder/ImageFolder/Logo.png"
+        Title="{Binding ElementName=MainFrame, Path=Content.Title}">
 
 
     <Border x:Name="MainB" MouseDown="MainB_MouseDown" BorderBrush="Black" BorderThickness="0.6"
@@ -70,17 +71,17 @@
                 <Menu Height="30" >
                     <MenuItem Header="Сменить запись"
                       Foreground="White"
-                      FontSize="13" Height="30" 
+                      FontSize="13" Height="30" Margin="1"
                       Click="ChangeUserMI_Click"/>
                     <MenuItem Header="Информация"
                      Foreground="White"
-                      FontSize="13" Height="30"
+                      FontSize="13" Height="30" Margin="1"
                           Background="{x:Null}">
                         <MenuItem Header="О программе"
                               Background="{x:Null}"
                               Foreground="Black"
-                              FontSize="13"  Height="20"
-                              Margin="1"
+                              FontSize="13"  
+
                               Click="InfoMI_Click"/>
                     </MenuItem>
                 </Menu>

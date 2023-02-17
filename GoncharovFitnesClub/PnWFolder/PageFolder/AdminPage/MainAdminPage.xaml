@@ -35,8 +35,14 @@
                  Grid.Row="1" Grid.Column="1"
                  BorderBrush="{StaticResource BorderAccentMain}"
                  Foreground="White" CaretBrush="White" 
-                 materialDesign:HintAssist.Hint="Поиск" TextChanged="SearchTB_TextChanged" 
-                 />
+                 
+                 materialDesign:HintAssist.Hint="Поиск"
+                 materialDesign:HintAssist.Background="{x:Null}"                  
+                 materialDesign:HintAssist.Foreground="White"
+                 materialDesign:HintAssist.FloatingScale="0.9" 
+                 materialDesign:HintAssist.FloatingOffset="-10,-38.7"
+                 
+                 TextChanged="SearchTB_TextChanged"/>
 
         <Button x:Name="AddUserBT"
                 Grid.Row="1" Grid.Column="2"
@@ -47,7 +53,7 @@
                   Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
                   AutoGenerateColumns="False" IsReadOnly="True"
                   MouseDoubleClick="ListUserDG_MouseDoubleClick" ClipToBounds="True"
-                  >
+                  Margin="20,10">
             <DataGrid.ContextMenu>
                 <ContextMenu Name="PopUpMenu">
                     <MenuItem Header="Редактировать" Click="EditUser_Click"/>

@@ -1,4 +1,6 @@
-﻿using GoncharovFitnesClub.DataFolder;
+﻿using GoncharovFitnesClub.ClassFolder;
+using GoncharovFitnesClub.DataFolder;
+using GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -30,8 +32,6 @@ namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
             ListClientDG.ItemsSource = DBEntities.GetContext().Client.ToList()
                                         .OrderBy(u => u.Surname);
 
-            ListSubscriptionDG.ItemsSource = DBEntities.GetContext().Subscription.ToList()
-                                        .OrderBy(u => u.SubscriptionID);
         }
 
         private void SearchTB_TextChanged(object sender, TextChangedEventArgs e)
@@ -39,19 +39,27 @@ namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
             if (ClientTI.IsSelected)
             {
                 ListClientDG.ItemsSource = DBEntities.GetContext().
-                        Client.Where(u => u.Surname.StartsWith(SearchTB.Text)
-                        || u.Name.StartsWith(SearchTB.Text)
-                        || u.Patronymic.StartsWith(SearchTB.Text)
-                        || u.Subscription.NameSubscription.StartsWith(SearchTB.Text))
-                        .ToList().OrderBy(u => u.ClientID);
+                                           Client.Where(u => u.Surname.StartsWith(SearchTB.Text)
+                                        || u.Name.StartsWith(SearchTB.Text)
+                                        || u.Patronymic.StartsWith(SearchTB.Text)
+                                        || u.Subscription.NameSubscription.StartsWith(SearchTB.Text))
+                                          .ToList().OrderBy(u => u.ClientID);
             }
             else if (SubscriptionTI.IsSelected)
             {
-
+                ListSubscriptionDG.ItemsSource = DBEntities.GetContext().
+                                                 Subscription.Where(u => u.NameSubscription.StartsWith(SearchTB.Text)
+                                                 || u.Speciality.NameSpeciality.StartsWith(SearchTB.Text)
+                                                 || u.TimeOfVisit.StartsWith(SearchTB.Text))
+                                                 .ToList().OrderBy(u => u.SubscriptionID);
             }
             else if (CoachTI.IsSelected)
             {
-
+              ListCoachDG.ItemsSource = DBEntities.GetContext().Coach.Where(u => u.Surname.StartsWith(SearchTB.Text)
+                        || u.Name.StartsWith(SearchTB.Text)
+                        || u.Patronymic.StartsWith(SearchTB.Text)
+                        || u.Speciality.NameSpeciality.StartsWith(SearchTB.Text))
+                        .ToList().OrderBy(u => u.CoachID);
             }
         }
 
@@ -68,6 +76,14 @@ namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
             else if (CoachTI.IsSelected)
             {
 
+                if (!VarriableClass.AddUserWinisUsing)
+                {
+                    new AddCoachWindow(ListCoachDG, AddBT, SearchTB).Show();
+
+                    VarriableClass.AddUserWinisUsing = true;
+
+                    AddBT.IsEnabled = false;
+                }
             }
         }
 
@@ -123,7 +139,7 @@ namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(ClientTI.IsSelected)
+            if (ClientTI.IsSelected)
             {
                 ListClientDG.ItemsSource = DBEntities.GetContext().Client.ToList()
                                 .OrderBy(u => u.Surname);
@@ -132,8 +148,9 @@ namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
                 AddBT.Content = "Добавить клиента";
 
                 ListSubscriptionDG.ItemsSource = null;
+                ListCoachDG.ItemsSource = null;
             }
-            else if(SubscriptionTI.IsSelected)
+            else if (SubscriptionTI.IsSelected)
             {
                 ListSubscriptionDG.ItemsSource = DBEntities.GetContext().Subscription.ToList()
                                      .OrderBy(u => u.SubscriptionID);
@@ -143,14 +160,20 @@ namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
                 AddBT.Content = "Добавить абонемент";
 
                 ListClientDG.ItemsSource = null;
+                ListCoachDG.ItemsSource = null;
             }
-            else if(CoachTI.IsSelected)
+            else if (CoachTI.IsSelected)
             {
 
-               PageLabel.Content = "Список тренеров";
-               AddBT.Content = "Добавить тренера";
+                ListCoachDG.ItemsSource = DBEntities.GetContext().Coach.ToList()
+                                            .OrderBy(u => u.CoachID);
 
-               ListClientDG.ItemsSource = null;
+
+                PageLabel.Content = "Список тренеров";
+                AddBT.Content = "Добавить тренера";
+
+                ListClientDG.ItemsSource = null;
+                ListSubscriptionDG.ItemsSource = null;
             }
 
         }

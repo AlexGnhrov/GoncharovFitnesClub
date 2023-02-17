@@ -23,9 +23,10 @@ namespace GoncharovFitnesClub.PageFolder.AdminPage
     /// </summary>
     public partial class MainAdminPage : Page
     {
+   
+
         public MainAdminPage()
         {
-    
 
             InitializeComponent();
             ListUserDG.ItemsSource = DBEntities.GetContext().User.ToList()
@@ -48,29 +49,48 @@ namespace GoncharovFitnesClub.PageFolder.AdminPage
         {
             if (ListUserDG.SelectedItem != null)
             {
-                if (VarriableClass.EditWindowCount > 2)
+                User user = ListUserDG.SelectedItem as User;
+
+                for (int i = 0; i < 3; i++)
+                {
+                    if (user.UserID == VarriableClass.SelectedUserID[i])
+                    {
+                        MBClass.Error("Данный пользователь уже редактируется!");
+                        return;
+                    }
+                }
+                if (VarriableClass.CountEditWindowUser > 2)
                 {
                     MBClass.Error("Превышен лимит окон!");
                 }
                 else
                 {
-                    User user = ListUserDG.SelectedItem as User;
-
                     VarriableClass.UserID = user.UserID;
 
                     new AdminEditUserWindow(ListUserDG, SearchTB).Show();
 
-                    ++VarriableClass.EditWindowCount;
+                    ++VarriableClass.CountEditWindowUser;
                 }
-                
             }
+                
         }
 
 
         private void DeleteUser_Click(object sender, RoutedEventArgs e)
         {
+            User user = ListUserDG.SelectedItem as User;
+
             if (ListUserDG.SelectedItem != null)
             {
+                for (int i = 0; i < 3; i++)
+                {
+                    if (user.UserID == VarriableClass.SelectedUserID[i])
+                    {
+                        MBClass.Error("Данный пользователь редактируется!\n" +
+                                      "Закройте окно редактирования");
+                        return;
+                    }
+                }
                 if (MBClass.Question("Вы действительно хотите удалить этого пользователя?"))
                 {
                     try

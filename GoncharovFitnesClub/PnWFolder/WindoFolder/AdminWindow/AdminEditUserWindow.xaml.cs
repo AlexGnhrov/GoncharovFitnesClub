@@ -27,6 +27,9 @@ namespace GoncharovFitnesClub.WindoFolder.AdminWindow
         User user = new User();
 
         int SaveUserID = VarriableClass.UserID;
+        int savePosition;
+
+        string oldLogin;
 
         public AdminEditUserWindow(DataGrid dataGrid, TextBox MWSearchTB)
         {
@@ -34,6 +37,22 @@ namespace GoncharovFitnesClub.WindoFolder.AdminWindow
 
             this.dataGrid = dataGrid;
             this.MWSearchTB = MWSearchTB;
+
+
+            for (int i = 0; i < 3; i++)
+            {
+                if (VarriableClass.SelectedUserID[i] == 0)
+                {
+                    VarriableClass.SelectedUserID[i] = SaveUserID;
+                    savePosition = i;
+                    break;
+                }
+            }
+
+
+            Console.WriteLine(VarriableClass.SelectedUserID[0]);
+            Console.WriteLine(VarriableClass.SelectedUserID[1]);
+            Console.WriteLine(VarriableClass.SelectedUserID[2]);
 
             RoleCB.ItemsSource = DBEntities.GetContext().Role.ToList();
         }
@@ -70,8 +89,6 @@ namespace GoncharovFitnesClub.WindoFolder.AdminWindow
 
             if (!HideBIsUsing && !ResizeIsUsing && CloseB.IsMouseOver)
             {
-                VarriableClass.AddUserWinisUsing = false;
-                --VarriableClass.EditWindowCount;
 
                 Close();
             }
@@ -197,12 +214,14 @@ namespace GoncharovFitnesClub.WindoFolder.AdminWindow
         {
             var Login = DBEntities.GetContext().User.FirstOrDefault(u => u.Login == LoginTB.Text);
 
-            if (Login != null)
+            if (oldLogin != LoginTB.Text)
             {
-                MBClass.Error("Такой логин уже существует!");
-                LoginTB.Focus();
-
-                return;
+                if (Login != null)
+                {
+                    MBClass.Error("Такой логин уже существует!");
+                    LoginTB.Focus();
+                   return;
+                }
             }
             try
             {
@@ -213,9 +232,11 @@ namespace GoncharovFitnesClub.WindoFolder.AdminWindow
                 user.RoleID = (int)RoleCB.SelectedValue;
                 
 
-                MBClass.Info("Пользователь успешно отредактирован");
-
                 DBEntities.GetContext().SaveChanges();
+
+                MBClass.Info("Пользователь успешно отредактирован!");
+
+                oldLogin = LoginTB.Text;
 
                 dataGrid.ItemsSource = DBEntities.GetContext().
                         User.Where(u => u.Login.StartsWith(MWSearchTB.Text)
@@ -266,6 +287,11 @@ namespace GoncharovFitnesClub.WindoFolder.AdminWindow
                     }
                 }
             }
+            if (e.Key == Key.Escape)
+            {
+
+                Close();
+            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -275,6 +301,23 @@ namespace GoncharovFitnesClub.WindoFolder.AdminWindow
             LoginTB.Text = user.Login;
             PasswordTB.Text = user.Password;
             RoleCB.SelectedValue = user.RoleID;
+
+            oldLogin = user.Login;
         }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            CloseSetup();
+        }
+
+
+        private void CloseSetup()
+        {
+            --VarriableClass.CountEditWindowUser;
+
+            VarriableClass.SelectedUserID[savePosition] = 0;
+
+        }
+
     }
 }

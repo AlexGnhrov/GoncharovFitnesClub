@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
-    
+
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
@@ -9,23 +9,23 @@
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    
-    
+
+
     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" x:Key="BorderColorMain">
         <LinearGradientBrush.RelativeTransform>
-                <TransformGroup>
-                    <ScaleTransform CenterY="0.5" CenterX="0.5"/>
-                    <SkewTransform CenterY="0.5" CenterX="0.5"/>
-                    <RotateTransform Angle="-204.228" CenterY="0.5" CenterX="0.5"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </LinearGradientBrush.RelativeTransform>
-            <GradientStop Color="#FF616161" Offset="0.824"/>
-            <GradientStop Color="#FF434343" Offset="0.468"/>
-            <GradientStop Color="#FF5E5E5E" Offset="0.658"/>
-            <GradientStop Color="#FF373737" Offset="0.289"/>
-            <GradientStop Color="#FF373737"/>
-        </LinearGradientBrush>
+            <TransformGroup>
+                <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                <RotateTransform Angle="-204.228" CenterY="0.5" CenterX="0.5"/>
+                <TranslateTransform/>
+            </TransformGroup>
+        </LinearGradientBrush.RelativeTransform>
+        <GradientStop Color="#FF616161" Offset="0.824"/>
+        <GradientStop Color="#FF434343" Offset="0.468"/>
+        <GradientStop Color="#FF5E5E5E" Offset="0.658"/>
+        <GradientStop Color="#FF373737" Offset="0.289"/>
+        <GradientStop Color="#FF373737"/>
+    </LinearGradientBrush>
 
 
     <SolidColorBrush Color="#F47F2A" x:Key="BorderAccentMain"/>
@@ -38,7 +38,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource BorderAccentMain}"/>
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="Background" Value="{x:Null}"/>
-        <Setter Property="CornerRadius" Value="15"/>
+        <Setter Property="CornerRadius" Value="10"/>
         <Setter Property="Width" Value="128"/>
         <Setter Property="Height" Value="128"/>
     </Style>
@@ -101,7 +101,7 @@
         <Setter Property="HorizontalAlignment" Value="Left"/>
     </Style>
 
-    
+
     <Style TargetType="Label" x:Key="LabelInfo">
         <Setter Property="FontSize" Value="16"/>
         <Setter Property="FontFamily" Value="Kadwa"/>
@@ -125,6 +125,7 @@
         <Setter Property="Margin" Value="20,10"/>
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="materialDesign:HintAssist.Background" Value="{x:Null}"/>
     </Style>
 
 
@@ -150,6 +151,7 @@
         <Setter Property="BorderBrush" Value="{x:Null}"/>
         <Setter Property="Height" Value="52"/>
         <Setter Property="Margin" Value="20,10"/>
+        
     </Style>
 
 
@@ -164,7 +166,6 @@
     </Style>
 
     <Style TargetType="{x:Type DataGrid}">
-        <Setter Property="Margin" Value="20,10"/>
         <Setter Property="FontSize" Value="16"/>
         <Setter Property="FontFamily" Value="Kadwa"/>
         <Setter Property="FontWeight" Value="Normal"/>
@@ -176,8 +177,8 @@
 
 
     <Style TargetType="{x:Type DataGridCell}">
+        <Setter Property="FontFamily" Value="Kadwa"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Style.Triggers>
             <Trigger Property="DataGridCell.IsSelected" Value="True">
                 <Setter Property="Background" Value="SlateGray" />
@@ -198,7 +199,34 @@
         <Setter Property="VerticalContentAlignment" Value="Center"/>
     </Style>
 
+    <Style TargetType="{x:Type TabControl}"
+           BasedOn="{StaticResource MaterialDesignTabControl}" >
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontFamily" Value="Kadwa"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderBrush"  Value="{DynamicResource BorderAccentMain}"/>
+        <Setter Property="Margin" Value="20,10"/>
+    </Style>
 
+    <Style TargetType="{x:Type Menu}"
+           BasedOn="{StaticResource MaterialDesignMenu}" >
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontFamily" Value="Kadwa"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderBrush"  Value="{DynamicResource BorderAccentMain}"/>
+        
+    </Style>
 
+    <Style TargetType="{x:Type MenuItem}"
+           BasedOn="{StaticResource MaterialDesignMenuItem}" >
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontFamily" Value="Kadwa"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderBrush"  Value="{DynamicResource BorderAccentMain}"/>
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="Height" Value="20"/>
+        <Setter Property="Width" Value="100"/>
+
+    </Style>
 
 </ResourceDictionary>

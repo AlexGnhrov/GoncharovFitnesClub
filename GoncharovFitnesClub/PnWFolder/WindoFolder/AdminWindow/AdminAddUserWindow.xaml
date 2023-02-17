@@ -10,6 +10,7 @@
         AllowsTransparency="True"
         WindowStyle="None"
         Height="450" Width="375"
+        Title="Добавление пользователя"
         Icon="/GoncharovFitnesClub;component/ResourseFolder/ImageFolder/Logo.png"
         KeyDown="Window_KeyDown">
 
@@ -68,22 +69,39 @@
                 </Grid.RowDefinitions>
 
                 <TextBox x:Name="LoginTB"
-                     Grid.Row="2"
+                     Grid.Row="2" MaxLength="30" 
                      Foreground="White" CaretBrush="White" 
                      materialDesign:HintAssist.Hint="Логин" 
                      TextChanged="LoginTB_TextChanged"
                          
+                     materialDesign:HintAssist.Background="{x:Null}"                  
+                     materialDesign:HintAssist.Foreground="White"
+                     materialDesign:HintAssist.FloatingScale="0.9" 
+                     materialDesign:HintAssist.FloatingOffset="-10,-38.7"                               
+                         
                      BorderBrush="{StaticResource BorderAccentMain}" />
 
                 <TextBox x:Name="PasswordTB"
-                         Grid.Row="3"
+                         Grid.Row="3" MaxLength="30" 
                          Foreground="White" CaretBrush="White" 
                          materialDesign:HintAssist.Hint="Пароль"
-                         BorderBrush="{StaticResource BorderAccentMain}" TextChanged="PasswordPB_TextChanged" Margin="20,14" />
+                         
+                     materialDesign:HintAssist.Background="{x:Null}"                  
+                     materialDesign:HintAssist.Foreground="White"
+                     materialDesign:HintAssist.FloatingScale="0.9" 
+                     materialDesign:HintAssist.FloatingOffset="-10,-38.7"       
+                         
+                         BorderBrush="{StaticResource BorderAccentMain}" TextChanged="PasswordPB_TextChanged" />
                 <ComboBox x:Name="RoleCB"
                           Grid.Row="4"
                           Foreground="White"
                           materialDesign:HintAssist.Hint="Роль"
+                          
+                          materialDesign:HintAssist.Background="{x:Null}"                  
+                          materialDesign:HintAssist.Foreground="White"
+                          materialDesign:HintAssist.FloatingScale="0.9" 
+                          materialDesign:HintAssist.FloatingOffset="-10,-38.7"      
+                          
                           BorderBrush="{StaticResource BorderAccentMain}"
                           DisplayMemberPath="NameRole"
                           SelectedValuePath="RoleID"

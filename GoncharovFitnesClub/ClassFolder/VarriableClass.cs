@@ -14,6 +14,13 @@ namespace GoncharovFitnesClub.ClassFolder
 
 
         public static bool AddUserWinisUsing;
-        public static int EditWindowCount = 0;
+        public static bool newSpecialityCreated;
+        public static int CountEditWindowUser = 0;
+
+
+        public static int[] SelectedUserID = new int[3];
+
+
+        
     }
 }

@@ -33,19 +33,26 @@
                  Grid.Row="1" Grid.Column="1"
                  BorderBrush="{StaticResource BorderAccentMain}"
                  Foreground="White" CaretBrush="White" 
-                 materialDesign:HintAssist.Hint="Поиск" TextChanged="SearchTB_TextChanged" 
+                 materialDesign:HintAssist.Hint="Поиск"
+                 materialDesign:HintAssist.Background="{x:Null}"                  
+                 materialDesign:HintAssist.Foreground="White"
+                 materialDesign:HintAssist.FloatingScale="0.9" 
+                 materialDesign:HintAssist.FloatingOffset="-10,-40"
+                 TextChanged="SearchTB_TextChanged" 
                  />
 
         <Button x:Name="AddBT"
                 Grid.Row="1" Grid.Column="2"
                 Content="Добавить Клиента" 
                 materialDesign:ButtonAssist.CornerRadius="10" Click="AddBT_Click" />
-        <TabControl Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="10" SelectionChanged="TabControl_SelectionChanged">
-             
-            <TabItem x:Name="ClientTI" Header="Клиенты" Background="White" Foreground="White">
+        <TabControl Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
+                    SelectionChanged="TabControl_SelectionChanged" >
+            <TabItem x:Name="ClientTI" Header="Клиенты" >
+                
+              
                 <DataGrid x:Name="ListClientDG"
-                  AutoGenerateColumns="False" IsReadOnly="True" HorizontalScrollBarVisibility="Visible"
-                  MouseDoubleClick="ListUserDG_MouseDoubleClick" Margin="10">
+                          AutoGenerateColumns="False" IsReadOnly="True" HorizontalScrollBarVisibility="Visible"
+                           MouseDoubleClick="ListUserDG_MouseDoubleClick">
                     <DataGrid.ContextMenu>
                         <ContextMenu Name="ClientPU">
                             <MenuItem Header="Редактировать" Click="EditUser_Click"/>
@@ -68,28 +75,71 @@
                         <DataGridTextColumn Header="Почта" Width="200"
                                     Binding="{Binding Email}"/>
                         <DataGridTextColumn Header="Дата поступления" Width="150"
-                                    Binding="{Binding DateOfReg, StringFormat=\{0:dd.MM.yyyy\}}" />
+                                    Binding="{Binding DateOfReg, StringFormat=\{0:dd.MM.yyyy\}}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Дата окончания" Width="150" 
                                        Binding="{Binding DateOfEnd, StringFormat=\{0:dd.MM.yyyy\}}" />
-                        <DataGridTextColumn Header="Абонемент" Width="300*"
+                        <DataGridTextColumn Header="Абонемент" Width="300"
                                      Binding="{Binding Subscription.NameSubscription}"/>
                         <DataGridTextColumn Header="ФИО Тренера" Width="300">
-                                <DataGridTextColumn.Binding>
-                                    <MultiBinding StringFormat="{}{0} {1} {2}">
-                                        <Binding Path="Coach.Surname" />
-                                        <Binding Path="Coach.Name" />
-                                        <Binding Path="Coach.Patronymic" />
-                                    </MultiBinding>
-                                </DataGridTextColumn.Binding>
-                            </DataGridTextColumn>
-                        </DataGrid.Columns>
+                            <DataGridTextColumn.Binding>
+                                <MultiBinding StringFormat="{}{0} {1} {2}">
+                                    <Binding Path="Coach.Surname" />
+                                    <Binding Path="Coach.Name" />
+                                    <Binding Path="Coach.Patronymic" />
+                                </MultiBinding>
+                            </DataGridTextColumn.Binding>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Статус" Width="120"
+                                     Binding="{Binding Status.NameStatus}"/>
+                    </DataGrid.Columns>
                 </DataGrid>
             </TabItem>
-            <TabItem x:Name="CoachTI" Header="Тренеры"/>
+
+
+            <TabItem x:Name="CoachTI" Header="Тренеры">
+                <DataGrid x:Name="ListCoachDG"
+                  AutoGenerateColumns="False" IsReadOnly="True" HorizontalScrollBarVisibility="Visible"
+                  MouseDoubleClick="ListUserDG_MouseDoubleClick">
+                    <DataGrid.ContextMenu>
+                        <ContextMenu Name="CoachPU">
+                            <MenuItem Header="Редактировать" Click="EditUser_Click"/>
+                            <Separator/>
+                            <MenuItem Header="Удалить" Click="DeleteUser_Click" />
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ФИО Тренера" Width="*">
+                            <DataGridTextColumn.Binding>
+                                <MultiBinding StringFormat="{}{0} {1} {2}">
+                                    <Binding Path="Surname" />
+                                    <Binding Path="Name" />
+                                    <Binding Path="Patronymic" />
+                                </MultiBinding>
+                            </DataGridTextColumn.Binding>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Номер Телефона" Width="150"
+                                    Binding="{Binding PhoneNum}"/>
+                        <DataGridTextColumn Header="Почта" Width="175"
+                                    Binding="{Binding Email}"/>
+                        <DataGridTextColumn Header="Абонемент" Width="300"
+                                     Binding="{Binding Speciality.NameSpeciality}"/>
+                        <DataGridTemplateColumn Header="Фото" Width="128" IsReadOnly="True">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image Source="{Binding Path=Photo}"
+                                       Width="128" Height="128"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+
+
             <TabItem x:Name="SubscriptionTI"  Header="Абонементы">
                 <DataGrid x:Name="ListSubscriptionDG"
                   AutoGenerateColumns="False" IsReadOnly="True" HorizontalScrollBarVisibility="Visible"
-                  MouseDoubleClick="ListUserDG_MouseDoubleClick" Margin="10">
+                  MouseDoubleClick="ListUserDG_MouseDoubleClick" >
                     <DataGrid.ContextMenu>
                         <ContextMenu Name="SubscriptionPU">
                             <MenuItem Header="Редактировать" Click="EditUser_Click"/>
@@ -98,9 +148,9 @@
                         </ContextMenu>
                     </DataGrid.ContextMenu>
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Название Абонемента" Width="400"
+                        <DataGridTextColumn Header="Название абонемента" Width="250"
                                     Binding="{Binding NameSubscription}"/>
-                        <DataGridTextColumn Header="ФИО Тренера" Width="300">
+                        <DataGridTextColumn Header="ФИО Тренера" Width="250">
                                 <DataGridTextColumn.Binding>
                                     <MultiBinding StringFormat="{}{0} {1} {2}">
                                     <Binding Path="Coach.Surname" />
