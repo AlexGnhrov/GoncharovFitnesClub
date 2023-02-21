@@ -1,5 +1,5 @@
 ﻿using GoncharovFitnesClub.ClassFolder;
-using GoncharovFitnesClub.PageFolder;
+using GoncharovFitnesClub.DataFolder;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,19 +14,20 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace GoncharovFitnesClub.WindoFolder
+namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.AdditionalWIndow
 {
     /// <summary>
-    /// Логика взаимодействия для MainWnd.xaml
+    /// Логика взаимодействия для EditSpecialityWindow.xaml
     /// </summary>
-    public partial class MainWnd : Window
+    public partial class EditSpecialityWindow : Window
     {
-        public MainWnd()
+        Speciality speciality = new Speciality();
+
+        string oldName;
+        public EditSpecialityWindow()
         {
             InitializeComponent();
-            MainFrame.Navigate(new AuthorizationPage(ToolMenuB));
         }
-
 
         bool BlockDragWindow = false;
 
@@ -36,8 +37,8 @@ namespace GoncharovFitnesClub.WindoFolder
 
         private void MainB_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (!BlockDragWindow &&
-                e.LeftButton == MouseButtonState.Pressed && ToolBarGrid.IsMouseOver)
+            if (!BlockDragWindow && e.LeftButton == MouseButtonState.Pressed &&
+                     ToolBarGrid.IsMouseOver)
             {
 
                 DragMove();
@@ -56,7 +57,7 @@ namespace GoncharovFitnesClub.WindoFolder
 
             if (!HideBIsUsing && !ResizeIsUsing && CloseB.IsMouseOver)
             {
-                MBClass.Exit();
+                Close();
             }
 
             CloseBIsUsing = false;
@@ -70,35 +71,6 @@ namespace GoncharovFitnesClub.WindoFolder
         }
 
 
-        //------------------Кнопка расширения приложения----------------------
-
-        private async void ResizeB_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            ResizeIsUsing = true;
-
-            await DisableDrag(e);
-
-            if (!HideBIsUsing && !CloseBIsUsing && ResizeB.IsMouseOver)
-            {
-                if (WindowState == WindowState.Normal)
-                {
-                    WindowState = WindowState.Maximized;
-                }
-                else
-                {
-                    WindowState = WindowState.Normal;
-                }
-            }
-
-            ResizeIsUsing = false;
-        }
-
-
-
-        private void ResizeB_MouseEnter(object sender, MouseEventArgs e)
-        {
-            ChangeColorButton();
-        }
 
 
         //------------------Кнопка скрытия приложения----------------------
@@ -110,7 +82,7 @@ namespace GoncharovFitnesClub.WindoFolder
 
             await DisableDrag(e);
 
-            if (!CloseBIsUsing && !ResizeIsUsing && HideB.IsMouseOver)
+            if (!CloseBIsUsing && !ResizeIsUsing)
             {
                 WindowState = WindowState.Minimized;
             }
@@ -155,41 +127,6 @@ namespace GoncharovFitnesClub.WindoFolder
 
             }
 
-            if (!CloseBIsUsing && !ResizeIsUsing)
-            {
-                while (HideB.IsMouseOver)
-                {
-                    if (BlockDragWindow)
-                    {
-                        HideB.Background = new SolidColorBrush(Color.FromRgb(150, 150, 150));
-                    }
-                    else
-                    {
-                        HideB.Background = new SolidColorBrush(Color.FromRgb(211, 211, 211));
-                    }
-                    await Task.Delay(1);
-                }
-                HideB.Background = null;
-
-            }
-
-            if (!HideBIsUsing && !CloseBIsUsing)
-            {
-                while (ResizeB.IsMouseOver)
-                {
-                    if (BlockDragWindow)
-                    {
-                        ResizeB.Background = new SolidColorBrush(Color.FromRgb(150, 150, 150));
-                    }
-                    else
-                    {
-                        ResizeB.Background = new SolidColorBrush(Color.FromRgb(211, 211, 211));
-                    }
-                    await Task.Delay(1);
-                }
-                ResizeB.Background = null;
-            }
-
 
         }
 
@@ -209,28 +146,75 @@ namespace GoncharovFitnesClub.WindoFolder
         }
 
 
-        private void InfoMI_Click(object sender, RoutedEventArgs e)
+        private void EditSpecialityBT_Click(object sender, RoutedEventArgs e)
         {
-            MBClass.VersionInfo();
-        }
 
-        private void ChangeUserMI_Click(object sender, RoutedEventArgs e)
-        {
-            if (MBClass.Question("Вы действительно хотите сменить заись?"))
+            var speciality = DBEntities.GetContext().Speciality.FirstOrDefault(u => u.NameSpeciality == SpecialityTB.Text);
+            
+            if (speciality != null && oldName != SpecialityTB.Text)
             {
-                MainFrame.Navigate(new AuthorizationPage(ToolMenuB));
-                ToolMenuB.Visibility = Visibility.Hidden;
+                MBClass.Error("Такая специальность существует!");
 
-
-                foreach (Window item in App.Current.Windows)
+            }
+            else
+            {
+                try
                 {
-                    if (item != this)
-                        item.Close();
-                }
+                    speciality = DBEntities.GetContext().Speciality.FirstOrDefault(u => u.SpecialityID == VariableClass.SpecialityID);
 
+                    speciality.NameSpeciality = SpecialityTB.Text;
+                        
+                    DBEntities.GetContext().SaveChanges();
+
+                    MBClass.Info("Специальность успешно отредактирована!");
+
+                    oldName = SpecialityTB.Text;
+
+                }
+                catch (Exception ex)
+                {
+
+                    MBClass.Error(ex);
+                }
             }
         }
 
 
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (EditSpecialityBT.IsEnabled)
+                {
+                    EditSpecialityBT_Click(sender, e);
+                }
+            }
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
+        }
+
+
+
+        private void SpecialityTB_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(SpecialityTB.Text)
+)
+            {
+                EditSpecialityBT.IsEnabled = false;
+            }
+            else
+            {
+                EditSpecialityBT.IsEnabled = true;
+            }
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            speciality = DBEntities.GetContext().Speciality.FirstOrDefault(u => u.SpecialityID == VariableClass.SpecialityID);
+
+            SpecialityTB.Text = oldName = speciality.NameSpeciality;
+        }
     }
 }

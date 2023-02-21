@@ -12,7 +12,7 @@
         Height="450" Width="375"
         Title="Добавление пользователя"
         Icon="/GoncharovFitnesClub;component/ResourseFolder/ImageFolder/Logo.png"
-        KeyDown="Window_KeyDown">
+        KeyDown="Window_KeyDown" Closing="Window_Closing">
 
     <Border x:Name="MainB" MouseDown="MainB_MouseDown" BorderBrush="Black" BorderThickness="0.6"
                           Background="{StaticResource BorderColorMain}" >

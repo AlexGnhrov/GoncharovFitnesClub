@@ -26,7 +26,7 @@ namespace GoncharovFitnesClub.WindoFolder.AdminWindow
 
         User user = new User();
 
-        int SaveUserID = VarriableClass.UserID;
+        int SaveUserID = VariableClass.UserID;
         int savePosition;
 
         string oldLogin;
@@ -41,18 +41,14 @@ namespace GoncharovFitnesClub.WindoFolder.AdminWindow
 
             for (int i = 0; i < 3; i++)
             {
-                if (VarriableClass.SelectedUserID[i] == 0)
+                if (VariableClass.SelectedUserID[i] == 0)
                 {
-                    VarriableClass.SelectedUserID[i] = SaveUserID;
+                    VariableClass.SelectedUserID[i] = SaveUserID;
                     savePosition = i;
                     break;
                 }
             }
 
-
-            Console.WriteLine(VarriableClass.SelectedUserID[0]);
-            Console.WriteLine(VarriableClass.SelectedUserID[1]);
-            Console.WriteLine(VarriableClass.SelectedUserID[2]);
 
             RoleCB.ItemsSource = DBEntities.GetContext().Role.ToList();
         }
@@ -68,13 +64,10 @@ namespace GoncharovFitnesClub.WindoFolder.AdminWindow
 
         private void MainB_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (!BlockDragWindow)
+            if (!BlockDragWindow && e.LeftButton == MouseButtonState.Pressed &&
+                     ToolBarGrid.IsMouseOver)
             {
-                if (e.LeftButton == MouseButtonState.Pressed &&
-                    ToolBarGrid.IsMouseOver)
-                {
-                    DragMove();
-                }
+                DragMove();
             }
         }
 
@@ -89,7 +82,7 @@ namespace GoncharovFitnesClub.WindoFolder.AdminWindow
 
             if (!HideBIsUsing && !ResizeIsUsing && CloseB.IsMouseOver)
             {
-
+                CloseSetup();
                 Close();
             }
 
@@ -214,15 +207,13 @@ namespace GoncharovFitnesClub.WindoFolder.AdminWindow
         {
             var Login = DBEntities.GetContext().User.FirstOrDefault(u => u.Login == LoginTB.Text);
 
-            if (oldLogin != LoginTB.Text)
+
+            if (Login != null && oldLogin != LoginTB.Text)
             {
-                if (Login != null)
-                {
-                    MBClass.Error("Такой логин уже существует!");
-                    LoginTB.Focus();
-                   return;
-                }
-            }
+                MBClass.Error("Такой логин уже существует!");
+                LoginTB.Focus();
+                return;
+            }   
             try
             {
                 user = DBEntities.GetContext().User.FirstOrDefault(u => u.UserID == SaveUserID);
@@ -289,7 +280,7 @@ namespace GoncharovFitnesClub.WindoFolder.AdminWindow
             }
             if (e.Key == Key.Escape)
             {
-
+                CloseSetup();
                 Close();
             }
         }
@@ -313,9 +304,8 @@ namespace GoncharovFitnesClub.WindoFolder.AdminWindow
 
         private void CloseSetup()
         {
-            --VarriableClass.CountEditWindowUser;
-
-            VarriableClass.SelectedUserID[savePosition] = 0;
+            --VariableClass.CountEditWindowUser;
+            VariableClass.SelectedUserID[savePosition] = 0;
 
         }
 

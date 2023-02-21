@@ -82,7 +82,7 @@
     </Compile>
     <Compile Include="ClassFolder\LoadAndReadImage.cs" />
     <Compile Include="ClassFolder\MBClass.cs" />
-    <Compile Include="ClassFolder\VarriableClass.cs" />
+    <Compile Include="ClassFolder\VariableClass.cs" />
     <Compile Include="DataFolder\Client.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -149,8 +149,14 @@
     <Compile Include="PnWFolder\WindoFolder\StaffWindow\AddCoachWindow.xaml.cs">
       <DependentUpon>AddCoachWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PnWFolder\WindoFolder\StaffWindow\AdditionalWIndow\AddSpecialityWindow.xaml.cs">
+    <Compile Include="PnWFolder\WindoFolder\StaffWindow\AdditionalWIndow\EditSpecialityWindow.xaml.cs">
+      <DependentUpon>EditSpecialityWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PnWFolder\WindoFolder\StaffWindow\AdditionalWIndow\Speciality\AddSpecialityWindow.xaml.cs">
       <DependentUpon>AddSpecialityWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PnWFolder\WindoFolder\StaffWindow\EditCoachWindow.xaml.cs">
+      <DependentUpon>EditCoachWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -202,7 +208,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PnWFolder\WindoFolder\StaffWindow\AdditionalWIndow\AddSpecialityWindow.xaml">
+    <Page Include="PnWFolder\WindoFolder\StaffWindow\AdditionalWIndow\EditSpecialityWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PnWFolder\WindoFolder\StaffWindow\AdditionalWIndow\Speciality\AddSpecialityWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PnWFolder\WindoFolder\StaffWindow\EditCoachWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

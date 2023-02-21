@@ -35,13 +35,12 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.AdditionalWIndow
 
         private void MainB_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (!BlockDragWindow)
+            if (!BlockDragWindow && e.LeftButton == MouseButtonState.Pressed &&
+                     ToolBarGrid.IsMouseOver)
             {
-                if (e.LeftButton == MouseButtonState.Pressed &&
-                    ToolBarGrid.IsMouseOver)
-                {
-                    DragMove();
-                }
+
+                DragMove();
+
             }
         }
 
@@ -165,9 +164,9 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.AdditionalWIndow
 
                     DBEntities.GetContext().SaveChanges();
 
-                    MBClass.Info("Специальность успешно добавлена");
+                    MBClass.Info("Специальность успешно добавлена!");
 
-                    VarriableClass.newSpecialityCreated = true;
+                    VariableClass.newSpecialityCreated = true;
                 }
                 catch (Exception ex)
                 {

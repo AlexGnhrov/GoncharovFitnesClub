@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,6 +25,9 @@ namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
     /// </summary>
     public partial class MainStaffPage : Page
     {
+
+        EditCoachWindow editCoachWindow;
+
         public MainStaffPage()
         {
             InitializeComponent();
@@ -55,127 +59,211 @@ namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
             }
             else if (CoachTI.IsSelected)
             {
-              ListCoachDG.ItemsSource = DBEntities.GetContext().Coach.Where(u => u.Surname.StartsWith(SearchTB.Text)
-                        || u.Name.StartsWith(SearchTB.Text)
-                        || u.Patronymic.StartsWith(SearchTB.Text)
-                        || u.Speciality.NameSpeciality.StartsWith(SearchTB.Text))
-                        .ToList().OrderBy(u => u.CoachID);
+                ListCoachDG.ItemsSource = DBEntities.GetContext().Coach.Where(u => u.Surname.StartsWith(SearchTB.Text)
+                          || u.Name.StartsWith(SearchTB.Text)
+                          || u.Patronymic.StartsWith(SearchTB.Text)
+                          || u.Speciality.NameSpeciality.StartsWith(SearchTB.Text))
+                          .ToList().OrderBy(u => u.CoachID);
             }
         }
 
         private void AddBT_Click(object sender, RoutedEventArgs e)
         {
-            if (ClientTI.IsSelected)
+            try
             {
-
-            }
-            else if (SubscriptionTI.IsSelected)
-            {
-
-            }
-            else if (CoachTI.IsSelected)
-            {
-
-                if (!VarriableClass.AddUserWinisUsing)
+                if (ClientTI.IsSelected)
                 {
-                    new AddCoachWindow(ListCoachDG, AddBT, SearchTB).Show();
 
-                    VarriableClass.AddUserWinisUsing = true;
+                }
+                else if (SubscriptionTI.IsSelected)
+                {
 
-                    AddBT.IsEnabled = false;
+                }
+                else if (CoachTI.IsSelected)
+                {
+
+                    if (!VariableClass.EditCoachIsUsing)
+                    {
+                        new AddCoachWindow(ListCoachDG, AddBT, SearchTB).Show();
+
+                        VariableClass.EditCoachIsUsing = true;
+
+                        AddBT.IsEnabled = false;
+                    }
                 }
             }
+            catch(Exception ex)
+            {
+
+            }
+        }
+
+        private void ListUserDG_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            OpenEdit();
         }
 
         private void EditUser_Click(object sender, RoutedEventArgs e)
         {
-            if (ClientTI.IsSelected)
-            {
-
-            }
-            else if (SubscriptionTI.IsSelected)
-            {
-
-            }
-            else if (CoachTI.IsSelected)
-            {
-
-            }
+            OpenEdit();
         }
 
         private void DeleteUser_Click(object sender, RoutedEventArgs e)
         {
-            if (ClientTI.IsSelected)
+            try
             {
+                if (ClientTI.IsSelected)
+                {
 
+                }
+                else if (SubscriptionTI.IsSelected)
+                {
+
+                }
+                else if (CoachTI.IsSelected)
+                {
+                    Coach coach = ListCoachDG.SelectedItem as Coach;
+
+                    if (editCoachWindow.IsInitialized != null && VariableClass.CoachID == coach.CoachID)
+                    {
+                        MBClass.Error("Данный тренер редактируется\n" +
+                                      "Закройте окно редактирования");
+                    }
+                    else if (MBClass.Question("Вы действительно хотите удалить этого тренера?"))
+                    {
+
+                        DBEntities.GetContext().Coach.Remove(ListCoachDG.SelectedItem as Coach);
+
+                        DBEntities.GetContext().SaveChanges();
+
+                        ListCoachDG.ItemsSource = DBEntities.GetContext().Coach.ToList()
+                                .OrderBy(u => u.CoachID);
+                    }
+                }
             }
-            else if (SubscriptionTI.IsSelected)
+            catch (Exception ex)
             {
-
-            }
-            else if (CoachTI.IsSelected)
-            {
-
+                MBClass.Error(ex);
             }
         }
 
 
-
-        private void ListUserDG_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void OpenEdit()
         {
-            if (ClientTI.IsSelected)
+            try
             {
-                
-            }
-            else if (SubscriptionTI.IsSelected)
-            {
+                if (ClientTI.IsSelected)
+                {
+
+                }
+                else if (SubscriptionTI.IsSelected)
+                {
+
+                }
+                else if (CoachTI.IsSelected)
+                {
+
+                    if (ListCoachDG.SelectedItem != null)
+                    {
+                        if (editCoachWindow != null && editCoachWindow.IsInitialized)
+                        {
+                            editCoachWindow.Close();
+                        }
+
+                        Coach coach = ListCoachDG.SelectedItem as Coach;
+
+                        VariableClass.CoachID = coach.CoachID;
+
+                        editCoachWindow = new EditCoachWindow(ListCoachDG, SearchTB);
+                        editCoachWindow.Show();
+
+                    }
+                }
 
             }
-            else if (CoachTI.IsSelected)
+            catch (Exception ex)
             {
-    
+                MBClass.Error(ex);
             }
         }
+
+
+
+
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (ClientTI.IsSelected)
+            try
             {
-                ListClientDG.ItemsSource = DBEntities.GetContext().Client.ToList()
-                                .OrderBy(u => u.Surname);
+                if (ClientTI.IsSelected)
+                {
+                    ListClientDG.ItemsSource = DBEntities.GetContext().Client.ToList()
+                                    .OrderBy(u => u.Surname);
 
-                PageLabel.Content = "Список клиентов";
-                AddBT.Content = "Добавить клиента";
+                    PageLabel.Content = "Список клиентов";
+                    AddBT.Content = "Добавить клиента";
 
-                ListSubscriptionDG.ItemsSource = null;
-                ListCoachDG.ItemsSource = null;
+                    ListSubscriptionDG.ItemsSource = null;
+                    ListCoachDG.ItemsSource = null;
+
+                    if (VariableClass.ClientWinisUsing)
+                    {
+                        AddBT.IsEnabled = false;
+                    }
+                    else
+                    {
+                        AddBT.IsEnabled = true;
+                    }
+                }
+                else if (SubscriptionTI.IsSelected)
+                {
+                    ListSubscriptionDG.ItemsSource = DBEntities.GetContext().Subscription.ToList()
+                                         .OrderBy(u => u.SubscriptionID);
+
+
+                    PageLabel.Content = "Список абонементов";
+                    AddBT.Content = "Добавить абонемент";
+
+                    ListClientDG.ItemsSource = null;
+                    ListCoachDG.ItemsSource = null;
+
+                    if (VariableClass.SubscriptionWinisUsing)
+                    {
+                        AddBT.IsEnabled = false;
+                    }
+                    else
+                    {
+                        AddBT.IsEnabled = true;
+                    }
+                }
+                else if (CoachTI.IsSelected)
+                {
+
+                    ListCoachDG.ItemsSource = DBEntities.GetContext().Coach.ToList()
+                                                .OrderBy(u => u.CoachID);
+
+
+                    PageLabel.Content = "Список тренеров";
+                    AddBT.Content = "Добавить тренера";
+
+                    ListClientDG.ItemsSource = null;
+                    ListSubscriptionDG.ItemsSource = null;
+
+
+                    if (VariableClass.EditCoachIsUsing)
+                    {
+                        AddBT.IsEnabled = false;
+                    }
+                    else
+                    {
+                        AddBT.IsEnabled = true;
+                    }
+                }
             }
-            else if (SubscriptionTI.IsSelected)
+            catch (Exception ex)
             {
-                ListSubscriptionDG.ItemsSource = DBEntities.GetContext().Subscription.ToList()
-                                     .OrderBy(u => u.SubscriptionID);
-
-
-                PageLabel.Content = "Список абонементов";
-                AddBT.Content = "Добавить абонемент";
-
-                ListClientDG.ItemsSource = null;
-                ListCoachDG.ItemsSource = null;
+                MBClass.Error(ex);
             }
-            else if (CoachTI.IsSelected)
-            {
-
-                ListCoachDG.ItemsSource = DBEntities.GetContext().Coach.ToList()
-                                            .OrderBy(u => u.CoachID);
-
-
-                PageLabel.Content = "Список тренеров";
-                AddBT.Content = "Добавить тренера";
-
-                ListClientDG.ItemsSource = null;
-                ListSubscriptionDG.ItemsSource = null;
-            }
-
         }
 
 

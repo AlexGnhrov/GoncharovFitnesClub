@@ -53,23 +53,23 @@ namespace GoncharovFitnesClub.PageFolder.AdminPage
 
                 for (int i = 0; i < 3; i++)
                 {
-                    if (user.UserID == VarriableClass.SelectedUserID[i])
+                    if (user.UserID == VariableClass.SelectedUserID[i])
                     {
                         MBClass.Error("Данный пользователь уже редактируется!");
                         return;
                     }
                 }
-                if (VarriableClass.CountEditWindowUser > 2)
+                if (VariableClass.CountEditWindowUser > 2)
                 {
                     MBClass.Error("Превышен лимит окон!");
                 }
                 else
                 {
-                    VarriableClass.UserID = user.UserID;
+                    VariableClass.UserID = user.UserID;
 
                     new AdminEditUserWindow(ListUserDG, SearchTB).Show();
 
-                    ++VarriableClass.CountEditWindowUser;
+                    ++VariableClass.CountEditWindowUser;
                 }
             }
                 
@@ -84,7 +84,7 @@ namespace GoncharovFitnesClub.PageFolder.AdminPage
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    if (user.UserID == VarriableClass.SelectedUserID[i])
+                    if (user.UserID == VariableClass.SelectedUserID[i])
                     {
                         MBClass.Error("Данный пользователь редактируется!\n" +
                                       "Закройте окно редактирования");
@@ -117,11 +117,11 @@ namespace GoncharovFitnesClub.PageFolder.AdminPage
         {
 
 
-            if (!VarriableClass.AddUserWinisUsing)
+            if (!VariableClass.AddUserWinisUsing)
             {
-                new AdminAddUserWindow(ListUserDG, AddUserBT,SearchTB).Show();
+                new AdminAddUserWindow(ListUserDG, AddUserBT, SearchTB).Show();
 
-                VarriableClass.AddUserWinisUsing = true;
+                VariableClass.AddUserWinisUsing = true;
 
                 AddUserBT.IsEnabled = false;
             }

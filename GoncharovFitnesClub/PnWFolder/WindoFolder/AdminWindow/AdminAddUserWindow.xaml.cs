@@ -39,13 +39,12 @@ namespace GoncharovFitnesClub.WindoFolder.AdminWindow
 
         private void MainB_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (!BlockDragWindow)
-            {
-                if (e.LeftButton == MouseButtonState.Pressed &&
-                    ToolBarGrid.IsMouseOver)
-                {
+            if (!BlockDragWindow && e.LeftButton == MouseButtonState.Pressed &&
+                     ToolBarGrid.IsMouseOver)
+            { 
+
                     DragMove();
-                }
+               
             }
         }
 
@@ -60,8 +59,8 @@ namespace GoncharovFitnesClub.WindoFolder.AdminWindow
 
             if (!HideBIsUsing && !ResizeIsUsing && CloseB.IsMouseOver)
             {
-                VarriableClass.AddUserWinisUsing = false;
-                MWaddUserBT.IsEnabled = true;
+                CloseSetUp();
+
 
                 Close();
             }
@@ -254,10 +253,21 @@ namespace GoncharovFitnesClub.WindoFolder.AdminWindow
             }
             if (e.Key == Key.Escape)
             {
-                --VarriableClass.CountEditWindowUser;
+                CloseSetUp();
 
                 Close();
             }
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            CloseSetUp();
+        }
+
+        private void CloseSetUp()
+        {
+            VariableClass.AddUserWinisUsing = false;
+            MWaddUserBT.IsEnabled = true;
         }
     }
 }

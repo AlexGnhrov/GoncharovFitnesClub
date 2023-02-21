@@ -87,7 +87,7 @@
                 </Menu>
             </Border>
 
-            <Frame x:Name="MainFrame" Grid.Row="2" NavigationUIVisibility="Hidden" DataContextChanged="MainFrame_DataContextChanged" FragmentNavigation="MainFrame_FragmentNavigation" />
+            <Frame x:Name="MainFrame" Grid.Row="2" NavigationUIVisibility="Hidden"/>
         </Grid>
     </Border>
 </Window>
