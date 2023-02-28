@@ -10,11 +10,13 @@
         AllowsTransparency="True"
         WindowStyle="None"
         Height="450" Width="375"
+        MaxHeight="450" MaxWidth="375"
+        MinHeight="450" MinWidth="375"
         Title="Редактирование пользователя"
         Icon="/GoncharovFitnesClub;component/ResourseFolder/ImageFolder/Logo.png"
         KeyDown="Window_KeyDown" Loaded="Window_Loaded" Closing="Window_Closing" >
 
-    <Border x:Name="MainB" MouseDown="MainB_MouseDown" BorderBrush="Black" BorderThickness="0.6"
+    <Border x:Name="MainB" MouseDown="MainB_MouseDown" BorderBrush="Gray" BorderThickness="1"
                           Background="{StaticResource BorderColorMain}" >
         <Grid >
             <Grid.RowDefinitions>

@@ -27,7 +27,8 @@ namespace GoncharovFitnesClub.ClassFolder
         public static void VersionInfo()
         {
             MessageBox.Show("Создатель: Гончаров А.Д.\n\n" +
-                            "Верссия: 0.2",
+                            "Верссия: 0.72\n" +
+                            "Дата: 28:02:2023",
                             "Создатели", MessageBoxButton.OK, MessageBoxImage.None);
         }
 
@@ -39,14 +40,5 @@ namespace GoncharovFitnesClub.ClassFolder
         }
 
 
-
-
-        public static void Exit()
-        {
-            if (Question("Вы действительно хотите закрыть программу?"))
-            {
-                App.Current.Shutdown();
-            }
-        }
     }
 }

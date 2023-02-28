@@ -13,11 +13,13 @@
         Height="800" Width="1200"
         MinHeight="800" MinWidth="1200"
         Icon="/GoncharovFitnesClub;component/ResourseFolder/ImageFolder/Logo.png"
-        Title="{Binding ElementName=MainFrame, Path=Content.Title}">
+        Title="{Binding ElementName=MainFrame, Path=Content.Title}" 
+        MouseDown="Window_MouseDown" Closing="Window_Closing">
 
 
-    <Border x:Name="MainB" MouseDown="MainB_MouseDown" BorderBrush="Black" BorderThickness="0.6"
-                          Background="{StaticResource BorderColorMain}" >
+
+    <Border x:Name="MainB" MouseDown="MainB_MouseDown" BorderBrush="Gray" BorderThickness="1"
+            Background="{StaticResource BorderColorMain}">
         <Grid >
             <Grid.RowDefinitions>
                 <RowDefinition Height="35" />
@@ -87,7 +89,7 @@
                 </Menu>
             </Border>
 
-            <Frame x:Name="MainFrame" Grid.Row="2" NavigationUIVisibility="Hidden"/>
+            <Frame x:Name="MainFrame" Grid.Row="2" NavigationUIVisibility="Hidden" />
         </Grid>
     </Border>
 </Window>

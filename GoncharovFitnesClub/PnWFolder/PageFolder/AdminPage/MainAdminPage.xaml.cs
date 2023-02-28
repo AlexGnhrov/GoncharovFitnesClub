@@ -131,6 +131,15 @@ namespace GoncharovFitnesClub.PageFolder.AdminPage
 
         private void SearchTB_TextChanged(object sender, TextChangedEventArgs e)
         {
+            if (SearchTB.Text.Length > 0)
+            {
+                WipeSearchLB.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                WipeSearchLB.Visibility = Visibility.Hidden;
+            }
+
             try
             {
                 ListUserDG.ItemsSource = DBEntities.GetContext().
@@ -142,6 +151,11 @@ namespace GoncharovFitnesClub.PageFolder.AdminPage
 
                 MBClass.Error(ex);
             }
+        }
+
+        private void Label_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            SearchTB.Text = "";
         }
     }
 }

@@ -20,9 +20,9 @@ namespace GoncharovFitnesClub.DataFolder
         public string Patronymic { get; set; }
         public string PhoneNum { get; set; }
         public string Email { get; set; }
-        public System.DateTime DateOfReg { get; set; }
+        public Nullable<System.DateTime> DateOfReg { get; set; }
         public Nullable<System.DateTime> DateOfEnd { get; set; }
-        public int SubscriptionID { get; set; }
+        public Nullable<int> SubscriptionID { get; set; }
         public int StatusID { get; set; }
     
         public virtual Status Status { get; set; }

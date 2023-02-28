@@ -1,0 +1,213 @@
+﻿<Window x:Class="GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription.AddSubscriptionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"    
+        AllowsTransparency="True"
+        WindowStyle="None"
+        Height="720" Width="425"
+        MinHeight="720" MinWidth="425"
+        MaxHeight="720" MaxWidth="425"
+        Icon="/GoncharovFitnesClub;component/ResourseFolder/ImageFolder/Logo.png"
+        KeyDown="Window_KeyDown"
+        Title="Добавление абонемента" Closing="Window_Closing">
+
+    <Border x:Name="MainB" MouseDown="MainB_MouseDown" BorderBrush="Black" BorderThickness="0.6"
+                          Background="{StaticResource BorderColorMain}" >
+        <Grid >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35" />
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="40"/>
+                </Grid.ColumnDefinitions>
+
+
+                <Image Source="/GoncharovFitnesClub;component/ResourseFolder/ImageFolder/Logo.png"
+                       Width="25" Height="25" Margin="8,5"/>
+                <Label Content="Добавление абонемента" Grid.Column="1" 
+                       Style="{StaticResource LabelNameWin}"/>
+
+                <Border x:Name="ToolBarGrid" Background="White" Opacity="0" Grid.ColumnSpan="4"/>
+
+
+                <Border x:Name="CloseB"  Style="{DynamicResource BorderExitButton}"
+                MouseEnter="Borders_MouseEnter"          
+                       MouseDown="CloseB_MouseDown"
+                       Grid.Column="3" Margin="2,2,2,3" >
+                    <Label Name="CloseLB" Foreground="White"/>
+                </Border>
+
+
+
+                <Border x:Name="HideB" Style="{DynamicResource BorderHideButton}"
+                    MouseEnter="HideB_MouseEnter"
+                    MouseDown="HideB_MouseDown"
+                    Grid.Column="2" Margin="2,2,2,3" >
+                    <Label Foreground="White"/>
+                </Border>
+
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="75"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="80"/>
+                    <RowDefinition Height="80"/>
+                    <RowDefinition Height="80"/>
+                    <RowDefinition Height="80"/>
+                    <RowDefinition Height="80"/>
+                    <RowDefinition Height="80"/>
+                    <RowDefinition Height="80"/>
+                    <RowDefinition />
+                    <RowDefinition Height="10"/>
+                </Grid.RowDefinitions>
+
+                <TextBox x:Name="NameSubscriptionTB" MaxLength="90" 
+                     Foreground="White" CaretBrush="White" 
+                     materialDesign:HintAssist.Hint="Название абонемента" 
+                     materialDesign:HintAssist.Background="{x:Null}"                  
+                     materialDesign:HintAssist.Foreground="White"
+                     materialDesign:HintAssist.FloatingScale="0.9" 
+                     materialDesign:HintAssist.FloatingOffset="-10,-38.7"      
+                 
+                     BorderBrush="{StaticResource BorderAccentMain}"
+                         Grid.Row="1" Grid.ColumnSpan="2" Height="Auto" Margin="20,14"/>
+
+                <ComboBox x:Name="SpecialityCB"
+                          Grid.Row="2"
+                          Foreground="White"
+                          materialDesign:HintAssist.Hint="Специальность"
+                          BorderBrush="{StaticResource BorderAccentMain}"
+                          DisplayMemberPath="NameSpeciality"
+                          SelectedValuePath="SpecialityID"
+                          ItemsSource="{Binding Role}"
+                          MouseDoubleClick="StatusCB_MouseDoubleClick"
+                          SelectionChanged="StatusCB_SelectionChanged"
+                                                   
+                         materialDesign:HintAssist.Background="{x:Null}"                  
+                         materialDesign:HintAssist.Foreground="White"
+                         materialDesign:HintAssist.FloatingScale="0.9" 
+                         materialDesign:HintAssist.FloatingOffset="-10,-38.7" Margin="20,15" 
+                         >
+                    <ComboBox.Resources>
+                        <SolidColorBrush x:Key="MaterialDesignPaper" Color="Gray"/>
+                    </ComboBox.Resources>
+                </ComboBox>
+
+                <Button x:Name="AddClientBT" Grid.Row="8"
+                        Content="Добавить"
+                        materialDesign:ButtonAssist.CornerRadius="10"
+                        IsEnabled="False"
+                        BorderBrush="{StaticResource BorderAccentMain}"
+                        Click="AddClientBT_Click" Height="Auto" Margin="112,20,27,21"/>
+
+                <Button x:Name="AddSpecialityBT" Grid.Row="2"
+                    Content="+" FontSize="32"
+                    materialDesign:ButtonAssist.CornerRadius="10"
+                    BorderBrush="{StaticResource BorderAccentMain}"
+                    Margin="0,15,20,15" Height="Auto" Grid.Column="1"  />
+
+
+                <ComboBox x:Name="CoachCB"
+                    Grid.Row="3"
+                    Foreground="White"
+                    materialDesign:HintAssist.Hint="ФИО Тренера"
+                    DisplayMemberPath="NameSpeciality"
+                    SelectedValuePath="SpecialityID"
+                    ItemsSource="{Binding Role}"
+                    MouseDoubleClick="StatusCB_MouseDoubleClick"
+                    SelectionChanged="StatusCB_SelectionChanged"
+                                                   
+                    materialDesign:HintAssist.Background="{x:Null}"                  
+                    materialDesign:HintAssist.Foreground="White"
+                    materialDesign:HintAssist.FloatingScale="0.9" 
+                    materialDesign:HintAssist.FloatingOffset="-10,-38.7" Grid.ColumnSpan="2" Margin="20,15"     
+                         >
+                    <ComboBox.Resources>
+                        <SolidColorBrush x:Key="MaterialDesignPaper" Color="Gray"/>
+                    </ComboBox.Resources>
+                    <ComboBox.BorderBrush>
+                        <StaticResource ResourceKey="BorderAccentMain"/>
+                    </ComboBox.BorderBrush>
+                </ComboBox>
+
+                <TextBox x:Name="AmountOfDayTB" MaxLength="3" 
+                    Foreground="White" CaretBrush="White" 
+                    materialDesign:HintAssist.Hint="Количество Дней" 
+                    materialDesign:HintAssist.Background="{x:Null}"                  
+                    materialDesign:HintAssist.Foreground="White"
+                    materialDesign:HintAssist.FloatingScale="0.9" 
+                    materialDesign:HintAssist.FloatingOffset="-10,-38.7"      
+                 
+                    BorderBrush="{StaticResource BorderAccentMain}"
+                    Grid.Row="4" Grid.ColumnSpan="2" Height="Auto" Margin="20,14" />
+
+                <ComboBox x:Name="VisitDateCB"
+                    Grid.Row="5"
+                    Foreground="White"
+                    materialDesign:HintAssist.Hint="Дни посещения"
+                    DisplayMemberPath="NameSpeciality"
+                    SelectedValuePath="SpecialityID"
+                    ItemsSource="{Binding Role}"
+                    MouseDoubleClick="StatusCB_MouseDoubleClick"
+                    SelectionChanged="StatusCB_SelectionChanged"  
+                                                   
+                    materialDesign:HintAssist.Background="{x:Null}"                  
+                    materialDesign:HintAssist.Foreground="White"
+                    materialDesign:HintAssist.FloatingScale="0.9" 
+                    materialDesign:HintAssist.FloatingOffset="-10,-38.7" Margin="20,15"        
+                         >
+                    <ComboBox.Resources>
+                        <SolidColorBrush x:Key="MaterialDesignPaper" Color="Gray"/>
+                    </ComboBox.Resources>
+                    <ComboBox.BorderBrush>
+                        <StaticResource ResourceKey="BorderAccentMain"/>
+                    </ComboBox.BorderBrush>
+                </ComboBox>
+
+                <Button x:Name="AddVisitDayBT" Grid.Row="5"
+                    Content="+" FontSize="32"
+                    materialDesign:ButtonAssist.CornerRadius="10"
+                    BorderBrush="{StaticResource BorderAccentMain}"
+                    Margin="0,15,20,15" Height="Auto" Grid.Column="1"  />
+
+                <TextBox x:Name="TimeVisitTB" MaxLength="3" 
+                    Foreground="White" CaretBrush="White" 
+                    materialDesign:HintAssist.Hint="Время посещения" 
+                    materialDesign:HintAssist.Background="{x:Null}"                  
+                    materialDesign:HintAssist.Foreground="White"
+                    materialDesign:HintAssist.FloatingScale="0.9" 
+                    materialDesign:HintAssist.FloatingOffset="-10,-38.7"      
+                 
+                    BorderBrush="{StaticResource BorderAccentMain}"
+                    Grid.Row="6"   Grid.ColumnSpan="2" Height="Auto" Margin="20,14" />
+
+
+                <TextBox x:Name="PriceTB" MaxLength="0" 
+                    Foreground="White" CaretBrush="White" 
+                    materialDesign:HintAssist.Hint="Цена" 
+                    materialDesign:HintAssist.Background="{x:Null}"                  
+                    materialDesign:HintAssist.Foreground="White"
+                    materialDesign:HintAssist.FloatingScale="0.9" 
+                    materialDesign:HintAssist.FloatingOffset="-10,-38.7"      
+                 
+                    BorderBrush="{StaticResource BorderAccentMain}"
+                    Grid.Row="7" Grid.ColumnSpan="2" Height="Auto" Margin="20,14" />
+            </Grid>
+        </Grid>
+    </Border>
+</Window>
+

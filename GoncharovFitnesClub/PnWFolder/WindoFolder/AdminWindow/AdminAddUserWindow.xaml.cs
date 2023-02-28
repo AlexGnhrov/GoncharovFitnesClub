@@ -16,14 +16,14 @@ namespace GoncharovFitnesClub.WindoFolder.AdminWindow
     /// </summary>
     public partial class AdminAddUserWindow : Window
     {
-        DataGrid dataGrid;
+        DataGrid MWdataGrid;
         Button MWaddUserBT;
         TextBox MWSearchTB;
         
-        public AdminAddUserWindow(DataGrid dataGrid,Button MWaddUserBT, TextBox textBox)
+        public AdminAddUserWindow(DataGrid dataGrid, Button MWaddUserBT, TextBox textBox)
         {
             InitializeComponent();
-            this.dataGrid = dataGrid;
+            MWdataGrid = dataGrid;
             this.MWaddUserBT = MWaddUserBT;
             this.MWSearchTB = textBox;
 
@@ -201,13 +201,14 @@ namespace GoncharovFitnesClub.WindoFolder.AdminWindow
                     RoleID = (int)RoleCB.SelectedValue
                 });
 
-                MBClass.Info("Пользователь успешно добавлен!");
-
                 DBEntities.GetContext().SaveChanges();
 
-                dataGrid.ItemsSource = DBEntities.GetContext().
-                        User.Where(u => u.Login.StartsWith(MWSearchTB.Text)
-                        || u.Role.NameRole.StartsWith(MWSearchTB.Text)).ToList().OrderBy(u => u.UserID);
+                MBClass.Info("Пользователь успешно добавлен!");
+
+
+                MWdataGrid.ItemsSource = DBEntities.GetContext().Coach.ToList()
+                                                .OrderBy(u => u.CoachID);
+
             }
             catch (Exception ex)
             {

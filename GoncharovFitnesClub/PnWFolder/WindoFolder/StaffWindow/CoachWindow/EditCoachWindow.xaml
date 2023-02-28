@@ -10,11 +10,13 @@
         AllowsTransparency="True"
         WindowStyle="None"
         Height="625" Width="425"
+        MinHeight="625" MinWidth="425"
+        MaxHeight="625" MaxWidth="425"
         Icon="/GoncharovFitnesClub;component/ResourseFolder/ImageFolder/Logo.png"
         KeyDown="Window_KeyDown"
-        Title="Добавление Тренера" Closing="Window_Closing" Loaded="Window_Loaded">
+        Title="Редактирование тренера" Closing="Window_Closing" Loaded="Window_Loaded">
 
-    <Border x:Name="MainB" MouseDown="MainB_MouseDown" BorderBrush="Black" BorderThickness="0.6"
+    <Border x:Name="MainB" MouseDown="MainB_MouseDown" BorderBrush="Gray" BorderThickness="1"
                           Background="{StaticResource BorderColorMain}" >
         <Grid >
             <Grid.RowDefinitions>
@@ -32,7 +34,7 @@
 
                 <Image Source="/GoncharovFitnesClub;component/ResourseFolder/ImageFolder/Logo.png"
                        Width="25" Height="25" Margin="8,5"/>
-                <Label Content="Добавление Тренера" Grid.Column="1" 
+                <Label Content="Редактирование тренера" Grid.Column="1" 
                        Style="{StaticResource LabelNameWin}"/>
 
                 <Border x:Name="ToolBarGrid" Background="White" Opacity="0" Grid.ColumnSpan="4"/>
@@ -57,7 +59,7 @@
             </Grid>
             <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="20"/>
                     <RowDefinition Height="150"/>
                     <RowDefinition Height="80"/>
                     <RowDefinition Height="80"/>
@@ -96,10 +98,11 @@
                          materialDesign:HintAssist.Background="{x:Null}"                  
                          materialDesign:HintAssist.Foreground="White"
                          materialDesign:HintAssist.FloatingScale="0.9" 
-                     materialDesign:HintAssist.FloatingOffset="-10,-38.7"      
+                         materialDesign:HintAssist.FloatingOffset="-10,-38.7"      
                          
                          BorderBrush="{StaticResource BorderAccentMain}"
-                         TextChanged="PhoneTB_TextChanged" MaxLength="17" GotFocus="PhoneTB_GotFocus"  />
+                         TextChanged="PhoneTB_TextChanged"
+                         PreviewTextInput="PhoneTB_PreviewTextInput" MaxLength="17"   />
 
                 <TextBox x:Name="EmailTB"
                          Grid.Row="4"

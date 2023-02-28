@@ -15,9 +15,9 @@
           <Property Name="Patronymic" Type="nvarchar" MaxLength="30" />
           <Property Name="PhoneNum" Type="nvarchar" MaxLength="17" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="30" />
-          <Property Name="DateOfReg" Type="date" Nullable="false" />
+          <Property Name="DateOfReg" Type="date" />
           <Property Name="DateOfEnd" Type="date" />
-          <Property Name="SubscriptionID" Type="int" Nullable="false" />
+          <Property Name="SubscriptionID" Type="int" />
           <Property Name="StatusID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Coach">
@@ -63,9 +63,9 @@
           <Property Name="SpecialityID" Type="int" />
           <Property Name="CoachID" Type="int" />
           <Property Name="AmountOfDays" Type="int" Nullable="false" />
-          <Property Name="VisitDateID" Type="int" />
-          <Property Name="TimeOfVisit" Type="nvarchar" MaxLength="17" />
-          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="VisitDateID" Type="int" Nullable="false" />
+          <Property Name="TimeVisitStart" Type="time" Precision="5" Nullable="false" />
+          <Property Name="TimeVisitEnd" Type="time" Precision="5" Nullable="false" />
           <Property Name="Price" Type="decimal" Precision="9" Scale="2" />
         </EntityType>
         <EntityType Name="sysdiagrams">
@@ -91,7 +91,7 @@
           <Key>
             <PropertyRef Name="VisitDateID" />
           </Key>
-          <Property Name="VisitDateID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VisitDateID" Type="int" Nullable="false" />
           <Property Name="DayOfVisit" Type="nvarchar" MaxLength="90" Nullable="false" />
         </EntityType>
         <Association Name="FK_Client_Status">
@@ -107,7 +107,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Client_Subscription">
-          <End Role="Subscription" Type="Self.Subscription" Multiplicity="1" />
+          <End Role="Subscription" Type="Self.Subscription" Multiplicity="0..1" />
           <End Role="Client" Type="Self.Client" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Subscription">
@@ -155,7 +155,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Subscription_VisitDate">
-          <End Role="VisitDate" Type="Self.VisitDate" Multiplicity="0..1" />
+          <End Role="VisitDate" Type="Self.VisitDate" Multiplicity="1" />
           <End Role="Subscription" Type="Self.Subscription" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="VisitDate">
@@ -232,9 +232,9 @@
           <Property Name="Patronymic" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="PhoneNum" Type="String" MaxLength="17" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="DateOfReg" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DateOfReg" Type="DateTime" Precision="0" />
           <Property Name="DateOfEnd" Type="DateTime" Precision="0" />
-          <Property Name="SubscriptionID" Type="Int32" Nullable="false" />
+          <Property Name="SubscriptionID" Type="Int32" />
           <Property Name="StatusID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Status" Relationship="Self.FK_Client_Status" FromRole="Client" ToRole="Status" />
           <NavigationProperty Name="Subscription" Relationship="Self.FK_Client_Subscription" FromRole="Client" ToRole="Subscription" />
@@ -288,9 +288,9 @@
           <Property Name="SpecialityID" Type="Int32" />
           <Property Name="CoachID" Type="Int32" />
           <Property Name="AmountOfDays" Type="Int32" Nullable="false" />
-          <Property Name="VisitDateID" Type="Int32" />
-          <Property Name="TimeOfVisit" Type="String" MaxLength="17" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="VisitDateID" Type="Int32" Nullable="false" />
+          <Property Name="TimeVisitStart" Type="Time" Nullable="false" Precision="5" />
+          <Property Name="TimeVisitEnd" Type="Time" Nullable="false" Precision="5" />
           <Property Name="Price" Type="Decimal" Precision="9" Scale="2" />
           <NavigationProperty Name="Client" Relationship="Self.FK_Client_Subscription" FromRole="Subscription" ToRole="Client" />
           <NavigationProperty Name="Coach" Relationship="Self.FK_Subscription_Coach" FromRole="Subscription" ToRole="Coach" />
@@ -321,7 +321,7 @@
           <Key>
             <PropertyRef Name="VisitDateID" />
           </Key>
-          <Property Name="VisitDateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VisitDateID" Type="Int32" Nullable="false" />
           <Property Name="DayOfVisit" Type="String" MaxLength="90" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Subscription" Relationship="Self.FK_Subscription_VisitDate" FromRole="VisitDate" ToRole="Subscription" />
         </EntityType>
@@ -338,7 +338,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Client_Subscription">
-          <End Role="Subscription" Type="Self.Subscription" Multiplicity="1" />
+          <End Role="Subscription" Type="Self.Subscription" Multiplicity="0..1" />
           <End Role="Client" Type="Self.Client" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Subscription">
@@ -398,7 +398,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Subscription_VisitDate">
-          <End Role="VisitDate" Type="Self.VisitDate" Multiplicity="0..1" />
+          <End Role="VisitDate" Type="Self.VisitDate" Multiplicity="1" />
           <End Role="Subscription" Type="Self.Subscription" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="VisitDate">
@@ -517,8 +517,8 @@
                 <ScalarProperty Name="CoachID" ColumnName="CoachID" />
                 <ScalarProperty Name="AmountOfDays" ColumnName="AmountOfDays" />
                 <ScalarProperty Name="VisitDateID" ColumnName="VisitDateID" />
-                <ScalarProperty Name="TimeOfVisit" ColumnName="TimeOfVisit" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="TimeVisitStart" ColumnName="TimeVisitStart" />
+                <ScalarProperty Name="TimeVisitEnd" ColumnName="TimeVisitEnd" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
               </MappingFragment>
             </EntityTypeMapping>

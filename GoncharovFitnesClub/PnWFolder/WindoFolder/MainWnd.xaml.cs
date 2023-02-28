@@ -56,7 +56,7 @@ namespace GoncharovFitnesClub.WindoFolder
 
             if (!HideBIsUsing && !ResizeIsUsing && CloseB.IsMouseOver)
             {
-                MBClass.Exit();
+                Close();
             }
 
             CloseBIsUsing = false;
@@ -216,7 +216,7 @@ namespace GoncharovFitnesClub.WindoFolder
 
         private void ChangeUserMI_Click(object sender, RoutedEventArgs e)
         {
-            if (MBClass.Question("Вы действительно хотите сменить заись?"))
+            if (MBClass.Question("Вы действительно хотите сменить запись?"))
             {
                 MainFrame.Navigate(new AuthorizationPage(ToolMenuB));
                 ToolMenuB.Visibility = Visibility.Hidden;
@@ -232,5 +232,31 @@ namespace GoncharovFitnesClub.WindoFolder
         }
 
 
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Middle)
+            {
+                foreach (Window item in App.Current.Windows)
+                {
+                    if (item != this)
+                        item.Focus();
+                }
+            }
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+            if (MBClass.Question("Вы действительно хотите закрыть программу?"))
+            {
+                App.Current.Shutdown();
+            }
+            else
+            {
+                e.Cancel = true;
+            }
+
+        }
     }
 }

@@ -42,18 +42,20 @@
                  materialDesign:HintAssist.FloatingScale="0.9" 
                  materialDesign:HintAssist.FloatingOffset="-10,-38.7"
                  
-                 TextChanged="SearchTB_TextChanged"/>
+                 TextChanged="SearchTB_TextChanged" Margin="20,14,10,14"/>
 
         <Button x:Name="AddUserBT"
                 Grid.Row="1" Grid.Column="2"
                 Content="Добавить пользователя" 
-                materialDesign:ButtonAssist.CornerRadius="10" Click="AddUserBT_Click" />
+                materialDesign:ButtonAssist.CornerRadius="10"
+                Click="AddUserBT_Click" Margin="20,13" />
 
         <DataGrid x:Name="ListUserDG"
                   Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
                   AutoGenerateColumns="False" IsReadOnly="True"
                   MouseDoubleClick="ListUserDG_MouseDoubleClick" ClipToBounds="True"
                   Margin="20,10">
+
             <DataGrid.ContextMenu>
                 <ContextMenu Name="PopUpMenu">
                     <MenuItem Header="Редактировать" Click="EditUser_Click"/>
@@ -70,5 +72,14 @@
                                      Binding="{Binding Role.NameRole}"/>
             </DataGrid.Columns>
         </DataGrid>
+
+
+        <Label Name="WipeSearchLB"
+               Content="❌"  Foreground="White" 
+               Visibility="Hidden"
+               Grid.Row="1" Grid.Column="1"
+               HorizontalAlignment="Center" VerticalAlignment="Center"
+               Margin="836,28,19,27" Width="25" Height="25"
+               Cursor="Hand" MouseLeftButtonDown="Label_MouseLeftButtonDown"/>
     </Grid>
 </Page>

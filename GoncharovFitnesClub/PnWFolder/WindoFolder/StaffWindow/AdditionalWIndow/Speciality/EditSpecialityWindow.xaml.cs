@@ -154,7 +154,6 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.AdditionalWIndow
             if (speciality != null && oldName != SpecialityTB.Text)
             {
                 MBClass.Error("Такая специальность существует!");
-
             }
             else
             {

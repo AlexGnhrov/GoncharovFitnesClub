@@ -3,37 +3,47 @@ using GoncharovFitnesClub.DataFolder;
 using GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.AdditionalWIndow;
 using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 
 namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow
 {
     /// <summary>
-    /// Логика взаимодействия для AddCoachWindow.xaml
+    /// Логика взаимодействия для EditCoachWindow.xaml
     /// </summary>
-    public partial class AddCoachWindow : Window
+    public partial class EditCoachWindow : Window
     {
         OpenFileDialog openFileDialog;
 
-        DataGrid dataGrid;
+        DataGrid MWListCoachDG;
         Button MWaddBT;
         TextBox MWSearchTB;
+        TabItem MWCoachTI;
 
         string selectedFileName = "";
 
-        public AddCoachWindow(DataGrid dataGrid, Button MWaddBT, TextBox textBox)
+        Coach coach = new Coach();
+
+        public EditCoachWindow(DataGrid MWListCoachDG, TextBox MWSearchTB, TabItem MWCoachTI)
         {
             InitializeComponent();
 
-            this.dataGrid = dataGrid;
-            this.MWaddBT = MWaddBT;
-            this.MWSearchTB = textBox;
+            this.MWListCoachDG = MWListCoachDG;
+            this.MWSearchTB = MWSearchTB;
+            this.MWCoachTI = MWCoachTI;
 
-            PhoneTB.Text = "+7";
+            PhoneTB.Text = "+7 ";
             PhoneTB.CaretIndex = 4;
 
             SpecialityCB.ItemsSource = DBEntities.GetContext().Speciality.ToList().OrderBy(u => u.SpecialityID);
@@ -189,38 +199,41 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow
             EnableButt();
         }
 
-        private void AddCoachBT_Click(object sender, RoutedEventArgs e)
+        private void EditCoachBT_Click(object sender, RoutedEventArgs e)
         {
             string[] SplitSNP = SNPCoachTB.Text.Split(' ');
 
             try
             {
-                Coach coach = new Coach();
+                coach = DBEntities.GetContext().Coach.FirstOrDefault(u => u.CoachID == VariableClass.CoachID);
 
                 if (selectedFileName != "")
                     coach.Photo = LoadAndReadImage.ConvertImageToByteArray(selectedFileName);
 
                 coach.Surname = SplitSNP[0];
                 coach.Name = SplitSNP[1];
-                if (SplitSNP.Length == 3) 
+                if (SplitSNP.Length == 3)
                     coach.Patronymic = SplitSNP[2];
                 coach.PhoneNum = PhoneTB.Text;
                 coach.Email = EmailTB.Text;
                 coach.SpecialityID = (int)SpecialityCB.SelectedValue;
 
-
-
-                DBEntities.GetContext().Coach.Add(coach);
-
-                MBClass.Info("Тренер успешно добавлен!");
-
                 DBEntities.GetContext().SaveChanges();
 
-                dataGrid.ItemsSource = DBEntities.GetContext().Coach.Where(u => u.Surname.StartsWith(MWSearchTB.Text)
-                        || u.Name.StartsWith(MWSearchTB.Text)
-                        || u.Patronymic.StartsWith(MWSearchTB.Text)
-                        || u.Speciality.NameSpeciality.StartsWith(MWSearchTB.Text))
-                        .ToList().OrderBy(u => u.CoachID);
+                MBClass.Info("Тренер успешно отредактирован!");
+
+                if (MWCoachTI.IsSelected)
+                {
+                    Console.WriteLine(1);
+
+
+
+                    MWListCoachDG.ItemsSource = DBEntities.GetContext().Coach.Where(u => u.Surname.StartsWith(MWSearchTB.Text)
+                            || u.Name.StartsWith(MWSearchTB.Text)
+                            || u.Patronymic.StartsWith(MWSearchTB.Text)
+                            || u.Speciality.NameSpeciality.StartsWith(MWSearchTB.Text))
+                           .ToList().OrderBy(u => u.CoachID);
+                }
             }
             catch (Exception ex)
             {
@@ -236,15 +249,16 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow
             if (string.IsNullOrWhiteSpace(SNPCoachTB.Text) ||
                 string.IsNullOrWhiteSpace(PhoneTB.Text) ||
                 SpecialityCB.SelectedItem == null ||
+                 PhoneTB.Text.Length < 16 ||
                  (SplitSNP.Length == 1 ||
                  SplitSNP.Length == 2 && SplitSNP[1] == "" ||
                  SplitSNP.Length == 3 && SplitSNP[2] == ""))
             {
-                AddCoachBT.IsEnabled = false;
+                EditCoachBT.IsEnabled = false;
             }
             else
             {
-                AddCoachBT.IsEnabled = true;
+                EditCoachBT.IsEnabled = true;
             }
         }
 
@@ -252,9 +266,9 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow
         {
             if (e.Key == Key.Enter)
             {
-                if (AddCoachBT.IsEnabled)
+                if (EditCoachBT.IsEnabled)
                 {
-                    AddCoachBT_Click(sender, e);
+                    EditCoachBT_Click(sender, e);
                 }
                 else
                 {
@@ -264,7 +278,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow
                     }
                     else if (PhoneTB.IsFocused)
                     {
-                       EmailTB.Focus();
+                        EmailTB.Focus();
                     }
                     else if (EmailTB.IsFocused)
                     {
@@ -293,14 +307,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow
             EnableButt();
         }
 
-        private void PhoneTB_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (PhoneTB.CaretIndex < 4)
-            {
-                PhoneTB.CaretIndex = 4;
-            }
 
-        }
 
         private void PhoneTB_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -361,7 +368,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow
             EnableButt();
         }
 
-        
+
 
 
         private void SpecialityCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -382,6 +389,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow
 
 
             Coach coach = new Coach();
+
             if (openFileDialog.ShowDialog() == true)
             {
                 selectedFileName = openFileDialog.FileName;
@@ -395,9 +403,10 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow
         {
             new AddSpecialityWindow().ShowDialog();
 
-            if(VariableClass.newSpecialityCreated)
+            if (VariableClass.newSpecialityCreated)
             {
-                SpecialityCB.ItemsSource = DBEntities.GetContext().Speciality.ToList().OrderBy(u => u.SpecialityID);
+                SpecialityCB.ItemsSource = DBEntities.GetContext().Speciality.ToList()
+                    .OrderBy(u => u.SpecialityID);
 
                 SpecialityCB.SelectedIndex = SpecialityCB.Items.Count - 1;
                 VariableClass.newSpecialityCreated = false;
@@ -407,9 +416,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            VariableClass.EditCoachIsUsing = false;
-
-            MWaddBT.IsEnabled = true;
+            VariableClass.CoachID = 0;
         }
 
         private void SpecialityCB_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -420,9 +427,33 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow
                 VariableClass.SpecialityID = (int)SpecialityCB.SelectedValue;
                 new EditSpecialityWindow().ShowDialog();
 
-                SpecialityCB.ItemsSource = DBEntities.GetContext().Speciality.ToList().OrderBy(u => u.SpecialityID);
+                SpecialityCB.ItemsSource = DBEntities.GetContext().Speciality.ToList()
+                    .OrderBy(u => u.SpecialityID);
 
             }
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            coach = DBEntities.GetContext().Coach.FirstOrDefault(u => u.CoachID == VariableClass.CoachID);
+
+            if (coach.Photo != null)
+                PhotoIB.ImageSource = LoadAndReadImage.ConvertByteArrayImage(coach.Photo);
+
+            SNPCoachTB.Text = coach.Surname + " " + coach.Name;
+            if(coach.Patronymic != null)
+            {
+                SNPCoachTB.Text += " " + coach.Patronymic;
+            }
+
+            PhoneTB.Text = coach.PhoneNum;
+            EmailTB.Text = coach.Email;
+            SpecialityCB.SelectedValue = coach.SpecialityID;
+        }
+
+        private void PhoneTB_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = new Regex("[^0-9]+").IsMatch(e.Text);
         }
     }
 }

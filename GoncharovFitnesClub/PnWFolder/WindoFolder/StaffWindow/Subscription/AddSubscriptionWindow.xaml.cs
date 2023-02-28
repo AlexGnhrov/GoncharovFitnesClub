@@ -2,6 +2,7 @@
 using GoncharovFitnesClub.DataFolder;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,43 +15,31 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace GoncharovFitnesClub.WindoFolder.AdminWindow
+namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
 {
     /// <summary>
-    /// Логика взаимодействия для AdminEditUserWindow.xaml
+    /// Логика взаимодействия для AddSubscriptionWindow.xaml
     /// </summary>
-    public partial class AdminEditUserWindow : Window
+    public partial class AddSubscriptionWindow : Window
     {
-        DataGrid MWListUserDG;
+
+        DataGrid MWListSubscriptionDG;
+        Button MWaddBT;
         TextBox MWSearchTB;
+        TabItem MWSubscriptionTI;
 
-        User user = new User();
-
-        int SaveUserID = VariableClass.UserID;
-        int savePosition;
-
-        string oldLogin;
-
-        public AdminEditUserWindow(DataGrid MWListUserDG, TextBox MWSearchTB)
+        public AddSubscriptionWindow(DataGrid MWListSubscriptionDG, Button MWaddBT, TextBox MWSearchTB, TabItem MWSubscriptionTI)
         {
             InitializeComponent();
 
-            this.MWListUserDG = MWListUserDG;
+            this.MWListSubscriptionDG = MWListSubscriptionDG;
+            this.MWaddBT = MWaddBT;
             this.MWSearchTB = MWSearchTB;
+            this.MWSubscriptionTI = MWSubscriptionTI;
 
 
-            for (int i = 0; i < 3; i++)
-            {
-                if (VariableClass.SelectedUserID[i] == 0)
-                {
-                    VariableClass.SelectedUserID[i] = SaveUserID;
-                    savePosition = i;
-                    break;
-                }
-            }
 
 
-            RoleCB.ItemsSource = DBEntities.GetContext().Role.ToList();
         }
 
 
@@ -60,14 +49,14 @@ namespace GoncharovFitnesClub.WindoFolder.AdminWindow
         bool HideBIsUsing = false;
         bool ResizeIsUsing = false;
 
-
-
         private void MainB_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (!BlockDragWindow && e.LeftButton == MouseButtonState.Pressed &&
                      ToolBarGrid.IsMouseOver)
             {
+
                 DragMove();
+
             }
         }
 
@@ -82,7 +71,7 @@ namespace GoncharovFitnesClub.WindoFolder.AdminWindow
 
             if (!HideBIsUsing && !ResizeIsUsing && CloseB.IsMouseOver)
             {
-                CloseSetup();
+
                 Close();
             }
 
@@ -203,57 +192,18 @@ namespace GoncharovFitnesClub.WindoFolder.AdminWindow
             EnableButt();
         }
 
-        private void AddUserBT_Click(object sender, RoutedEventArgs e)
-        {
-            var Login = DBEntities.GetContext().User.FirstOrDefault(u => u.Login == LoginTB.Text);
-
-
-            if (Login != null && oldLogin != LoginTB.Text)
-            {
-                MBClass.Error("Такой логин уже существует!");
-                LoginTB.Focus();
-                return;
-            }   
-            try
-            {
-                user = DBEntities.GetContext().User.FirstOrDefault(u => u.UserID == SaveUserID);
-
-                user.Login = LoginTB.Text;
-                user.Password = PasswordTB.Text;
-                user.RoleID = (int)RoleCB.SelectedValue;
-                
-
-                DBEntities.GetContext().SaveChanges();
-
-                MBClass.Info("Пользователь успешно отредактирован!");
-
-                oldLogin = LoginTB.Text;
-
-                MWListUserDG.ItemsSource = DBEntities.GetContext().
-                        User.Where(u => u.Login.StartsWith(MWSearchTB.Text)
-                        || u.Role.NameRole.StartsWith(MWSearchTB.Text)).ToList().OrderBy(u => u.UserID);
-
-
-
-            }
-            catch (Exception ex)
-            {
-
-                MBClass.Error(ex);
-            }
-        }
 
         private void EnableButt()
         {
-            if (string.IsNullOrWhiteSpace(LoginTB.Text) ||
-                string.IsNullOrWhiteSpace(PasswordTB.Text) ||
-                RoleCB.SelectedItem == null)
+            //string[] SplitSNP = SNPClientTB.Text.Split(' ');
+
+            if (true)
             {
-                EditUserBT.IsEnabled = false;
+                AddClientBT.IsEnabled = false;
             }
             else
             {
-                EditUserBT.IsEnabled = true;
+                AddClientBT.IsEnabled = true;
             }
         }
 
@@ -261,53 +211,124 @@ namespace GoncharovFitnesClub.WindoFolder.AdminWindow
         {
             if (e.Key == Key.Enter)
             {
-                if (EditUserBT.IsEnabled)
+                if (AddClientBT.IsEnabled)
                 {
-                    AddUserBT_Click(sender, e);
+                    AddClientBT_Click(sender, e);
                 }
                 else
                 {
-                    if (LoginTB.IsFocused)
-                    {
-                        PasswordTB.Focus();
-                    }
-                    else if(PasswordTB.IsFocused)
-                    {
-                        RoleCB.Focus();
-                        RoleCB.IsDropDownOpen = true;
-                    }
+                    //if (SNPClientTB.IsFocused)
+                    //{
+                    //    PhoneTB.Focus();
+                    //}
+                    //else if (PhoneTB.IsFocused)
+                    //{
+                    //    EmailTB.Focus();
+                    //}
+                    //else if (EmailTB.IsFocused)
+                    //{
+                    //    DateOfRegDP.Focus();
+                    //    DateOfRegDP.IsDropDownOpen = true;
+                    //}
                 }
             }
             if (e.Key == Key.Escape)
             {
-                CloseSetup();
                 Close();
             }
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void SNPClientTB_TextChanged(object sender, TextChangedEventArgs e)
         {
-            user = DBEntities.GetContext().User.FirstOrDefault(u => u.UserID == SaveUserID);
+            //string[] SplitSNP = SNPClientTB.Text.Split(' ');
+            //int strlen = SNPClientTB.Text.Length;
 
-            LoginTB.Text = user.Login;
-            PasswordTB.Text = user.Password;
-            RoleCB.SelectedValue = user.RoleID;
+            //if (SplitSNP.Length > 3)
+            //{
+            //    SNPClientTB.Text = SNPClientTB.Text.Remove(strlen - 1);
+            //    SNPClientTB.CaretIndex = strlen;
+            //}
 
-            oldLogin = user.Login;
+            EnableButt();
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+
+
+
+
+
+        private void StatusCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CloseSetup();
+            EnableButt();
         }
 
 
-        private void CloseSetup()
-        {
-            --VariableClass.CountEditWindowUser;
-            VariableClass.SelectedUserID[savePosition] = 0;
 
+
+
+        private void StatusCB_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+
+            //if (e.ChangedButton == MouseButton.Right && StatusCB.SelectedValue != null)
+            //{
+
+            //    VariableClass.StatusID = (int)StatusCB.SelectedValue;
+            //    new EditStatusWindow().ShowDialog();
+
+            //    StatusCB.ItemsSource = DBEntities.GetContext().Status.ToList()
+            //        .OrderBy(u => u.StatusID);
+
+            //}
         }
 
+
+        private void AddClientBT_Click(object sender, RoutedEventArgs e)
+        {
+            //string[] SplitSNP = SNPClientTB.Text.Split(' ');
+
+            try
+            {
+
+             
+
+                //if (SubscriptionCB.SelectedValue != null)
+                //    client.SubscriptionID = (int)SubscriptionCB.SelectedValue;
+
+                //client.StatusID = (int)StatusCB.SelectedValue;
+
+
+                //DBEntities.GetContext().Client.Add(client);
+
+                //DBEntities.GetContext().SaveChanges();
+
+
+                //MBClass.Info("Клиент успешно добавлен!");
+
+                //if (MWSubscriptionTI.IsSelected)
+                //{
+
+                //}
+            }
+            catch (Exception ex)
+            {
+                MBClass.Error(ex);
+            }
+        }
+
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            VariableClass.ClientWinisUsing = false;
+
+            if (MWSubscriptionTI.IsSelected)
+            {
+                MWaddBT.IsEnabled = true;
+            }
+        }
+
+        private void AmountOfDayTB_Copy_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

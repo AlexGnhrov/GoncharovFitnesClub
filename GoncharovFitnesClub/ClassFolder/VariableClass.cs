@@ -16,13 +16,14 @@ namespace GoncharovFitnesClub.ClassFolder
         public static int SubscriptionID;
 
         public static int SpecialityID;
+        public static int StatusID;
 
 
 
         public static bool AddUserWinisUsing;
         public static int CountEditWindowUser = 0;
 
-        public static bool EditCoachIsUsing;
+        public static bool CoachWinisUsing;
         public static int CountCoacEdithWin = 0;
 
         public static bool SubscriptionWinisUsing;
@@ -33,7 +34,7 @@ namespace GoncharovFitnesClub.ClassFolder
 
 
         public static bool newSpecialityCreated;
-
+        public static bool newStatusCreated;
 
 
 

@@ -25,9 +25,9 @@ namespace GoncharovFitnesClub.DataFolder
         public Nullable<int> SpecialityID { get; set; }
         public Nullable<int> CoachID { get; set; }
         public int AmountOfDays { get; set; }
-        public Nullable<int> VisitDateID { get; set; }
-        public string TimeOfVisit { get; set; }
-        public string Description { get; set; }
+        public int VisitDateID { get; set; }
+        public System.TimeSpan TimeVisitStart { get; set; }
+        public System.TimeSpan TimeVisitEnd { get; set; }
         public Nullable<decimal> Price { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
