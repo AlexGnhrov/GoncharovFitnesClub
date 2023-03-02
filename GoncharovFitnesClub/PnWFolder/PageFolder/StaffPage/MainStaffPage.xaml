@@ -17,9 +17,10 @@
             <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="200"/>
+            <RowDefinition Height="125"/>
             <RowDefinition Height="80"/>
-            <RowDefinition />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="10"/>
             <RowDefinition Height="10"/>
         </Grid.RowDefinitions>
 
@@ -27,10 +28,15 @@
         <Label Name="PageLabel" Grid.Column="1"
                Content="Список клиентов"
                Style="{DynamicResource LabelMain}"
-               Foreground="White"  Grid.ColumnSpan="2"  />
+               Foreground="White" Grid.ColumnSpan="2"  />
 
-        <TextBox x:Name="SearchTB"
-                 Grid.Row="1" Grid.Column="1"
+        <Border Grid.Row="1" Grid.Column="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="40"/>
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="SearchTB"
                  BorderBrush="{StaticResource BorderAccentMain}"
                  Foreground="White" CaretBrush="White" 
                  materialDesign:HintAssist.Hint="Поиск"
@@ -38,23 +44,35 @@
                  materialDesign:HintAssist.Foreground="White"
                  materialDesign:HintAssist.FloatingScale="0.9" 
                  materialDesign:HintAssist.FloatingOffset="-10,-40"
-                 TextChanged="SearchTB_TextChanged" Margin="20,14,10,14" 
+                 TextChanged="SearchTB_TextChanged"  Grid.ColumnSpan="2" Margin="20,14,0,14" 
                  />
+
+                <Label Name="WipeSearchLB"
+               Content="❌"  Foreground="White" 
+               Visibility="Hidden" Grid.Column="1"
+               HorizontalAlignment="Center" VerticalAlignment="Center"
+               Width="25" Height="25"
+               Cursor="Hand" MouseLeftButtonDown="Label_MouseLeftButtonDown"/>
+            </Grid>
+
+        </Border>
+
 
         <Button x:Name="AddBT"
                 Grid.Row="1" Grid.Column="2"
                 Content="Добавить Клиента" 
-                materialDesign:ButtonAssist.CornerRadius="10" Click="AddBT_Click" Height="Auto" Margin="20,13" />
+                materialDesign:ButtonAssist.CornerRadius="10" Click="AddBT_Click"  />
         <TabControl Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
-                    SelectionChanged="TabControl_SelectionChanged" Foreground="#FFCF1212" Background="#FFF11515" >
-            <TabItem x:Name="ClientTI" Header="Клиенты" >
+                    SelectionChanged="TabControl_SelectionChanged"  Background="{x:Null}" >
+
+            <TabItem x:Name="ClientTI" Header="Клиенты" Background="Gray">
 
 
                 <DataGrid x:Name="ListClientDG"
                             AutoGenerateColumns="False"
                             IsReadOnly="True" HorizontalScrollBarVisibility="Visible"
                             MouseDoubleClick="ListUserDG_MouseDoubleClick">
-                    
+
                     <DataGrid.ContextMenu>
                         <ContextMenu Name="ClientPU">
                             <MenuItem Header="Редактировать" Click="EditUser_Click"/>
@@ -62,7 +80,7 @@
                             <MenuItem Header="Удалить" Click="DeleteUser_Click" />
                         </ContextMenu>
                     </DataGrid.ContextMenu>
-                    
+
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ФИО Клиента"
                                              Width="275"
@@ -86,7 +104,7 @@
                             <DataGridTextColumn.Binding>
                                 <MultiBinding StringFormat="{}{0:dd/MM/yyyy} | {1:dd/MM/yyyy} ">
                                     <Binding Path="DateOfReg"/>
-                                    <Binding Path="DateOfEnd"/> 
+                                    <Binding Path="DateOfEnd"/>
                                 </MultiBinding>
                             </DataGridTextColumn.Binding>
                         </DataGridTextColumn>
@@ -122,8 +140,8 @@
             </TabItem>
 
 
-            <TabItem x:Name="CoachTI" Header="Тренеры" BorderBrush="#FF763C3C" Foreground="#FF743636">
-                <DataGrid x:Name="ListCoachDG"
+            <TabItem x:Name="CoachTI" Header="Тренеры" Background="Gray">
+                <DataGrid x:Name="ListCoachDG" RowHeight="128"
                   AutoGenerateColumns="False" IsReadOnly="True" HorizontalScrollBarVisibility="Visible"
                   MouseDoubleClick="ListUserDG_MouseDoubleClick">
                     <DataGrid.ContextMenu>
@@ -147,7 +165,7 @@
                                     Binding="{Binding PhoneNum}"/>
                         <DataGridTextColumn Header="Почта" Width="175"
                                     Binding="{Binding Email}"/>
-                        <DataGridTextColumn Header="Абонемент"
+                        <DataGridTextColumn Header="Специальность"
                                             Width="*"
                                      Binding="{Binding Speciality.NameSpeciality}"/>
                         <DataGridTemplateColumn Header="Фото"
@@ -159,13 +177,14 @@
                                     <Image Source="{Binding Path=Photo}"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
+
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>
 
 
-            <TabItem x:Name="SubscriptionTI"  Header="Абонементы">
+            <TabItem x:Name="SubscriptionTI"  Header="Абонементы" Background="Gray">
                 <DataGrid x:Name="ListSubscriptionDG"
                   AutoGenerateColumns="False" IsReadOnly="True" HorizontalScrollBarVisibility="Visible"
                   MouseDoubleClick="ListUserDG_MouseDoubleClick" >
@@ -208,13 +227,11 @@
             </TabItem>
         </TabControl>
 
-        <Label Name="WipeSearchLB"
-               Content="❌"  Foreground="White" 
-               Visibility="Hidden"
-               Grid.Row="1" Grid.Column="1"
-               HorizontalAlignment="Center" VerticalAlignment="Center"
-               Margin="836,28,19,27" Width="25" Height="25"
-               Cursor="Hand" MouseLeftButtonDown="Label_MouseLeftButtonDown"/>
+        <Label x:Name="CountUsersLB" Grid.Column="1" FontSize="12" Height="35"
+            Content="Колиество клиентов: "
+            VerticalAlignment="Center"
+            Foreground="White" Margin="20,0" Grid.Row="3" Grid.RowSpan="2"  Grid.ColumnSpan="2"  />
+
 
     </Grid>
 </Page>

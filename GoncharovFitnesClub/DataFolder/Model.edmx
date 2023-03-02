@@ -91,7 +91,7 @@
           <Key>
             <PropertyRef Name="VisitDateID" />
           </Key>
-          <Property Name="VisitDateID" Type="int" Nullable="false" />
+          <Property Name="VisitDateID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DayOfVisit" Type="nvarchar" MaxLength="90" Nullable="false" />
         </EntityType>
         <Association Name="FK_Client_Status">
@@ -321,7 +321,7 @@
           <Key>
             <PropertyRef Name="VisitDateID" />
           </Key>
-          <Property Name="VisitDateID" Type="Int32" Nullable="false" />
+          <Property Name="VisitDateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DayOfVisit" Type="String" MaxLength="90" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Subscription" Relationship="Self.FK_Subscription_VisitDate" FromRole="VisitDate" ToRole="Subscription" />
         </EntityType>

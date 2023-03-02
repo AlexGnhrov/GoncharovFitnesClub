@@ -31,6 +31,7 @@ namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
 
         EditCoachWindow editCoachWindow;
         EditClientWindow editClienthWindow;
+        EditSubscriptionWindow editSubscriptionWindow;
 
         string[] SaveSearchText = { "", "", "" };
 
@@ -197,7 +198,25 @@ namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
                 }
                 else if (SubscriptionTI.IsSelected)
                 {
+                    Subscription subscription = ListSubscriptionDG.SelectedItem as Subscription;
 
+                    if (editSubscriptionWindow != null && VariableClass.SubscriptionID == subscription.SubscriptionID)
+                    {
+                        MBClass.Error("Данный абонемент редактируется!\n" +
+                                      "Закройте окно редактирования.");
+                    }
+                    else if (MBClass.Question("Вы действительно хотите удалить этог абонемент?"))
+                    {
+
+                        DBEntities.GetContext().Subscription.Remove(ListSubscriptionDG.SelectedItem as Subscription);
+
+                        DBEntities.GetContext().SaveChanges();
+
+                        ListSubscriptionDG.ItemsSource = DBEntities.GetContext().
+                                 Subscription.Where(u => u.NameSubscription.StartsWith(SearchTB.Text)
+                                 || u.Speciality.NameSpeciality.StartsWith(SearchTB.Text))
+                                 .ToList().OrderBy(u => u.SubscriptionID);
+                    }
                 }
             }
             catch (Exception ex)
@@ -284,11 +303,16 @@ namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+
             try
             {
                 if (ClientTI.IsSelected)
                 {
+
                     SearchTB.Text = SaveSearchText[0];
+
+                    EndOfSubStatusUpdate();
+
 
                     ListClientDG.ItemsSource = DBEntities.GetContext().
                                                Client.Where(u => u.Surname.StartsWith(SearchTB.Text)
@@ -297,6 +321,8 @@ namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
                                             || u.Subscription.NameSubscription.StartsWith(SearchTB.Text)
                                             || u.Status.NameStatus.StartsWith(SearchTB.Text))
                                               .ToList().OrderBy(u => u.ClientID);
+
+                    CountUsersLB.Content = "Количество клиентов: " + DBEntities.GetContext().Client.Where(u => u.StatusID != 4).ToArray().Length;
 
                     PageLabel.Content = "Список клиентов";
                     AddBT.Content = "Добавить клиента";
@@ -318,6 +344,7 @@ namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
                               || u.Speciality.NameSpeciality.StartsWith(SearchTB.Text))
                               .ToList().OrderBy(u => u.CoachID);
 
+                    CountUsersLB.Content = "Количество тренеров: " + DBEntities.GetContext().Coach.ToArray().Length;
 
                     PageLabel.Content = "Список тренеров";
                     AddBT.Content = "Добавить тренера";
@@ -339,6 +366,8 @@ namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
                                                      || u.Speciality.NameSpeciality.StartsWith(SearchTB.Text))
                                                      .ToList().OrderBy(u => u.SubscriptionID);
 
+                    CountUsersLB.Content = "Количество абонементов: " + DBEntities.GetContext().Subscription.ToArray().Length;
+
 
                     PageLabel.Content = "Список абонементов";
                     AddBT.Content = "Добавить абонемент";
@@ -356,6 +385,31 @@ namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
                 MBClass.Error(ex);
             }
         }
+
+        private void EndOfSubStatusUpdate()
+        { 
+            object[] ClientSelected = DBEntities.GetContext().Client.ToArray();
+
+
+            for (int i = 0; i < ClientSelected.Length; i++)
+            {
+                Client client = ClientSelected[i] as Client;
+
+
+                if (client.DateOfEnd <= DateTime.Now &&
+                    client.StatusID != 2 && client.StatusID != 4)
+                {
+                    client.StatusID = 2;
+
+                    DBEntities.GetContext().SaveChanges();
+
+                    MBClass.Info($"Абонемент у {client.Surname} {client.Name} {client.Patronymic} Закончился!");
+                }
+
+
+            }
+        }
+
 
         private void Label_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {

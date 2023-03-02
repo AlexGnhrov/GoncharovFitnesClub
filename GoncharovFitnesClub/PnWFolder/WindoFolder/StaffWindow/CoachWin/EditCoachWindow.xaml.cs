@@ -1,10 +1,12 @@
 ﻿using GoncharovFitnesClub.ClassFolder;
 using GoncharovFitnesClub.DataFolder;
+using GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.AdditionalWIndow;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,41 +16,36 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using System.ComponentModel;
-using GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.AdditionalWIndow.StatusWindow;
-using System.Text.RegularExpressions;
 
-namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Client
+namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow
 {
     /// <summary>
-    /// Логика взаимодействия для AddClientWindow.xaml
+    /// Логика взаимодействия для EditCoachWindow.xaml
     /// </summary>
-    public partial class AddClientWindow : Window
+    public partial class EditCoachWindow : Window
     {
+        OpenFileDialog openFileDialog;
 
-        DataGrid MWListClient;
-        Button MWaddBT;
+        DataGrid MWListCoachDG;
         TextBox MWSearchTB;
-        TabItem MWClientTI;
+        TabItem MWCoachTI;
 
+        string selectedFileName = "";
 
-        public AddClientWindow(DataGrid MWListClient, Button MWaddBT, TextBox MWSearchTB, TabItem MWClientTI)
+        Coach coach = new Coach();
+
+        public EditCoachWindow(DataGrid MWListCoachDG, TextBox MWSearchTB, TabItem MWCoachTI)
         {
             InitializeComponent();
 
-            this.MWListClient = MWListClient;
-            this.MWaddBT = MWaddBT;
+            this.MWListCoachDG = MWListCoachDG;
             this.MWSearchTB = MWSearchTB;
-            this.MWClientTI = MWClientTI;
+            this.MWCoachTI = MWCoachTI;
 
             PhoneTB.Text = "+7 ";
             PhoneTB.CaretIndex = 4;
 
-            SubscriptionCB.ItemsSource = DBEntities.GetContext().Subscription.ToList()
-                                            .OrderBy(u => u.SubscriptionID);
-            StatusCB.ItemsSource = DBEntities.GetContext().Status.ToList().
-                                            OrderBy(u => u.StatusID);
-
+            SpecialityCB.ItemsSource = DBEntities.GetContext().Speciality.ToList().OrderBy(u => u.SpecialityID);
         }
 
 
@@ -201,24 +198,66 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Client
             EnableButt();
         }
 
+        private void EditCoachBT_Click(object sender, RoutedEventArgs e)
+        {
+            string[] SplitSNP = SNPCoachTB.Text.Split(' ');
+
+            try
+            {
+                coach = DBEntities.GetContext().Coach.FirstOrDefault(u => u.CoachID == VariableClass.CoachID);
+
+                if (selectedFileName != "")
+                    coach.Photo = LoadAndReadImage.ConvertImageToByteArray(selectedFileName);
+
+                coach.Surname = SplitSNP[0];
+                coach.Name = SplitSNP[1];
+                if (SplitSNP.Length == 3)
+                    coach.Patronymic = SplitSNP[2];
+                coach.PhoneNum = PhoneTB.Text;
+                coach.Email = EmailTB.Text;
+                coach.SpecialityID = (int)SpecialityCB.SelectedValue;
+
+                DBEntities.GetContext().SaveChanges();
+
+                MBClass.Info("Тренер успешно отредактирован!");
+
+                if (MWCoachTI.IsSelected)
+                {
+                    Console.WriteLine(1);
+
+
+
+                    MWListCoachDG.ItemsSource = DBEntities.GetContext().Coach.Where(u => u.Surname.StartsWith(MWSearchTB.Text)
+                            || u.Name.StartsWith(MWSearchTB.Text)
+                            || u.Patronymic.StartsWith(MWSearchTB.Text)
+                            || u.Speciality.NameSpeciality.StartsWith(MWSearchTB.Text))
+                           .ToList().OrderBy(u => u.CoachID);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                MBClass.Error(ex);
+            }
+        }
 
         private void EnableButt()
         {
-            string[] SplitSNP = SNPClientTB.Text.Split(' ');
+            string[] SplitSNP = SNPCoachTB.Text.Split(' ');
 
-            if (string.IsNullOrWhiteSpace(SNPClientTB.Text) ||
+            if (string.IsNullOrWhiteSpace(SNPCoachTB.Text) ||
                 string.IsNullOrWhiteSpace(PhoneTB.Text) ||
-                StatusCB.SelectedItem == null ||
-                PhoneTB.Text.Length < 16 ||
+                SpecialityCB.SelectedItem == null ||
+                 PhoneTB.Text.Length < 16 ||
                  (SplitSNP.Length == 1 ||
                  SplitSNP.Length == 2 && SplitSNP[1] == "" ||
                  SplitSNP.Length == 3 && SplitSNP[2] == ""))
             {
-                AddClientBT.IsEnabled = false;
+                EditCoachBT.IsEnabled = false;
             }
             else
             {
-                AddClientBT.IsEnabled = true;
+                EditCoachBT.IsEnabled = true;
             }
         }
 
@@ -226,13 +265,13 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Client
         {
             if (e.Key == Key.Enter)
             {
-                if (AddClientBT.IsEnabled)
+                if (EditCoachBT.IsEnabled)
                 {
-                    AddClientBT_Click(sender, e);
+                    EditCoachBT_Click(sender, e);
                 }
                 else
                 {
-                    if (SNPClientTB.IsFocused)
+                    if (SNPCoachTB.IsFocused)
                     {
                         PhoneTB.Focus();
                     }
@@ -242,8 +281,8 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Client
                     }
                     else if (EmailTB.IsFocused)
                     {
-                        DateOfRegDP.Focus();
-                        DateOfRegDP.IsDropDownOpen = true;
+                        SpecialityCB.Focus();
+                        SpecialityCB.IsDropDownOpen = true;
                     }
                 }
             }
@@ -253,15 +292,15 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Client
             }
         }
 
-        private void SNPClientTB_TextChanged(object sender, TextChangedEventArgs e)
+        private void SNPCoachB_TextChanged(object sender, TextChangedEventArgs e)
         {
-            string[] SplitSNP = SNPClientTB.Text.Split(' ');
-            int strlen = SNPClientTB.Text.Length;
+            string[] SplitSNP = SNPCoachTB.Text.Split(' ');
+            int strlen = SNPCoachTB.Text.Length;
 
             if (SplitSNP.Length > 3)
             {
-                SNPClientTB.Text = SNPClientTB.Text.Remove(strlen - 1);
-                SNPClientTB.CaretIndex = strlen;
+                SNPCoachTB.Text = SNPCoachTB.Text.Remove(strlen - 1);
+                SNPCoachTB.CaretIndex = strlen;
             }
 
             EnableButt();
@@ -331,149 +370,84 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Client
 
 
 
-        private void StatusCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void SpecialityCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             EnableButt();
         }
 
-
-
-
-        private void AddStatusBT_Click(object sender, RoutedEventArgs e)
+        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            new AddStatusWindow().ShowDialog();
+            AddPhoto();
+        }
 
-            if (VariableClass.newStatusCreated)
+        private void AddPhoto()
+        {
+            openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image files (*.png *.jpeg)|*.png;*.jpeg";
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+
+            Coach coach = new Coach();
+
+            if (openFileDialog.ShowDialog() == true)
             {
-                StatusCB.ItemsSource = DBEntities.GetContext().Status.ToList().OrderBy(u => u.StatusID);
-
-                StatusCB.SelectedIndex = StatusCB.Items.Count - 1;
-                VariableClass.newStatusCreated = false;
+                selectedFileName = openFileDialog.FileName;
+                coach.Photo = LoadAndReadImage.ConvertImageToByteArray(selectedFileName);
+                PhotoIB.ImageSource = LoadAndReadImage.ConvertByteArrayImage(coach.Photo);
 
             }
         }
 
-
-        private void StatusCB_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void AddSpecialityBT_Click(object sender, RoutedEventArgs e)
         {
+            new AddSpecialityWindow().ShowDialog();
 
-            if (e.ChangedButton == MouseButton.Right && StatusCB.SelectedValue != null)
+            if (VariableClass.newSpecialityCreated)
             {
+                SpecialityCB.ItemsSource = DBEntities.GetContext().Speciality.ToList()
+                    .OrderBy(u => u.SpecialityID);
 
-                VariableClass.StatusID = (int)StatusCB.SelectedValue;
-                new EditStatusWindow().ShowDialog();
-
-                StatusCB.ItemsSource = DBEntities.GetContext().Status.ToList()
-                    .OrderBy(u => u.StatusID);
+                SpecialityCB.SelectedIndex = SpecialityCB.Items.Count - 1;
+                VariableClass.newSpecialityCreated = false;
 
             }
         }
 
-
-        private void AddClientBT_Click(object sender, RoutedEventArgs e)
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            string[] SplitSNP = SNPClientTB.Text.Split(' ');
+            VariableClass.CoachID = 0;
+        }
 
-            try
+        private void SpecialityCB_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Right && SpecialityCB.SelectedValue != null)
             {
 
-                DataFolder.Client client = new DataFolder.Client();
+                VariableClass.SpecialityID = (int)SpecialityCB.SelectedValue;
+                new EditSpecialityWindow().ShowDialog();
 
+                SpecialityCB.ItemsSource = DBEntities.GetContext().Speciality.ToList()
+                    .OrderBy(u => u.SpecialityID);
 
-
-                client.Surname = SplitSNP[0];
-                client.Name = SplitSNP[1];
-                if (SplitSNP.Length == 3)
-                    client.Patronymic = SplitSNP[2];
-
-                client.PhoneNum = PhoneTB.Text;
-                client.Email = EmailTB.Text;
-
-                if (DateOfRegDP.SelectedDate != null)
-                {
-                    client.DateOfReg = (DateTime)DateOfRegDP.SelectedDate;
-                    if (DateOfEndDP.SelectedDate != null)
-                    {
-                        client.DateOfEnd = (DateTime)DateOfEndDP.SelectedDate;
-                    }
-                }
-
-                if (SubscriptionCB.SelectedValue != null)
-                    client.SubscriptionID = (int)SubscriptionCB.SelectedValue;
-
-                client.StatusID = (int)StatusCB.SelectedValue;
-
-
-                DBEntities.GetContext().Client.Add(client);
-
-                DBEntities.GetContext().SaveChanges();
-
-
-                MBClass.Info("Клиент успешно добавлен!");
-
-                if (MWClientTI.IsSelected)
-                {
-
-                    MWListClient.ItemsSource = DBEntities.GetContext().
-                                               Client.Where(u => u.Surname.StartsWith(MWSearchTB.Text)
-                                            || u.Name.StartsWith(MWSearchTB.Text)
-                                            || u.Patronymic.StartsWith(MWSearchTB.Text)
-                                            || u.Subscription.NameSubscription.StartsWith(MWSearchTB.Text)
-                                            || u.Status.NameStatus.StartsWith(MWSearchTB.Text))
-                                              .ToList().OrderBy(u => u.ClientID);
-                }
-            }
-            catch (Exception ex)
-            {
-                MBClass.Error(ex);
             }
         }
 
-
-        private void Window_Closing(object sender, CancelEventArgs e)
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            VariableClass.ClientWinisUsing = false;
+            coach = DBEntities.GetContext().Coach.FirstOrDefault(u => u.CoachID == VariableClass.CoachID);
 
-            if (MWClientTI.IsSelected)
+            if (coach.Photo != null)
+                PhotoIB.ImageSource = LoadAndReadImage.ConvertByteArrayImage(coach.Photo);
+
+            SNPCoachTB.Text = coach.Surname + " " + coach.Name;
+            if(coach.Patronymic != null)
             {
-                MWaddBT.IsEnabled = true;
+                SNPCoachTB.Text += " " + coach.Patronymic;
             }
-        }
 
-        private void DateOfRegDP_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
-        {
-           
-            CountDate();
-        }
-
-        private void SubscriptionCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            CountDate();
-        }
-
-        private void SubscriptionCB_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ChangedButton == MouseButton.Left)
-            {
-                SubscriptionCB.ItemsSource = DBEntities.GetContext().Subscription.ToList()
-                                .OrderBy(u => u.SubscriptionID);
-                SubscriptionCB.SelectedValue = -1;
-                DateOfEndDP.Text = null;
-            }
-        }
-
-        private void CountDate()
-        {
-            if (DateOfRegDP.SelectedDate != null && SubscriptionCB.SelectedValue != null)
-            {
-
-                var subId = DBEntities.GetContext().Subscription.FirstOrDefault(u => u.SubscriptionID == (int)SubscriptionCB.SelectedValue);
-
-
-                DateTime dateOfEnd = Convert.ToDateTime(DateOfRegDP.Text);
-                DateOfEndDP.Text = dateOfEnd.AddDays(subId.AmountOfDays).ToString();
-
-            }
+            PhoneTB.Text = coach.PhoneNum;
+            EmailTB.Text = coach.Email;
+            SpecialityCB.SelectedValue = coach.SpecialityID;
         }
 
         private void PhoneTB_PreviewTextInput(object sender, TextCompositionEventArgs e)

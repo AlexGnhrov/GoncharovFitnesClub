@@ -49,13 +49,12 @@ namespace GoncharovFitnesClub.PageFolder
                             NavigationService.Navigate(new MainAdminPage());
                             ToolMenuB.Visibility = Visibility.Visible;
 
-                            VariableClass.CurentRole = user.RoleID;
                             break;
                         case 2:
                             NavigationService.Navigate(new MainStaffPage());
                             ToolMenuB.Visibility = Visibility.Visible;
 
-                            VariableClass.CurentRole = user.RoleID;
+
                             break;
                     }
                 }

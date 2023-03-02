@@ -17,6 +17,12 @@ namespace GoncharovFitnesClub.ClassFolder
 
         public static int SpecialityID;
         public static int StatusID;
+        public static int VisitDateID;
+
+        public static bool newSpecialityCreated;
+        public static bool newStatusCreated;
+        public static bool newVisitDayCreated;
+
 
 
 
@@ -33,15 +39,7 @@ namespace GoncharovFitnesClub.ClassFolder
         public static int CountClientWindowUser = 0;
 
 
-        public static bool newSpecialityCreated;
-        public static bool newStatusCreated;
-
-
 
         public static int[] SelectedUserID = new int[3];
-
-
-
-        public static int CurentRole;
     }
 }

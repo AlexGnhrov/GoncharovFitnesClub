@@ -11,6 +11,12 @@
 
 
 
+
+    <SolidColorBrush Color="#F47F2A" x:Key="BorderAccentMain"/>
+    <SolidColorBrush Color="#4095BA" x:Key="BorderAccentAdditional"/>
+
+    <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="White" Opacity="0.8"/>
+
     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" x:Key="BorderColorMain">
         <LinearGradientBrush.RelativeTransform>
             <TransformGroup>
@@ -28,11 +34,6 @@
     </LinearGradientBrush>
 
 
-
-    <SolidColorBrush Color="#F47F2A" x:Key="BorderAccentMain"/>
-    <SolidColorBrush Color="#4095BA" x:Key="BorderAccentAdditional"/>
-
-    <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="Black"/>
 
 
     <Style TargetType="Border" x:Key="BorderImagePlace">
@@ -210,14 +211,26 @@
         <Setter Property="VerticalContentAlignment" Value="Center"/>
     </Style>
 
-    <Style TargetType="{x:Type TabControl}"
-           BasedOn="{StaticResource MaterialDesignTabControl}" >
+    <Style TargetType="{x:Type TabControl}" BasedOn="{StaticResource MaterialDesignTabControlBase}" >
         <Setter Property="FontSize" Value="16"/>
         <Setter Property="FontFamily" Value="Kadwa"/>
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="BorderBrush"  Value="{DynamicResource BorderAccentMain}"/>
         <Setter Property="Margin" Value="20,10"/>
+
     </Style>
+
+    <!--<Style TargetType="{x:Type TabItem}"
+           BasedOn="{StaticResource MaterialDesignTabItem}" >
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontFamily" Value="Kadwa"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderBrush"  Value="{DynamicResource BorderAccentMain}"/>
+        <Setter Property="Background" Value="Red"/>
+        <Setter Property="Margin" Value="20,10"/>
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource MaterialDesignBody}"/>
+        <Setter Property="Background" Value="{DynamicResource MaterialDesignPaper}"></Setter>
+    </Style>-->
 
     <Style TargetType="{x:Type Menu}"
            BasedOn="{StaticResource MaterialDesignMenu}" >

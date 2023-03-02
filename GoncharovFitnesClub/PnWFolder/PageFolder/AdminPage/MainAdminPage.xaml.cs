@@ -31,6 +31,8 @@ namespace GoncharovFitnesClub.PageFolder.AdminPage
             InitializeComponent();
             ListUserDG.ItemsSource = DBEntities.GetContext().User.ToList()
                 .OrderBy(u => u.UserID);
+
+            CountUsersLB.Content = "Количество пользователей: " + DBEntities.GetContext().User.ToArray().Length;
         }
 
 
@@ -131,20 +133,25 @@ namespace GoncharovFitnesClub.PageFolder.AdminPage
 
         private void SearchTB_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (SearchTB.Text.Length > 0)
-            {
-                WipeSearchLB.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                WipeSearchLB.Visibility = Visibility.Hidden;
-            }
-
             try
             {
+
+                if (SearchTB.Text.Length > 0)
+                {
+                    WipeSearchLB.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    WipeSearchLB.Visibility = Visibility.Hidden;
+                }
+
+
+
                 ListUserDG.ItemsSource = DBEntities.GetContext().
                                         User.Where(u => u.Login.StartsWith(SearchTB.Text)
                                         || u.Role.NameRole.StartsWith(SearchTB.Text)).ToList().OrderBy(u=>u.UserID);
+
+                CountUsersLB.Content = "Количество пользователей: "+ DBEntities.GetContext().User.ToArray().Length;
             }
             catch (Exception ex)
             {

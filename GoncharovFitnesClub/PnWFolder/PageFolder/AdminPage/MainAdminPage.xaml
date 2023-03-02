@@ -17,9 +17,10 @@
             <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="205"/>
+            <RowDefinition Height="125"/>
             <RowDefinition Height="80"/>
-            <RowDefinition />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="10"/>
             <RowDefinition Height="10"/>
         </Grid.RowDefinitions>
 
@@ -29,32 +30,46 @@
         <Label Grid.Column="1"
                Content="Список пользователей"
                Style="{DynamicResource LabelMain}"
-               Foreground="White"  Grid.ColumnSpan="2"  />
+               Foreground="White"  Grid.ColumnSpan="2"/>
 
-        <TextBox x:Name="SearchTB"
-                 Grid.Row="1" Grid.Column="1"
+        <Border Grid.Row="1" Grid.Column="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="40"/>
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="SearchTB"
                  BorderBrush="{StaticResource BorderAccentMain}"
                  Foreground="White" CaretBrush="White" 
-                 
                  materialDesign:HintAssist.Hint="Поиск"
                  materialDesign:HintAssist.Background="{x:Null}"                  
                  materialDesign:HintAssist.Foreground="White"
                  materialDesign:HintAssist.FloatingScale="0.9" 
-                 materialDesign:HintAssist.FloatingOffset="-10,-38.7"
-                 
-                 TextChanged="SearchTB_TextChanged" Margin="20,14,10,14"/>
+                 materialDesign:HintAssist.FloatingOffset="-10,-40"
+                 TextChanged="SearchTB_TextChanged"  Grid.ColumnSpan="2" Margin="20,14,0,14" 
+                 />
+
+                <Label Name="WipeSearchLB"
+               Content="❌"  Foreground="White" 
+               Visibility="Hidden" Grid.Column="1"
+               HorizontalAlignment="Center" VerticalAlignment="Center"
+               Width="25" Height="25"
+               Cursor="Hand" MouseLeftButtonDown="Label_MouseLeftButtonDown"/>
+            </Grid>
+
+        </Border>
+
 
         <Button x:Name="AddUserBT"
                 Grid.Row="1" Grid.Column="2"
                 Content="Добавить пользователя" 
                 materialDesign:ButtonAssist.CornerRadius="10"
-                Click="AddUserBT_Click" Margin="20,13" />
+                Click="AddUserBT_Click" Margin="20,14" />
 
-        <DataGrid x:Name="ListUserDG"
+        <DataGrid x:Name="ListUserDG" Margin="20,10"
                   Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
                   AutoGenerateColumns="False" IsReadOnly="True"
-                  MouseDoubleClick="ListUserDG_MouseDoubleClick" ClipToBounds="True"
-                  Margin="20,10">
+                  MouseDoubleClick="ListUserDG_MouseDoubleClick" ClipToBounds="True" >
 
             <DataGrid.ContextMenu>
                 <ContextMenu Name="PopUpMenu">
@@ -74,12 +89,9 @@
         </DataGrid>
 
 
-        <Label Name="WipeSearchLB"
-               Content="❌"  Foreground="White" 
-               Visibility="Hidden"
-               Grid.Row="1" Grid.Column="1"
-               HorizontalAlignment="Center" VerticalAlignment="Center"
-               Margin="836,28,19,27" Width="25" Height="25"
-               Cursor="Hand" MouseLeftButtonDown="Label_MouseLeftButtonDown"/>
+        <Label x:Name="CountUsersLB" Grid.Column="1" FontSize="12" Height="35"
+            Content="Колиество пользователей: "
+            VerticalAlignment="Center"
+            Foreground="White" Margin="20,0" Grid.Row="3" Grid.RowSpan="2"  Grid.ColumnSpan="2"  />
     </Grid>
 </Page>

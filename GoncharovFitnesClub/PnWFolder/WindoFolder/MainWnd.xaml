@@ -10,8 +10,8 @@
         AllowsTransparency="True"
         WindowStyle="None"
         ResizeMode="CanResizeWithGrip"
-        Height="800" Width="1200"
-        MinHeight="800" MinWidth="1200"
+        Height="680" Width="980"
+        MinHeight="680" MinWidth="980"
         Icon="/GoncharovFitnesClub;component/ResourseFolder/ImageFolder/Logo.png"
         Title="{Binding ElementName=MainFrame, Path=Content.Title}" 
         MouseDown="Window_MouseDown" Closing="Window_Closing">

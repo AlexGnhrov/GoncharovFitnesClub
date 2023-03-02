@@ -14,23 +14,20 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.AdditionalWIndow.StatusWindow
+namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.AdditionalWIndow
 {
     /// <summary>
-    /// Логика взаимодействия для EditStatusWindow.xaml
+    /// Логика взаимодействия для EditSpecialityWindow.xaml
     /// </summary>
-    public partial class EditStatusWindow : Window
+    public partial class EditSpecialityWindow : Window
     {
-
-        Status status = new Status();
+        Speciality speciality = new Speciality();
 
         string oldName;
-
-        public EditStatusWindow()
+        public EditSpecialityWindow()
         {
             InitializeComponent();
         }
-
 
         bool BlockDragWindow = false;
 
@@ -149,28 +146,28 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.AdditionalWIndow
         }
 
 
-        private void EditStatusBT_Click(object sender, RoutedEventArgs e)
+        private void EditSpecialityBT_Click(object sender, RoutedEventArgs e)
         {
 
-            var status = DBEntities.GetContext().Status.FirstOrDefault(u => u.NameStatus == StatusTB.Text);
-
-            if (status != null && oldName != StatusTB.Text)
+            var speciality = DBEntities.GetContext().Speciality.FirstOrDefault(u => u.NameSpeciality == SpecialityTB.Text);
+            
+            if (speciality != null && oldName != SpecialityTB.Text)
             {
-                MBClass.Error("Такой статус существует!");
+                MBClass.Error("Такая специальность существует!");
             }
             else
             {
                 try
                 {
-                    status = DBEntities.GetContext().Status.FirstOrDefault(u => u.StatusID == VariableClass.StatusID);
+                    speciality = DBEntities.GetContext().Speciality.FirstOrDefault(u => u.SpecialityID == VariableClass.SpecialityID);
 
-                    status.NameStatus = StatusTB.Text;
-
+                    speciality.NameSpeciality = SpecialityTB.Text;
+                        
                     DBEntities.GetContext().SaveChanges();
 
-                    MBClass.Info("Статус успешно отредактирован!");
+                    MBClass.Info("Специальность успешно отредактирована!");
 
-                    oldName = StatusTB.Text;
+                    oldName = SpecialityTB.Text;
 
                 }
                 catch (Exception ex)
@@ -186,9 +183,9 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.AdditionalWIndow
         {
             if (e.Key == Key.Enter)
             {
-                if (EditStatusBT.IsEnabled)
+                if (EditSpecialityBT.IsEnabled)
                 {
-                    EditStatusBT_Click(sender, e);
+                    EditSpecialityBT_Click(sender, e);
                 }
             }
             if (e.Key == Key.Escape)
@@ -199,24 +196,55 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.AdditionalWIndow
 
 
 
-        private void StatusTB_TextChanged(object sender, TextChangedEventArgs e)
+        private void SpecialityTB_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(StatusTB.Text)
+            if (string.IsNullOrWhiteSpace(SpecialityTB.Text)
 )
             {
-                EditStatusBT.IsEnabled = false;
+                EditSpecialityBT.IsEnabled = false;
             }
             else
             {
-                EditStatusBT.IsEnabled = true;
+                EditSpecialityBT.IsEnabled = true;
             }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            status = DBEntities.GetContext().Status.FirstOrDefault(u => u.StatusID == VariableClass.StatusID);
+            speciality = DBEntities.GetContext().Speciality.FirstOrDefault(u => u.SpecialityID == VariableClass.SpecialityID);
 
-            StatusTB.Text = oldName = status.NameStatus;
+            SpecialityTB.Text = oldName = speciality.NameSpeciality;
         }
+
+        private void DeleteBT_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var SpecialityIsUsing = DBEntities.GetContext().Coach.FirstOrDefault(u => u.SpecialityID == VariableClass.SpecialityID);
+
+                if (SpecialityIsUsing != null)
+                {
+                    MBClass.Error("Данная специальность установлена у тренера!\n" +
+                        "Убедитесь, что эта специальность отсутствует.");
+                }
+                else if (MBClass.Question("Вы действительно хотите удалить эту специальность?"))
+                {
+                    Speciality speciality = DBEntities.GetContext().Speciality.FirstOrDefault(u => u.SpecialityID == VariableClass.SpecialityID);
+
+                    DBEntities.GetContext().Speciality.Remove(speciality);
+
+                    DBEntities.GetContext().SaveChanges();
+
+                    Close();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                MBClass.Error(ex);
+            }
+        }
+
+
     }
 }
