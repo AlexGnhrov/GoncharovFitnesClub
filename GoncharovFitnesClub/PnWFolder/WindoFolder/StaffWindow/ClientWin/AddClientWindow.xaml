@@ -144,17 +144,22 @@
                     BorderBrush="{StaticResource BorderAccentMain}"
                     Margin="350,15,20,15" Height="Auto" Click="AddStatusBT_Click" />
 
-                <DatePicker x:Name="DateOfRegDP"
+                <DatePicker x:Name="DateOfRegDP" 
                     Grid.Row="4"
                     Foreground="Gray"  
                     materialDesign:HintAssist.Hint="Дата поступления" 
-                    materialDesign:HintAssist.Background="Orange"                  
+                    materialDesign:HintAssist.Background="Black"                  
                     materialDesign:HintAssist.Foreground="{x:Null}"
                     materialDesign:HintAssist.FloatingScale="0.9" 
-                    materialDesign:HintAssist.FloatingOffset="8,-38.7"
-                                        
+                    materialDesign:HintAssist.FloatingOffset="8,-38.7"                                
                     BorderBrush="{StaticResource BorderAccentMain}"
-                            SelectedDateChanged="DateOfRegDP_SelectedDateChanged" Margin="20,14" />
+                    SelectedDateChanged="DateOfRegDP_SelectedDateChanged">
+                    
+                    <DatePicker.Resources>
+                        <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#FFF47F2A" Opacity="0.8"/>
+                    </DatePicker.Resources>
+                    
+                </DatePicker>
 
                 <DatePicker x:Name="DateOfEndDP"
                     Grid.Row="5"
