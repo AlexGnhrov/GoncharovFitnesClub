@@ -163,7 +163,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.AdditionalWIndow
             {
                 try
                 {
-                    visitDate = DBEntities.GetContext().VisitDate.FirstOrDefault(u=>u.VisitDateID == VariableClass.VisitDateID);
+                    visitDate = DBEntities.GetContext().VisitDate.FirstOrDefault(u=>u.VisitDateID == VariableClass.DateVisitID);
 
                     visitDate.DayOfVisit = VisitDayTB.Text;
    
@@ -218,7 +218,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.AdditionalWIndow
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
-            visitDate = DBEntities.GetContext().VisitDate.FirstOrDefault(u => u.VisitDateID == VariableClass.VisitDateID);
+            visitDate = DBEntities.GetContext().VisitDate.FirstOrDefault(u => u.VisitDateID == VariableClass.DateVisitID);
 
             VisitDayTB.Text = oldName = visitDate.DayOfVisit;
 
@@ -228,7 +228,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.AdditionalWIndow
         {
             try
             {
-                var StatusIsUsing = DBEntities.GetContext().Subscription.FirstOrDefault(u => u.VisitDateID == VariableClass.VisitDateID);
+                var StatusIsUsing = DBEntities.GetContext().Subscription.FirstOrDefault(u => u.VisitDateID == VariableClass.DateVisitID);
 
                 if (StatusIsUsing != null)
                 {
@@ -237,7 +237,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.AdditionalWIndow
                 }
                 else if (MBClass.Question("Вы действительно хотите удалить этот распорядок?"))
                 {
-                    VisitDate visitDate = DBEntities.GetContext().VisitDate.FirstOrDefault(u => u.VisitDateID == VariableClass.VisitDateID);
+                    VisitDate visitDate = DBEntities.GetContext().VisitDate.FirstOrDefault(u => u.VisitDateID == VariableClass.DateVisitID);
 
                     DBEntities.GetContext().VisitDate.Remove(visitDate);
 

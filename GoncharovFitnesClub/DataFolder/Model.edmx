@@ -63,9 +63,8 @@
           <Property Name="SpecialityID" Type="int" />
           <Property Name="CoachID" Type="int" />
           <Property Name="AmountOfDays" Type="int" Nullable="false" />
+          <Property Name="VisitTimeID" Type="int" Nullable="false" />
           <Property Name="VisitDateID" Type="int" Nullable="false" />
-          <Property Name="TimeVisitStart" Type="time" Precision="5" Nullable="false" />
-          <Property Name="TimeVisitEnd" Type="time" Precision="5" Nullable="false" />
           <Property Name="Price" Type="decimal" Precision="9" Scale="2" />
         </EntityType>
         <EntityType Name="sysdiagrams">
@@ -93,6 +92,14 @@
           </Key>
           <Property Name="VisitDateID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DayOfVisit" Type="nvarchar" MaxLength="90" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VisitTime">
+          <Key>
+            <PropertyRef Name="VisitTimeID" />
+          </Key>
+          <Property Name="VisitTimeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TimeStart" Type="time" Precision="5" Nullable="false" />
+          <Property Name="TimeEnd" Type="time" Precision="5" Nullable="false" />
         </EntityType>
         <Association Name="FK_Client_Status">
           <End Role="Status" Type="Self.Status" Multiplicity="1" />
@@ -166,6 +173,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Subscription_VisitTime">
+          <End Role="VisitTime" Type="Self.VisitTime" Multiplicity="1" />
+          <End Role="Subscription" Type="Self.Subscription" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VisitTime">
+              <PropertyRef Name="VisitTimeID" />
+            </Principal>
+            <Dependent Role="Subscription">
+              <PropertyRef Name="VisitTimeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_User_Role">
           <End Role="Role" Type="Self.Role" Multiplicity="1" />
           <End Role="User" Type="Self.User" Multiplicity="*" />
@@ -188,6 +207,7 @@
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VisitDate" EntityType="Self.VisitDate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VisitTime" EntityType="Self.VisitTime" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Client_Status" Association="Self.FK_Client_Status">
             <End Role="Status" EntitySet="Status" />
             <End Role="Client" EntitySet="Client" />
@@ -210,6 +230,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Subscription_VisitDate" Association="Self.FK_Subscription_VisitDate">
             <End Role="VisitDate" EntitySet="VisitDate" />
+            <End Role="Subscription" EntitySet="Subscription" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Subscription_VisitTime" Association="Self.FK_Subscription_VisitTime">
+            <End Role="VisitTime" EntitySet="VisitTime" />
             <End Role="Subscription" EntitySet="Subscription" />
           </AssociationSet>
           <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
@@ -288,14 +312,14 @@
           <Property Name="SpecialityID" Type="Int32" />
           <Property Name="CoachID" Type="Int32" />
           <Property Name="AmountOfDays" Type="Int32" Nullable="false" />
+          <Property Name="VisitTimeID" Type="Int32" Nullable="false" />
           <Property Name="VisitDateID" Type="Int32" Nullable="false" />
-          <Property Name="TimeVisitStart" Type="Time" Nullable="false" Precision="5" />
-          <Property Name="TimeVisitEnd" Type="Time" Nullable="false" Precision="5" />
           <Property Name="Price" Type="Decimal" Precision="9" Scale="2" />
           <NavigationProperty Name="Client" Relationship="Self.FK_Client_Subscription" FromRole="Subscription" ToRole="Client" />
           <NavigationProperty Name="Coach" Relationship="Self.FK_Subscription_Coach" FromRole="Subscription" ToRole="Coach" />
           <NavigationProperty Name="Speciality" Relationship="Self.FK_Subscription_Speciality" FromRole="Subscription" ToRole="Speciality" />
           <NavigationProperty Name="VisitDate" Relationship="Self.FK_Subscription_VisitDate" FromRole="Subscription" ToRole="VisitDate" />
+          <NavigationProperty Name="VisitTime" Relationship="Self.FK_Subscription_VisitTime" FromRole="Subscription" ToRole="VisitTime" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -324,6 +348,15 @@
           <Property Name="VisitDateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DayOfVisit" Type="String" MaxLength="90" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Subscription" Relationship="Self.FK_Subscription_VisitDate" FromRole="VisitDate" ToRole="Subscription" />
+        </EntityType>
+        <EntityType Name="VisitTime">
+          <Key>
+            <PropertyRef Name="VisitTimeID" />
+          </Key>
+          <Property Name="VisitTimeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TimeStart" Type="Time" Nullable="false" Precision="5" />
+          <Property Name="TimeEnd" Type="Time" Nullable="false" Precision="5" />
+          <NavigationProperty Name="Subscription" Relationship="Self.FK_Subscription_VisitTime" FromRole="VisitTime" ToRole="Subscription" />
         </EntityType>
         <Association Name="FK_Client_Status">
           <End Role="Status" Type="Self.Status" Multiplicity="1" />
@@ -409,6 +442,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Subscription_VisitTime">
+          <End Role="VisitTime" Type="Self.VisitTime" Multiplicity="1" />
+          <End Role="Subscription" Type="Self.Subscription" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VisitTime">
+              <PropertyRef Name="VisitTimeID" />
+            </Principal>
+            <Dependent Role="Subscription">
+              <PropertyRef Name="VisitTimeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="DBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Client" EntityType="Self.Client" />
           <EntitySet Name="Coach" EntityType="Self.Coach" />
@@ -419,6 +464,7 @@
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="User" EntityType="Self.User" />
           <EntitySet Name="VisitDate" EntityType="Self.VisitDate" />
+          <EntitySet Name="VisitTime" EntityType="Self.VisitTime" />
           <AssociationSet Name="FK_Client_Status" Association="Self.FK_Client_Status">
             <End Role="Status" EntitySet="Status" />
             <End Role="Client" EntitySet="Client" />
@@ -445,6 +491,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Subscription_VisitDate" Association="Self.FK_Subscription_VisitDate">
             <End Role="VisitDate" EntitySet="VisitDate" />
+            <End Role="Subscription" EntitySet="Subscription" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Subscription_VisitTime" Association="Self.FK_Subscription_VisitTime">
+            <End Role="VisitTime" EntitySet="VisitTime" />
             <End Role="Subscription" EntitySet="Subscription" />
           </AssociationSet>
         </EntityContainer>
@@ -516,9 +566,8 @@
                 <ScalarProperty Name="SpecialityID" ColumnName="SpecialityID" />
                 <ScalarProperty Name="CoachID" ColumnName="CoachID" />
                 <ScalarProperty Name="AmountOfDays" ColumnName="AmountOfDays" />
+                <ScalarProperty Name="VisitTimeID" ColumnName="VisitTimeID" />
                 <ScalarProperty Name="VisitDateID" ColumnName="VisitDateID" />
-                <ScalarProperty Name="TimeVisitStart" ColumnName="TimeVisitStart" />
-                <ScalarProperty Name="TimeVisitEnd" ColumnName="TimeVisitEnd" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -549,6 +598,15 @@
               <MappingFragment StoreEntitySet="VisitDate">
                 <ScalarProperty Name="VisitDateID" ColumnName="VisitDateID" />
                 <ScalarProperty Name="DayOfVisit" ColumnName="DayOfVisit" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VisitTime">
+            <EntityTypeMapping TypeName="DBModel.VisitTime">
+              <MappingFragment StoreEntitySet="VisitTime">
+                <ScalarProperty Name="VisitTimeID" ColumnName="VisitTimeID" />
+                <ScalarProperty Name="TimeStart" ColumnName="TimeStart" />
+                <ScalarProperty Name="TimeEnd" ColumnName="TimeEnd" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -52,7 +52,7 @@
                Visibility="Hidden" Grid.Column="1"
                HorizontalAlignment="Center" VerticalAlignment="Center"
                Width="25" Height="25"
-               Cursor="Hand" MouseLeftButtonDown="Label_MouseLeftButtonDown"/>
+               Cursor="Hand" MouseLeftButtonUp="WipeSearchLB_MouseLeftButtonUp"/>
             </Grid>
 
         </Border>
@@ -76,6 +76,7 @@
                     <DataGrid.ContextMenu>
                         <ContextMenu Name="ClientPU">
                             <MenuItem Header="Редактировать" Click="EditUser_Click"/>
+                            <MenuItem Header="Обновить" Click="UpdateList_Click"/>
                             <Separator/>
                             <MenuItem Header="Удалить" Click="DeleteUser_Click" />
                         </ContextMenu>
@@ -108,15 +109,17 @@
                                 </MultiBinding>
                             </DataGridTextColumn.Binding>
                         </DataGridTextColumn>
+                        
                         <DataGridTextColumn Header="Время посещения"
                                             Width="155" MaxWidth="155" >
                             <DataGridTextColumn.Binding>
-                                <MultiBinding StringFormat="{}{0:hh\:mm} - {1:hh\:mm} ">
-                                    <Binding Path="Subscription.TimeVisitStart"/>
-                                    <Binding Path="Subscription.TimeVisitEnd"/>
+                                <MultiBinding StringFormat="{} {0:hh\:mm} - {1:hh\:mm} ">
+                                    <Binding Path="Subscription.VisitTime.TimeStart"/>
+                                    <Binding Path="Subscription.VisitTime.TimeEnd"/>
                                 </MultiBinding>
                             </DataGridTextColumn.Binding>
                         </DataGridTextColumn>
+                        
                         <DataGridTextColumn Header="Абонемент"
                                             Width="200" 
                                             MaxWidth="300" MinWidth="10"
@@ -147,6 +150,7 @@
                     <DataGrid.ContextMenu>
                         <ContextMenu Name="CoachPU">
                             <MenuItem Header="Редактировать" Click="EditUser_Click"/>
+                            <MenuItem Header="Обновить" Click="UpdateList_Click"/>
                             <Separator/>
                             <MenuItem Header="Удалить" Click="DeleteUser_Click" />
                         </ContextMenu>
@@ -191,6 +195,7 @@
                     <DataGrid.ContextMenu>
                         <ContextMenu Name="SubscriptionPU">
                             <MenuItem Header="Редактировать" Click="EditUser_Click"/>
+                            <MenuItem Header="Обновить" Click="UpdateList_Click"/>
                             <Separator/>
                             <MenuItem Header="Удалить" Click="DeleteUser_Click" />
                         </ContextMenu>
@@ -215,8 +220,8 @@
                                             Width="175">
                             <DataGridTextColumn.Binding>
                                 <MultiBinding StringFormat="{}{0:hh\:mm} - {1:hh\:mm} ">
-                                    <Binding Path="TimeVisitStart"/>
-                                    <Binding Path="TimeVisitEnd"/>
+                                    <Binding Path="VisitTime.TimeStart"/>
+                                    <Binding Path="VisitTime.TimeEnd"/>
                                 </MultiBinding>
                             </DataGridTextColumn.Binding>
                         </DataGridTextColumn>

@@ -34,5 +34,6 @@ namespace GoncharovFitnesClub.DataFolder
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<VisitDate> VisitDate { get; set; }
+        public virtual DbSet<VisitTime> VisitTime { get; set; }
     }
 }

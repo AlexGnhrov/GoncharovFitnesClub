@@ -1,21 +1,16 @@
 ﻿using GoncharovFitnesClub.ClassFolder;
 using GoncharovFitnesClub.DataFolder;
+using GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.AdditionalWIn.VisitTime;
 using GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.AdditionalWIndow.VisitDay;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
 {
@@ -29,8 +24,10 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
         Button MWaddBT;
         TextBox MWSearchTB;
         TabItem MWSubscriptionTI;
+        Label MWCountLB;
 
-        public AddSubscriptionWindow(DataGrid MWListSubscriptionDG, Button MWaddBT, TextBox MWSearchTB, TabItem MWSubscriptionTI)
+        public AddSubscriptionWindow(DataGrid MWListSubscriptionDG, Button MWaddBT,
+                                     TextBox MWSearchTB, TabItem MWSubscriptionTI,Label MWCountLB)
         {
             InitializeComponent();
 
@@ -38,12 +35,17 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
             this.MWaddBT = MWaddBT;
             this.MWSearchTB = MWSearchTB;
             this.MWSubscriptionTI = MWSubscriptionTI;
+            this.MWCountLB = MWCountLB;
 
 
             SpecialityCB.ItemsSource = DBEntities.GetContext().Speciality.
                 ToList().OrderBy(u => u.SpecialityID);
             VisitDateCB.ItemsSource = DBEntities.GetContext().VisitDate.
                 ToList().OrderBy(u => u.VisitDateID);
+            VisitTimeCB.ItemsSource = DBEntities.GetContext().VisitTime.
+                ToList().OrderBy(u => u.VisitTimeID);
+
+            VisitTimeCB.SelectedValue = 1;
 
         }
 
@@ -189,7 +191,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
 
             if (string.IsNullOrWhiteSpace(NameSubscriptionTB.Text) ||
                 string.IsNullOrWhiteSpace(AmountOfDayTB.Text) || 7 > Convert.ToInt32(AmountOfDayTB.Text)||
-                VisitDateCB.SelectedValue == null || TimeVisitTB.Text.Length < 13 ||
+                VisitTimeCB.SelectedValue == null || VisitTimeCB.SelectedValue == null ||
                 string.IsNullOrWhiteSpace(PriceTB.Text))
             {
                 AddSubscriptiontBT.IsEnabled = false;
@@ -210,19 +212,42 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
                 }
                 else
                 {
-                    //if (SNPClientTB.IsFocused)
-                    //{
-                    //    PhoneTB.Focus();
-                    //}
-                    //else if (PhoneTB.IsFocused)
-                    //{
-                    //    EmailTB.Focus();
-                    //}
-                    //else if (EmailTB.IsFocused)
-                    //{
-                    //    DateOfRegDP.Focus();
-                    //    DateOfRegDP.IsDropDownOpen = true;
-                    //}
+                    if (NameSubscriptionTB.IsFocused)
+                    {
+                        SpecialityCB.Focus();
+                        SpecialityCB.IsDropDownOpen = true;
+                    }
+                    else if(SpecialityCB.IsFocused)
+                    {
+                        if(SpecialityCB.SelectedValue != null)
+                        {
+                            CoachCB.Focus();
+                            CoachCB.IsDropDownOpen = true;
+                        }
+                        else
+                        {
+                            AmountOfDayTB.Focus();
+                        }
+                    }
+                    else if(CoachCB.IsFocused)
+                    {
+                        AmountOfDayTB.Focus();
+                    }
+                    else if (AmountOfDayTB.IsFocused)
+                    {
+                        VisitDateCB.Focus();
+                        VisitDateCB.IsDropDownOpen = true;
+                    }
+                    else if (VisitDateCB.IsFocused)
+                    {
+                        VisitTimeCB.Focus();
+                        VisitTimeCB.IsDropDownOpen = true;
+
+                    }
+                    else if(VisitTimeCB.IsFocused)
+                    {
+                        PriceTB.Focus();
+                    }
                 }
             }
             if (e.Key == Key.Escape)
@@ -238,12 +263,6 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
 
         private void AddSubscriptiontBT_Click(object sender, RoutedEventArgs e)
         {
-
-            string[] SplitTime = TimeVisitTB.Text.Split('-');
-
-
-            Console.WriteLine("1 " + SplitTime[0]);
-            Console.WriteLine("2 " + SplitTime[1].Trim(' '));
 
             try
             {
@@ -262,10 +281,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
 
                 subscription.AmountOfDays = Convert.ToInt32(AmountOfDayTB.Text);
                 subscription.VisitDateID = (int)VisitDateCB.SelectedValue;
-
-                subscription.TimeVisitStart = TimeSpan.Parse(SplitTime[0]);
-                subscription.TimeVisitEnd = TimeSpan.Parse(SplitTime[1].Trim(' '));
-
+                subscription.VisitTimeID = (int)VisitTimeCB.SelectedValue;
                 subscription.Price = Convert.ToDecimal(PriceTB.Text);
 
 
@@ -280,8 +296,14 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
                 {
                     MWListSubscriptionDG.ItemsSource = DBEntities.GetContext().
                                  Subscription.Where(u => u.NameSubscription.StartsWith(MWSearchTB.Text)
-                                 || u.Speciality.NameSpeciality.StartsWith(MWSearchTB.Text))
+                                 || u.Speciality.NameSpeciality.StartsWith(MWSearchTB.Text)
+                                 || u.Coach.Surname.StartsWith(MWSearchTB.Text)
+                                 || u.Coach.Name.StartsWith(MWSearchTB.Text)
+                                 || u.Coach.Name.StartsWith(MWSearchTB.Text))
                                  .ToList().OrderBy(u => u.SubscriptionID);
+
+                   MWCountLB.Content = "Количество абонементов: " + DBEntities.GetContext().Subscription.ToArray().Length;
+
                 }
             }
             catch (Exception ex)
@@ -371,57 +393,6 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
             EnableButt();
         }
 
-        private void TimeVisitTB_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            TextBox TimeVisit = TimeVisitTB;
-
-
-            try
-            {
-                if (!Keyboard.IsKeyDown(Key.Back))
-                {
-                    switch (TimeVisit.Text.Length)
-                    {
-                        case 2:
-                            TimeVisit.Text = TimeVisit.Text.Insert(2, ":");
-                            TimeVisit.CaretIndex = 3;
-                            break;
-                        case 5:
-                            TimeVisit.Text = TimeVisit.Text.Insert(5, " - ");
-                            TimeVisit.CaretIndex = 8;
-                            break;
-                        case 10:
-                            TimeVisit.Text = TimeVisit.Text.Insert(10, ":");
-                            TimeVisit.CaretIndex = 11;
-                            break;
-                    }
-                }
-
-                else
-                {
-                    switch (TimeVisit.Text.Length)
-                    {
-                        case 4:
-                            TimeVisit.Text.Remove(TimeVisit.Text.LastIndexOf(":"));
-                            TimeVisit.CaretIndex = 4;
-                            break;
-                        case 7:
-                            TimeVisit.Text.Remove(TimeVisit.Text.LastIndexOf(" - "));
-                            TimeVisit.CaretIndex = 5;
-                            break;
-                        case 10:
-                            TimeVisit.Text.Remove(TimeVisit.Text.LastIndexOf(":"));
-                            TimeVisit.CaretIndex = 10;
-                            break;
-                    }
-
-                }
-            }
-            catch (Exception)
-            {
-                return;
-            }
-        }
 
         private void PriceTB_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -434,7 +405,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
             if (e.ChangedButton == MouseButton.Right && VisitDateCB.SelectedValue != null)
             {
 
-                VariableClass.VisitDateID = (int)VisitDateCB.SelectedValue;
+                VariableClass.DateVisitID = (int)VisitDateCB.SelectedValue;
                 new EditVisitDateWindow().ShowDialog();
 
                 VisitDateCB.ItemsSource = DBEntities.GetContext().VisitDate.
@@ -471,6 +442,41 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
                 VariableClass.newVisitDayCreated = false;
 
             }
+        }
+
+        private void AddVisitTimeBT_Click(object sender, RoutedEventArgs e)
+        {
+            new AddVisitTimeWindow().ShowDialog();
+
+            if (VariableClass.newVisitTimeCreated)
+            {
+                VisitTimeCB.ItemsSource = DBEntities.GetContext().VisitTime.
+                    ToList().OrderBy(u => u.VisitTimeID);
+
+                VisitTimeCB.SelectedIndex = VisitTimeCB.Items.Count - 1;
+                VariableClass.newVisitTimeCreated = false;
+
+            }
+        }
+
+
+        private void VisitTimeCB_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Right && VisitTimeCB.SelectedValue != null)
+            {
+
+                VariableClass.TimeVisitID = (int)VisitTimeCB.SelectedValue;
+                new EditVisitTimeWindow().ShowDialog();
+
+                VisitTimeCB.ItemsSource = DBEntities.GetContext().VisitTime.
+                    ToList().OrderBy(u => u.VisitTimeID);
+
+            }
+        }
+
+        private void VisitTimeCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            EnableButt();
         }
     }
 }

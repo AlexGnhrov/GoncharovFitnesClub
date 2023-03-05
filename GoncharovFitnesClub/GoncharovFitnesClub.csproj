@@ -51,6 +51,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>GoncharovFitnesClub.App</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
@@ -141,6 +144,9 @@
     <Compile Include="DataFolder\VisitDate.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataFolder\VisitTime.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="PnWFolder\PageFolder\AdminPage\MainAdminPage.xaml.cs">
       <DependentUpon>MainAdminPage.xaml</DependentUpon>
     </Compile>
@@ -150,10 +156,10 @@
     <Compile Include="PnWFolder\PageFolder\StaffPage\MainStaffPage.xaml.cs">
       <DependentUpon>MainStaffPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PnWFolder\WindoFolder\AdminWindow\AdminAddUserWindow.xaml.cs">
+    <Compile Include="PnWFolder\WindoFolder\AdminWin\AdminAddUserWindow.xaml.cs">
       <DependentUpon>AdminAddUserWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PnWFolder\WindoFolder\AdminWindow\AdminEditUserWindow.xaml.cs">
+    <Compile Include="PnWFolder\WindoFolder\AdminWin\AdminEditUserWindow.xaml.cs">
       <DependentUpon>AdminEditUserWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="PnWFolder\WindoFolder\MainWnd.xaml.cs">
@@ -172,6 +178,12 @@
     </Compile>
     <Compile Include="PnWFolder\WindoFolder\StaffWindow\AdditionalWIn\VisitDay\EditVisitDateWindow.xaml.cs">
       <DependentUpon>EditVisitDateWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PnWFolder\WindoFolder\StaffWindow\AdditionalWIn\VisitTime\AddVisitTimeWindow.xaml.cs">
+      <DependentUpon>AddVisitTimeWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PnWFolder\WindoFolder\StaffWindow\AdditionalWIn\VisitTime\EditVisitTimeWindow.xaml.cs">
+      <DependentUpon>EditVisitTimeWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="PnWFolder\WindoFolder\StaffWindow\ClientWin\AddClientWindow.xaml.cs">
       <DependentUpon>AddClientWindow.xaml</DependentUpon>
@@ -259,6 +271,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="PnWFolder\WindoFolder\StaffWindow\AdditionalWIn\VisitTime\AddVisitTimeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PnWFolder\WindoFolder\StaffWindow\AdditionalWIn\VisitTime\EditVisitTimeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PnWFolder\WindoFolder\StaffWindow\ClientWin\AddClientWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -295,11 +315,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PnWFolder\WindoFolder\AdminWindow\AdminAddUserWindow.xaml">
+    <Page Include="PnWFolder\WindoFolder\AdminWin\AdminAddUserWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PnWFolder\WindoFolder\AdminWindow\AdminEditUserWindow.xaml">
+    <Page Include="PnWFolder\WindoFolder\AdminWin\AdminEditUserWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -341,6 +361,7 @@
       <LastGenOutput>Model.cs</LastGenOutput>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.4.6.1\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.6.1\build\MaterialDesignThemes.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

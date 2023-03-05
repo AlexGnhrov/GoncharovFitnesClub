@@ -54,7 +54,7 @@
                Visibility="Hidden" Grid.Column="1"
                HorizontalAlignment="Center" VerticalAlignment="Center"
                Width="25" Height="25"
-               Cursor="Hand" MouseLeftButtonDown="Label_MouseLeftButtonDown"/>
+               Cursor="Hand" MouseLeftButtonUp="WipeSearchLB_MouseLeftButtonUp" />
             </Grid>
 
         </Border>

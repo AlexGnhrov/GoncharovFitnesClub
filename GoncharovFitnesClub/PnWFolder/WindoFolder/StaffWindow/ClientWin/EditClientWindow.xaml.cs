@@ -23,16 +23,19 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.ClientWindow
         DataGrid MWListClient;
         TextBox MWSearchTB;
         TabItem MWClientTI;
+        Label MWCountLB;
 
         DataFolder.Client client = new DataFolder.Client();
 
-        public EditClientWindow(DataGrid MWListClient, TextBox MWSearchTB, TabItem MWClientTI)
+        public EditClientWindow(DataGrid MWListClient, TextBox MWSearchTB,
+                                TabItem MWClientTI, Label MWCountLB)
         {
             InitializeComponent();
 
             this.MWListClient = MWListClient;
             this.MWSearchTB = MWSearchTB;
             this.MWClientTI = MWClientTI;
+            this.MWCountLB = MWCountLB;
 
             PhoneTB.Text = "+7 ";
             PhoneTB.CaretIndex = 4;
@@ -408,6 +411,8 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.ClientWindow
                                             || u.Subscription.NameSubscription.StartsWith(MWSearchTB.Text)
                                             || u.Status.NameStatus.StartsWith(MWSearchTB.Text))
                                               .ToList().OrderBy(u => u.ClientID);
+
+                    MWCountLB.Content = "Количество клиентов: " + DBEntities.GetContext().Client.Where(u => u.StatusID != 4).ToArray().Length;
                 }
             }
             catch (Exception ex)

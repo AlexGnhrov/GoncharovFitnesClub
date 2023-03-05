@@ -160,7 +160,8 @@ namespace GoncharovFitnesClub.PageFolder.AdminPage
             }
         }
 
-        private void Label_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+
+        private void WipeSearchLB_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             SearchTB.Text = "";
         }

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,14 +15,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.AdditionalWIndow.VisitDay
+namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.AdditionalWIn.VisitTime
 {
     /// <summary>
-    /// Логика взаимодействия для AddVisitDateWindow.xaml
+    /// Логика взаимодействия для AddVisitTimeWindow.xaml
     /// </summary>
-    public partial class AddVisitDateWindow : Window
+    public partial class AddVisitTimeWindow : Window
     {
-        public AddVisitDateWindow()
+        public AddVisitTimeWindow()
         {
             InitializeComponent();
         }
@@ -144,30 +145,36 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.AdditionalWIndow
         }
 
 
-        private void AddVisitDayBT_Click(object sender, RoutedEventArgs e)
+        private void AddVisitTimeBT_Click(object sender, RoutedEventArgs e)
         {
+            string[] SplitTime = VisitTimeTB.Text.Split('-');
 
-            var status = DBEntities.GetContext().VisitDate.FirstOrDefault(u => u.DayOfVisit == VisitDayTB.Text);
+            TimeSpan SpanStartTime = TimeSpan.Parse(SplitTime[0]);
+            TimeSpan spanEndTime = TimeSpan.Parse(SplitTime[1].Trim(' '));
 
-            if (status != null)
+            var Time = DBEntities.GetContext().VisitTime
+                .FirstOrDefault(u => u.TimeStart == SpanStartTime && u.TimeEnd == spanEndTime);
+
+
+            if (Time != null)
             {
-                MBClass.Error("Такой распорядок существует!");
-
+                MBClass.Error("Такое время уже существует!");
             }
             else
             {
                 try
                 {
-                    DBEntities.GetContext().VisitDate.Add(new VisitDate()
+                    DBEntities.GetContext().VisitTime.Add(new DataFolder.VisitTime()
                     {
-                        DayOfVisit = VisitDayTB.Text
-                    });
+                        TimeStart = SpanStartTime,
+                        TimeEnd = spanEndTime
+                    }); 
 
                     DBEntities.GetContext().SaveChanges();
 
-                    MBClass.Info("Распорядок успешно добавлена!");
+                    MBClass.Info("Время успешно добавлено!");
 
-                    VariableClass.newVisitDayCreated = true;
+                    VariableClass.newVisitTimeCreated = true;
                 }
                 catch (Exception ex)
                 {
@@ -182,9 +189,9 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.AdditionalWIndow
         {
             if (e.Key == Key.Enter)
             {
-                if (AddVisitDayBT.IsEnabled)
+                if (AddVisitTimeBT.IsEnabled)
                 {
-                    AddVisitDayBT_Click(sender, e);
+                    AddVisitTimeBT_Click(sender, e);
                 }
             }
             if (e.Key == Key.Escape)
@@ -193,20 +200,78 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.AdditionalWIndow
             }
         }
 
-
-
-        private void VisitDayBT_TextChanged(object sender, TextChangedEventArgs e)
+        private void EnableButt()
         {
-            if (string.IsNullOrWhiteSpace(VisitDayTB.Text)
-)
+            if (string.IsNullOrWhiteSpace(VisitTimeTB.Text) ||
+                 VisitTimeTB.Text.Length < 13)
             {
-                AddVisitDayBT.IsEnabled = false;
+                AddVisitTimeBT.IsEnabled = false;
             }
             else
             {
-                AddVisitDayBT.IsEnabled = true;
+                AddVisitTimeBT.IsEnabled = true;
             }
         }
 
+        private void VisitTimeTB_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = new Regex("[^0-9]+").IsMatch(e.Text);
+        }
+
+        private void VisiTimeTB_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox TimeVisit = VisitTimeTB;
+
+
+            try
+            {
+                if (!Keyboard.IsKeyDown(Key.Back))
+                {
+                    switch (TimeVisit.Text.Length)
+                    {
+                        case 2:
+                            TimeVisit.Text = TimeVisit.Text.Insert(2, ":");
+                            TimeVisit.CaretIndex = 3;
+                            break;
+                        case 5:
+                            TimeVisit.Text = TimeVisit.Text.Insert(5, " - ");
+                            TimeVisit.CaretIndex = 8;
+                            break;
+                        case 10:
+                            TimeVisit.Text = TimeVisit.Text.Insert(10, ":");
+                            TimeVisit.CaretIndex = 11;
+                            break;
+                    }
+                }
+
+                else
+                {
+                    switch (TimeVisit.Text.Length)
+                    {
+                        case 4:
+                            TimeVisit.Text.Remove(TimeVisit.Text.LastIndexOf(":"));
+                            TimeVisit.CaretIndex = 4;
+                            break;
+                        case 7:
+                            TimeVisit.Text.Remove(TimeVisit.Text.LastIndexOf(" - "));
+                            TimeVisit.CaretIndex = 5;
+                            break;
+                        case 10:
+                            TimeVisit.Text.Remove(TimeVisit.Text.LastIndexOf(":"));
+                            TimeVisit.CaretIndex = 10;
+                            break;
+                    }
+
+                }
+            }
+            catch (Exception)
+            {
+                return;
+            }
+
+            EnableButt();
+        }
     }
 }
+
+

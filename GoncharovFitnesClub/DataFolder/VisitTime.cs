@@ -12,28 +12,19 @@ namespace GoncharovFitnesClub.DataFolder
     using System;
     using System.Collections.Generic;
     
-    public partial class Subscription
+    public partial class VisitTime
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Subscription()
+        public VisitTime()
         {
-            this.Client = new HashSet<Client>();
+            this.Subscription = new HashSet<Subscription>();
         }
     
-        public int SubscriptionID { get; set; }
-        public string NameSubscription { get; set; }
-        public Nullable<int> SpecialityID { get; set; }
-        public Nullable<int> CoachID { get; set; }
-        public int AmountOfDays { get; set; }
         public int VisitTimeID { get; set; }
-        public int VisitDateID { get; set; }
-        public Nullable<decimal> Price { get; set; }
+        public System.TimeSpan TimeStart { get; set; }
+        public System.TimeSpan TimeEnd { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Client> Client { get; set; }
-        public virtual Coach Coach { get; set; }
-        public virtual Speciality Speciality { get; set; }
-        public virtual VisitDate VisitDate { get; set; }
-        public virtual VisitTime VisitTime { get; set; }
+        public virtual ICollection<Subscription> Subscription { get; set; }
     }
 }

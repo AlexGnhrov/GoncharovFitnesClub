@@ -166,7 +166,7 @@
                     materialDesign:HintAssist.FloatingOffset="-10,-38.7"
                     SelectionChanged="VisitDateCB_SelectionChanged" 
                     MouseDoubleClick="VisitDateCB_MouseDoubleClick">
-                    
+
                     <ComboBox.Resources>
                         <SolidColorBrush x:Key="MaterialDesignPaper" Color="Gray"/>
                     </ComboBox.Resources>
@@ -179,21 +179,7 @@
                     Content="+" FontSize="32"
                     materialDesign:ButtonAssist.CornerRadius="10"
                     BorderBrush="{StaticResource BorderAccentMain}"
-                    Margin="0,15,20,15"  Grid.Column="1" Click="AddVisitDayBT_Click" Height="Auto"  />
-
-                <TextBox x:Name="TimeVisitTB"
-                         Text="09:00 - 21:00" MaxLength="13" 
-                    Foreground="White" CaretBrush="White" 
-                    materialDesign:HintAssist.Hint="Время посещения*" 
-                    materialDesign:HintAssist.Background="{x:Null}"                  
-                    materialDesign:HintAssist.Foreground="White"
-                    materialDesign:HintAssist.FloatingScale="0.9" 
-                    materialDesign:HintAssist.FloatingOffset="-10,-38.7"      
-                 
-                    BorderBrush="{StaticResource BorderAccentMain}"
-                    Grid.Row="6"   Grid.ColumnSpan="2"
-                         TextChanged="TimeVisitTB_TextChanged"
-                         PreviewTextInput="TimeVisitTB_PreviewTextInput"/>
+                     Grid.Column="1" Click="AddVisitDayBT_Click" Margin="0,14,20,14"  />
 
 
                 <TextBox x:Name="PriceTB" MaxLength="0" 
@@ -205,7 +191,48 @@
                     materialDesign:HintAssist.FloatingOffset="-10,-38.7"      
                  
                     BorderBrush="{StaticResource BorderAccentMain}"
-                    Grid.Row="7" Grid.ColumnSpan="2" Height="Auto" Margin="20,14" TextChanged="PriceTB_TextChanged" />
+                    Grid.Row="7" Grid.ColumnSpan="2" TextChanged="PriceTB_TextChanged" />
+
+                <ComboBox x:Name="VisitTimeCB"
+                    Grid.Row="6"
+                    Foreground="White"
+                    materialDesign:HintAssist.Hint="Время посещения*"
+                    DisplayMemberPath=""
+                    SelectedValuePath="VisitTimeID"
+                    ItemsSource="{Binding VisitTime}"
+                          
+                    materialDesign:HintAssist.Background="{x:Null}"                  
+                    materialDesign:HintAssist.Foreground="White"
+                    materialDesign:HintAssist.FloatingScale="0.9" 
+                    materialDesign:HintAssist.FloatingOffset="-10,-38.7"
+                          
+                    SelectionChanged="VisitTimeCB_SelectionChanged"
+                    MouseDoubleClick="VisitTimeCB_MouseDoubleClick" >
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}{0:hh\:mm} - {1:hh\:mm}">
+                                        <Binding Path="TimeStart"/>
+                                        <Binding Path="TimeEnd"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                    <ComboBox.Resources>
+                        <SolidColorBrush x:Key="MaterialDesignPaper" Color="Gray"/>
+                    </ComboBox.Resources>
+                    <ComboBox.BorderBrush>
+                        <StaticResource ResourceKey="BorderAccentMain"/>
+                    </ComboBox.BorderBrush>
+                </ComboBox>
+                
+                <Button x:Name="AddVisitTimeBT" Grid.Row="6"
+                    Content="+" FontSize="32"
+                    materialDesign:ButtonAssist.CornerRadius="10"
+                    BorderBrush="{StaticResource BorderAccentMain}"
+                    Grid.Column="1"  Margin="0,14,20,14" Click="AddVisitTimeBT_Click"  />
             </Grid>
         </Grid>
     </Border>
