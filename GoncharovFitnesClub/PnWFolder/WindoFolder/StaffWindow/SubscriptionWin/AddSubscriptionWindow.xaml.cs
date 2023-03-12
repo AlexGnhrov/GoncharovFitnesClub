@@ -193,7 +193,9 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
 
             if (string.IsNullOrWhiteSpace(NameSubscriptionTB.Text) ||
                 string.IsNullOrWhiteSpace(AmountOfDayTB.Text) || 7 > Convert.ToInt32(AmountOfDayTB.Text)||
-                VisitTimeCB.SelectedValue == null || VisitTimeCB.SelectedValue == null ||
+                VisitDateCB.SelectedValue == null ||
+                VisitTimeCB.SelectedValue == null ||
+                VisitTimeCB.SelectedValue == null ||
                 string.IsNullOrWhiteSpace(PriceTB.Text))
             {
                 AddSubscriptiontBT.IsEnabled = false;
