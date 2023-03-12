@@ -41,6 +41,8 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow
             PhoneTB.CaretIndex = 4;
 
             SpecialityCB.ItemsSource = DBEntities.GetContext().Speciality.ToList().OrderBy(u => u.SpecialityID);
+
+
         }
 
 

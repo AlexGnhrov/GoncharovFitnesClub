@@ -167,6 +167,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.AdditionalWIndow
                     MBClass.Info("Специальность успешно добавлена!");
 
                     VariableClass.newSpecialityCreated = true;
+
                 }
                 catch (Exception ex)
                 {

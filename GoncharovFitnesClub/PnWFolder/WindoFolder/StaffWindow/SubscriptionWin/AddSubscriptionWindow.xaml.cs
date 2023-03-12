@@ -40,8 +40,10 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
 
             SpecialityCB.ItemsSource = DBEntities.GetContext().Speciality.
                 ToList().OrderBy(u => u.SpecialityID);
+
             VisitDateCB.ItemsSource = DBEntities.GetContext().VisitDate.
                 ToList().OrderBy(u => u.VisitDateID);
+
             VisitTimeCB.ItemsSource = DBEntities.GetContext().VisitTime.
                 ToList().OrderBy(u => u.VisitTimeID);
 
@@ -266,8 +268,16 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
 
             try
             {
+                var nameSub = DBEntities.GetContext().Subscription.FirstOrDefault(u => u.NameSubscription == NameSubscriptionTB.Text);
+                
+                if(nameSub != null)
+                {
+                    MBClass.Error("Такое название абонемента уже существует!");
+                }
 
                 DataFolder.Subscription subscription = new DataFolder.Subscription();
+
+
 
                 subscription.NameSubscription = NameSubscriptionTB.Text;
                 if (SpecialityCB.SelectedValue != null)
@@ -294,22 +304,27 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
 
                 if (MWSubscriptionTI.IsSelected)
                 {
+                    MBClass.Error("");
+
                     MWListSubscriptionDG.ItemsSource = DBEntities.GetContext().
                                  Subscription.Where(u => u.NameSubscription.StartsWith(MWSearchTB.Text)
                                  || u.Speciality.NameSpeciality.StartsWith(MWSearchTB.Text)
                                  || u.Coach.Surname.StartsWith(MWSearchTB.Text)
                                  || u.Coach.Name.StartsWith(MWSearchTB.Text)
-                                 || u.Coach.Name.StartsWith(MWSearchTB.Text))
+                                 || u.Coach.Patronymic.StartsWith(MWSearchTB.Text))
                                  .ToList().OrderBy(u => u.SubscriptionID);
 
                    MWCountLB.Content = "Количество абонементов: " + DBEntities.GetContext().Subscription.ToArray().Length;
 
                 }
+
             }
             catch (Exception ex)
             {
                 MBClass.Error(ex);
             }
+
+
         }
 
 
@@ -321,6 +336,8 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
             {
                 MWaddBT.IsEnabled = true;
             }
+
+            VariableClass.addSubscriptionWindow = null;
         }
 
 
@@ -335,7 +352,8 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
             if (SpecialityCB.SelectedValue != null)
             {
 
-                CoachCB.ItemsSource = DBEntities.GetContext().Coach.Where(u => u.SpecialityID == (int)SpecialityCB.SelectedValue).ToList();
+                CoachCB.ItemsSource = DBEntities.GetContext().Coach
+                    .Where(u => u.SpecialityID == (int)SpecialityCB.SelectedValue).ToList();
 
                 CoachCB.IsEnabled = true;
 
@@ -371,6 +389,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
         private void AmountOfDayTB_TextChanged(object sender, TextChangedEventArgs e)
         {
             EnableButt();
+
             if(!string.IsNullOrWhiteSpace(AmountOfDayTB.Text) && 365 < Convert.ToInt32(AmountOfDayTB.Text))
             {
                 AmountOfDayTB.Text = "365";
@@ -477,6 +496,18 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
         private void VisitTimeCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             EnableButt();
+        }
+
+        private void SpecialityCB_GotFocus(object sender, RoutedEventArgs e)
+        {
+            SpecialityCB.ItemsSource = DBEntities.GetContext().Speciality.
+                ToList().OrderBy(u => u.SpecialityID);
+        }
+
+        private void CoachCB_GotFocus(object sender, RoutedEventArgs e)
+        {
+            CoachCB.ItemsSource = CoachCB.ItemsSource = DBEntities.GetContext().Coach
+                    .Where(u => u.SpecialityID == (int)SpecialityCB.SelectedValue).ToList();
         }
     }
 }

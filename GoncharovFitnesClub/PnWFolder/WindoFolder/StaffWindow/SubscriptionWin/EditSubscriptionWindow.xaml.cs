@@ -3,20 +3,14 @@ using GoncharovFitnesClub.DataFolder;
 using GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.AdditionalWIn.VisitTime;
 using GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.AdditionalWIndow.VisitDay;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
 {
@@ -33,6 +27,8 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
         TabItem MWSubscriptionTI;
         Label MWCountLB;
 
+        string oldName;
+
         public EditSubscriptionWindow(DataGrid MWListSubscriptionDG, TextBox MWSearchTB,
                                       TabItem MWSubscriptionTI, Label MWCountLB)
         {
@@ -45,13 +41,16 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
 
             SpecialityCB.ItemsSource = DBEntities.GetContext().Speciality.
                 ToList().OrderBy(u => u.SpecialityID);
+
             VisitDateCB.ItemsSource = DBEntities.GetContext().VisitDate.
                 ToList().OrderBy(u => u.VisitDateID);
+
             VisitTimeCB.ItemsSource = DBEntities.GetContext().VisitTime.
                                    ToList().OrderBy(u => u.VisitTimeID);
 
 
             VisitTimeCB.SelectedValue = 1;
+
         }
 
 
@@ -270,11 +269,16 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
         private void EditSubscriptiontBT_Click(object sender, RoutedEventArgs e)
         {
 
-            //string[] SplitTime = TimeVisitTB.Text.Split('-');
-
-
             try
             {
+                var nameSub = DBEntities.GetContext().Subscription.FirstOrDefault(u => u.NameSubscription == NameSubscriptionTB.Text);
+
+                if (nameSub != null && oldName != NameSubscriptionTB.Text)
+                {
+                    MBClass.Error("Такое название абонемента уже существует!");
+                    return;
+                }
+
 
                 subscription = DBEntities.GetContext().Subscription.FirstOrDefault(u => u.SubscriptionID == VariableClass.SubscriptionID);
 
@@ -296,21 +300,26 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
 
                 DBEntities.GetContext().SaveChanges();
 
-
-                MBClass.Info("Абонемент успешно отредактирова!");
+                MBClass.Info("Абонемент успешно отредактирован!");
 
                 if (MWSubscriptionTI.IsSelected)
                 {
+                    MBClass.Error("");
+
                     MWListSubscriptionDG.ItemsSource = DBEntities.GetContext().
                                  Subscription.Where(u => u.NameSubscription.StartsWith(MWSearchTB.Text)
                                  || u.Speciality.NameSpeciality.StartsWith(MWSearchTB.Text)
                                  || u.Coach.Surname.StartsWith(MWSearchTB.Text)
                                  || u.Coach.Name.StartsWith(MWSearchTB.Text)
-                                 || u.Coach.Name.StartsWith(MWSearchTB.Text))
+                                 || u.Coach.Patronymic.StartsWith(MWSearchTB.Text))
                                  .ToList().OrderBy(u => u.SubscriptionID);
 
                     MWCountLB.Content = "Количество абонементов: " + DBEntities.GetContext().Subscription.ToArray().Length;
                 }
+
+
+                oldName = NameSubscriptionTB.Text;
+
             }
             catch (Exception ex)
             {
@@ -458,6 +467,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
             VisitTimeCB.SelectedValue = subscription.VisitTimeID;
             PriceTB.Text = subscription.Price.ToString();
 
+            oldName = subscription.NameSubscription;
 
         }
 
@@ -493,6 +503,16 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
                 VariableClass.newVisitTimeCreated = false;
 
             }
+        }
+
+        private void SpecialityCB_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CoachCB_GotFocus(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

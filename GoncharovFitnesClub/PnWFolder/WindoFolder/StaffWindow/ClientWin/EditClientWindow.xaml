@@ -184,11 +184,12 @@
                     ItemsSource="{Binding Subscription}"
                     MouseDoubleClick="SubscriptionCB_MouseDoubleClick"
                     SelectionChanged="SubscriptionCB_SelectionChanged"
+                    GotFocus="SubscriptionCB_GotFocus"     
                                                    
                     materialDesign:HintAssist.Background="{x:Null}"                  
                     materialDesign:HintAssist.Foreground="White"
                     materialDesign:HintAssist.FloatingScale="0.9" 
-                    materialDesign:HintAssist.FloatingOffset="-10,-38.7"     
+                    materialDesign:HintAssist.FloatingOffset="-10,-38.7" Margin="20,15,88,15"     
                          >
                     <ComboBox.Resources>
                         <SolidColorBrush x:Key="MaterialDesignPaper" Color="Gray"/>
@@ -197,6 +198,11 @@
                         <StaticResource ResourceKey="BorderAccentMain"/>
                     </ComboBox.BorderBrush>
                 </ComboBox>
+                <Button x:Name="AddSubscriptionBT" Grid.Row="6"
+                    Content="+" FontSize="32"
+                    materialDesign:ButtonAssist.CornerRadius="10"
+                    BorderBrush="{StaticResource BorderAccentMain}"
+                    Margin="350,15,20,15" Height="Auto" Click="AddSubscriptionBT_Click" />
             </Grid>
         </Grid>
     </Border>

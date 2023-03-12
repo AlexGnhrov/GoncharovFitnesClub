@@ -101,7 +101,7 @@ namespace GoncharovFitnesClub.PageFolder
                 {
                     SignInBT_Click(sender, e);
                 }
-                if(LoginTB.IsFocused)
+                else if(LoginTB.IsFocused)
                 {
                     PasswordPB.Focus();
                 }

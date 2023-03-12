@@ -3,19 +3,13 @@ using GoncharovFitnesClub.DataFolder;
 using GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.AdditionalWIndow;
 using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow
 {
@@ -223,15 +217,16 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow
 
                 if (MWCoachTI.IsSelected)
                 {
-                    Console.WriteLine(1);
 
-
+                    //MBClass.Error("");
 
                     MWListCoachDG.ItemsSource = DBEntities.GetContext().Coach.Where(u => u.Surname.StartsWith(MWSearchTB.Text)
                             || u.Name.StartsWith(MWSearchTB.Text)
                             || u.Patronymic.StartsWith(MWSearchTB.Text)
                             || u.Speciality.NameSpeciality.StartsWith(MWSearchTB.Text))
                            .ToList().OrderBy(u => u.CoachID);
+
+
                 }
             }
             catch (Exception ex)

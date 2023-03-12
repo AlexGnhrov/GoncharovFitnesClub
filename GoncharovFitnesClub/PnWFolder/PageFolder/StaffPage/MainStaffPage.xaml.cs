@@ -29,9 +29,7 @@ namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
     public partial class MainStaffPage : Page
     {
 
-        EditCoachWindow editCoachWindow;
-        EditClientWindow editClienthWindow;
-        EditSubscriptionWindow editSubscriptionWindow;
+
 
         string[] SaveSearchText = { "", "", "" };
 
@@ -42,6 +40,11 @@ namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
 
             ClientTI.IsSelected = true;
 
+            VariableClass.ListSubscriptionDG = ListSubscriptionDG;
+            VariableClass.SubscriptionTI = SubscriptionTI;
+            VariableClass.SearchTB = SearchTB;
+            VariableClass.AddBT = AddBT;
+            VariableClass.CountUsersLB = CountUsersLB;
         }
 
         private void SearchTB_TextChanged(object sender, TextChangedEventArgs e)
@@ -106,7 +109,8 @@ namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
                 else if (SubscriptionTI.IsSelected)
                 {
 
-                    new AddSubscriptionWindow(ListSubscriptionDG, AddBT, SearchTB, SubscriptionTI,CountUsersLB).Show();
+                    VariableClass.addSubscriptionWindow = new AddSubscriptionWindow(ListSubscriptionDG, AddBT, SearchTB, SubscriptionTI, CountUsersLB);
+                    VariableClass.addSubscriptionWindow.Show();
 
                     VariableClass.SubscriptionWinisUsing = true;
 
@@ -138,7 +142,7 @@ namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
                 {
                     Client client = ListClientDG.SelectedItem as Client;
 
-                    if (editClienthWindow != null && VariableClass.ClientID == client.ClientID)
+                    if (VariableClass.editClienthWindow != null && VariableClass.ClientID == client.ClientID)
                     {
                         MBClass.Error("Данный клиент редактируется!\n" +
                                       "Закройте окно редактирования.");
@@ -157,7 +161,7 @@ namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
                 {
                     Coach coach = ListCoachDG.SelectedItem as Coach;
 
-                    if (editCoachWindow != null && VariableClass.CoachID == coach.CoachID)
+                    if (VariableClass.editCoachWindow != null && VariableClass.CoachID == coach.CoachID)
                     {
                         MBClass.Error("Данный тренер редактируется!\n" +
                                       "Закройте окно редактирования.");
@@ -178,13 +182,12 @@ namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
 
                     var ClientUse = DBEntities.GetContext().Client.FirstOrDefault(u => u.SubscriptionID == subscription.SubscriptionID);
 
-                    if (editSubscriptionWindow != null && VariableClass.SubscriptionID == subscription.SubscriptionID)
+                    if (VariableClass.editSubscriptionWindow != null && VariableClass.SubscriptionID == subscription.SubscriptionID)
                     {
                         MBClass.Error("Данный абонемент редактируется!\n" +
                                       "Закройте окно редактирования.");
-                        return;
                     }
-                    if(ClientUse != null)
+                    else if(ClientUse != null)
                     {
                         MBClass.Error("Данный абонемент стоит у клиента!\n" +
                                        "Убедитесь, что он отсутвует.");
@@ -218,23 +221,23 @@ namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
 
                         Client client = ListClientDG.SelectedItem as Client;
 
-                        if (editClienthWindow != null)
+                        if (VariableClass.editClienthWindow != null)
                         {
                             if (VariableClass.ClientID == client.ClientID)
                             {
-                                editClienthWindow.Focus();
+                                VariableClass.editClienthWindow.Focus();
                                 return;
                             }
                             else
                             {
-                                editClienthWindow.Close();
+                                VariableClass.editClienthWindow.Close();
                             }
                         }
 
                         VariableClass.ClientID = client.ClientID;
 
-                        editClienthWindow = new EditClientWindow(ListClientDG, SearchTB, ClientTI,CountUsersLB);
-                        editClienthWindow.Show();
+                        VariableClass.editClienthWindow = new EditClientWindow(ListClientDG, SearchTB, ClientTI,CountUsersLB);
+                        VariableClass.editClienthWindow.Show();
 
                     }
                 }
@@ -246,23 +249,23 @@ namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
 
                         Coach coach = ListCoachDG.SelectedItem as Coach;
 
-                        if (editCoachWindow != null)
+                        if (VariableClass.editCoachWindow != null)
                         {
                             if (VariableClass.CoachID == coach.CoachID)
                             {
-                                editCoachWindow.Focus();
+                                VariableClass.editCoachWindow.Focus();
                                 return;
                             }
                             else
                             {
-                                editCoachWindow.Close();
+                                VariableClass.editCoachWindow.Close();
                             }
                         }
 
                         VariableClass.CoachID = coach.CoachID;
 
-                        editCoachWindow = new EditCoachWindow(ListCoachDG, SearchTB, CoachTI);
-                        editCoachWindow.Show();
+                        VariableClass.editCoachWindow = new EditCoachWindow(ListCoachDG, SearchTB, CoachTI);
+                        VariableClass.editCoachWindow.Show();
 
                     }
                 }
@@ -273,23 +276,23 @@ namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
 
                         Subscription subscription  = ListSubscriptionDG.SelectedItem as Subscription;
 
-                        if (editSubscriptionWindow != null)
+                        if (VariableClass.editSubscriptionWindow != null)
                         {
                             if (VariableClass.SubscriptionID == subscription.SubscriptionID)
                             {
-                                editSubscriptionWindow.Focus();
+                                VariableClass.editSubscriptionWindow.Focus();
                                 return;
                             }
                             else
                             {
-                                editSubscriptionWindow.Close();
+                                VariableClass.editSubscriptionWindow.Close();
                             }
                         }
 
                         VariableClass.SubscriptionID = subscription.SubscriptionID;
 
-                        editSubscriptionWindow = new EditSubscriptionWindow(ListSubscriptionDG, SearchTB, SubscriptionTI,CountUsersLB);
-                        editSubscriptionWindow.Show();
+                        VariableClass.editSubscriptionWindow = new EditSubscriptionWindow(ListSubscriptionDG, SearchTB, SubscriptionTI,CountUsersLB);
+                        VariableClass.editSubscriptionWindow.Show();
 
                     }
                 }
@@ -364,6 +367,9 @@ namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
                     AddBT.IsEnabled = !VariableClass.SubscriptionWinisUsing;
 
                 }
+
+
+
             }
             catch (Exception ex)
             {
@@ -371,29 +377,6 @@ namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
             }
         }
 
-        private void EndOfSubStatusUpdate()
-        { 
-            object[] ClientSelected = DBEntities.GetContext().Client.ToArray();
-
-
-            for (int i = 0; i < ClientSelected.Length; i++)
-            {
-                Client client = ClientSelected[i] as Client;
-
-
-                if (client.DateOfEnd <= DateTime.Now &&
-                    client.StatusID != 2 && client.StatusID != 4)
-                {
-                    client.StatusID = 2;
-
-                    DBEntities.GetContext().SaveChanges();
-
-                    MBClass.Info($"Абонемент у {client.Surname} {client.Name} {client.Patronymic} Закончился!");
-                }
-
-
-            }
-        }
 
 
 
@@ -425,6 +408,35 @@ namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
         }
 
 
+        private void EndOfSubStatusUpdate()
+        {
+            object[] ClientSelected = DBEntities.GetContext().Client.ToArray();
+
+
+            for (int i = 0; i < ClientSelected.Length; i++)
+            {
+                Client client = ClientSelected[i] as Client;
+
+                if (client.SubscriptionID != null)
+                {
+                    Subscription subscription = DBEntities.GetContext().Subscription.FirstOrDefault(u => u.SubscriptionID == client.SubscriptionID);
+
+                    Console.WriteLine(subscription.VisitTime.TimeEnd +"\t"+ DateTime.Now.TimeOfDay);
+
+                    if (client.DateOfEnd <= DateTime.Now &&
+                        subscription.VisitTime.TimeEnd < DateTime.Now.TimeOfDay &&
+                        client.StatusID != 2 && client.StatusID != 4)
+                    {
+                        client.StatusID = 2;
+
+                        DBEntities.GetContext().SaveChanges();
+
+                        MBClass.Info($"Абонемент у {client.Surname} {client.Name} {client.Patronymic} Закончился!");
+                    }
+                }
+            }
+        }
+
         private void UpdateData(int i)
         {
             switch (i)
@@ -442,6 +454,7 @@ namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
                     CountUsersLB.Content = "Количество клиентов: " + DBEntities.GetContext().Client.Where(u => u.StatusID != 4).ToArray().Length;
                     break;
                 case 2:
+
                     ListCoachDG.ItemsSource = DBEntities.GetContext().Coach.Where(u => u.Surname.StartsWith(SearchTB.Text)
                                                || u.Name.StartsWith(SearchTB.Text)
                                                || u.Patronymic.StartsWith(SearchTB.Text)
@@ -451,9 +464,13 @@ namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
                     CountUsersLB.Content = "Количество тренеров: " + DBEntities.GetContext().Coach.ToArray().Length;
                     break;
                 case 3:
+
                     ListSubscriptionDG.ItemsSource = DBEntities.GetContext().
                                  Subscription.Where(u => u.NameSubscription.StartsWith(SearchTB.Text)
-                                 || u.Speciality.NameSpeciality.StartsWith(SearchTB.Text))
+                                 || u.Speciality.NameSpeciality.StartsWith(SearchTB.Text)
+                                 || u.Coach.Surname.StartsWith(SearchTB.Text)
+                                 || u.Coach.Name.StartsWith(SearchTB.Text)
+                                 || u.Coach.Patronymic.StartsWith(SearchTB.Text))
                                  .ToList().OrderBy(u => u.SubscriptionID);
 
                     CountUsersLB.Content = "Количество абонементов: " + DBEntities.GetContext().Subscription.ToArray().Length;

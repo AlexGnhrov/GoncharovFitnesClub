@@ -103,6 +103,7 @@
                           materialDesign:HintAssist.FloatingOffset="-10,-38.7"  Grid.ColumnSpan="2"
                           SelectionChanged="SpecialityCB_SelectionChanged" 
                           MouseDoubleClick="SpecialityCB_MouseDoubleClick"
+                          GotFocus="SpecialityCB_GotFocus"
                          >
                     <ComboBox.Resources>
                         <SolidColorBrush x:Key="MaterialDesignPaper" Color="Gray"/>
@@ -129,7 +130,8 @@
                     materialDesign:HintAssist.Foreground="White"
                     materialDesign:HintAssist.FloatingScale="0.9" 
                     materialDesign:HintAssist.FloatingOffset="-10,-38.7" Grid.ColumnSpan="2"
-                    SelectionChanged="CoachCB_SelectionChanged"     
+                    SelectionChanged="CoachCB_SelectionChanged"
+                          GotFocus="CoachCB_GotFocus"
                          >
                     <ComboBox.Resources>
                         <SolidColorBrush x:Key="MaterialDesignPaper" Color="Gray"/>

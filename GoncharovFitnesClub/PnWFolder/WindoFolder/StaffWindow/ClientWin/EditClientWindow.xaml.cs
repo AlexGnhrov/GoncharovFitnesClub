@@ -1,6 +1,7 @@
 ﻿using GoncharovFitnesClub.ClassFolder;
 using GoncharovFitnesClub.DataFolder;
 using GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.AdditionalWIndow.StatusWindow;
+using GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription;
 using System;
 using System.ComponentModel;
 using System.Linq;
@@ -44,6 +45,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.ClientWindow
                                             .OrderBy(u => u.SubscriptionID);
             StatusCB.ItemsSource = DBEntities.GetContext().Status.ToList().
                                             OrderBy(u => u.StatusID);
+
 
         }
 
@@ -438,6 +440,8 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.ClientWindow
             CountDate();
         }
 
+        DataFolder.Subscription subscription;
+
         private void SubscriptionCB_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
@@ -446,6 +450,39 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.ClientWindow
                                 .OrderBy(u => u.SubscriptionID);
                 SubscriptionCB.SelectedValue = -1;
                 DateOfEndDP.Text = null;
+            }
+            else if (e.ChangedButton == MouseButton.Right)
+            {
+                if (SubscriptionCB.SelectedValue != null)
+                {
+                    subscription = DBEntities.GetContext().Subscription.
+                                            FirstOrDefault(u => u.SubscriptionID == (int)SubscriptionCB.SelectedValue);
+
+                    if (VariableClass.editSubscriptionWindow != null)
+                    {
+                        if (VariableClass.SubscriptionID == subscription.SubscriptionID)
+                        {
+                            VariableClass.editSubscriptionWindow.Focus();
+                            return;
+                        }
+                        else
+                        {
+                            VariableClass.editSubscriptionWindow.Close();
+                        }
+                    }
+
+
+                    VariableClass.SubscriptionID = subscription.SubscriptionID;
+
+                    VariableClass.editSubscriptionWindow =
+                                        new EditSubscriptionWindow(VariableClass.ListSubscriptionDG,
+                                                                   VariableClass.SearchTB,
+                                                                   VariableClass.SubscriptionTI,
+                                                                   VariableClass.CountUsersLB);
+
+                    VariableClass.editSubscriptionWindow.Show();
+                }
+
             }
         }
 
@@ -489,6 +526,35 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.ClientWindow
         private void PhoneTB_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             e.Handled = new Regex("[^0-9]+").IsMatch(e.Text);
+        }
+
+        private void SubscriptionCB_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+                SubscriptionCB.ItemsSource = DBEntities.GetContext().Subscription.ToList()
+                                .OrderBy(u => u.SubscriptionID);
+            
+        }
+
+        private void AddSubscriptionBT_Click(object sender, RoutedEventArgs e)
+        {
+            if (VariableClass.addSubscriptionWindow == null)
+            {
+                VariableClass.addSubscriptionWindow = new AddSubscriptionWindow(VariableClass.ListSubscriptionDG,
+                                                                       VariableClass.AddBT,
+                                                                       VariableClass.SearchTB,
+                                                                       VariableClass.SubscriptionTI,
+                                                                       VariableClass.CountUsersLB);
+                VariableClass.addSubscriptionWindow.Show();
+
+                VariableClass.SubscriptionWinisUsing = true;
+
+                VariableClass.AddBT.IsEnabled = false;
+            }
+            else
+            {
+                VariableClass.addSubscriptionWindow.Focus();
+            }
         }
     }
 }

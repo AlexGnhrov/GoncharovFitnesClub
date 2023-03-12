@@ -169,6 +169,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.AdditionalWIndow
 
                     oldName = SpecialityTB.Text;
 
+
                 }
                 catch (Exception ex)
                 {

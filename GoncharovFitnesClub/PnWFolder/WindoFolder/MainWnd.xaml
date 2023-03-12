@@ -14,7 +14,7 @@
         MinHeight="650" MinWidth="950"
         Icon="/GoncharovFitnesClub;component/ResourseFolder/ImageFolder/Logo.png"
         Title="{Binding ElementName=MainFrame, Path=Content.Title}" 
-        MouseDown="Window_MouseDown" Closing="Window_Closing">
+        MouseDown="Window_MouseDown" Closing="Window_Closing" >
 
 
 
