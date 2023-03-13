@@ -206,6 +206,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow
                 if (selectedFileName != "")
                     coach.Photo = LoadAndReadImage.ConvertImageToByteArray(selectedFileName);
 
+
                 coach.Surname = SplitSNP[0];
                 coach.Name = SplitSNP[1];
                 if (SplitSNP.Length == 3) 
@@ -389,8 +390,9 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow
             if (openFileDialog.ShowDialog() == true)
             {
                 selectedFileName = openFileDialog.FileName;
-                coach.Photo = LoadAndReadImage.ConvertImageToByteArray(selectedFileName);
-                PhotoIB.ImageSource = LoadAndReadImage.ConvertByteArrayImage(coach.Photo);
+
+                PhotoIB.ImageSource = 
+                    LoadAndReadImage.ConvertByteArrayImage(LoadAndReadImage.ConvertImageToByteArray(selectedFileName));
 
 
             }

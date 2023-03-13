@@ -43,10 +43,12 @@
             <Border Background="White" Opacity="1"
                     Grid.RowSpan="10" Grid.ColumnSpan="3"
                     BorderBrush="Black" BorderThickness="0.7"
-                    CornerRadius="10"
-                    materialDesign:ShadowAssist.Darken="True"
-                    materialDesign:ShadowAssist.ShadowEdges="All"
-                    materialDesign:ShadowAssist.ShadowDepth="Depth2"/>
+                    CornerRadius="10">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="50"  Direction ="-10" RenderingBias ="Performance" ShadowDepth ="2" Color ="Black" />
+                </Border.Effect>
+            </Border>
+            
 
             <Image Grid.Column="1" Grid.Row="2" Width="110"
                    Source="/GoncharovFitnesClub;component/ResourseFolder/ImageFolder/Logo.png" />

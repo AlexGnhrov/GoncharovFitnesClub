@@ -387,8 +387,8 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow
             if (openFileDialog.ShowDialog() == true)
             {
                 selectedFileName = openFileDialog.FileName;
-                coach.Photo = LoadAndReadImage.ConvertImageToByteArray(selectedFileName);
-                PhotoIB.ImageSource = LoadAndReadImage.ConvertByteArrayImage(coach.Photo);
+                PhotoIB.ImageSource = 
+                    LoadAndReadImage.ConvertByteArrayImage(LoadAndReadImage.ConvertImageToByteArray(selectedFileName));
 
             }
         }

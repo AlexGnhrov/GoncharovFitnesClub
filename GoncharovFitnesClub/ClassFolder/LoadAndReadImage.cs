@@ -57,6 +57,7 @@ namespace GoncharovFitnesClub.ClassFolder
         /// <returns>Массив байтов</returns>
         public static byte[] ConvertImageToByteArray(string fileName)
         {
+
             Bitmap bitmap = new Bitmap(fileName);
             ImageFormat imageFormat = bitmap.RawFormat;
 

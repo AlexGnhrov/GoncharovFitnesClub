@@ -19,7 +19,8 @@
 
 
     <Border x:Name="MainB" MouseDown="MainB_MouseDown" BorderBrush="Gray" BorderThickness="1"
-            Background="{StaticResource BorderColorMain}">
+            Background="{StaticResource BorderColorMain}" >
+
         <Grid >
             <Grid.RowDefinitions>
                 <RowDefinition Height="35" />
