@@ -72,7 +72,7 @@
                 <Border Style="{DynamicResource BorderImagePlace}"
                 MouseLeftButtonDown="Border_MouseLeftButtonDown" Cursor="Hand" Grid.Row="1"  >
                     <Border.Background>
-                        <ImageBrush x:Name="PhotoIB" Stretch="Fill" ImageSource="/GoncharovFitnesClub;component/ResourseFolder/ImageFolder/placeholderPhoto.jpg"/>
+                        <ImageBrush x:Name="PhotoIB" Stretch="Fill" ImageSource="../../../../ResourseFolder/ImageFolder/placeholderPhoto.png"/>
                     </Border.Background>
                 </Border>
 

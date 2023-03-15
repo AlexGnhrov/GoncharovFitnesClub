@@ -202,6 +202,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow
 
                 if (selectedFileName != "")
                     coach.Photo = LoadAndReadImage.ConvertImageToByteArray(selectedFileName);
+                
 
                 coach.Surname = SplitSNP[0];
                 coach.Name = SplitSNP[1];

@@ -66,6 +66,8 @@ namespace GoncharovFitnesClub.ClassFolder
             using (var ms = new MemoryStream())
             {
                 imageToConvert.Save(ms, imageFormat);
+
+
                 return ms.ToArray();
             }
 

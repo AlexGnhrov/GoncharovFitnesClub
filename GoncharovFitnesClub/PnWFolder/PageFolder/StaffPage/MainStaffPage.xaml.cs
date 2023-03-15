@@ -421,7 +421,6 @@ namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
                 {
                     Subscription subscription = DBEntities.GetContext().Subscription.FirstOrDefault(u => u.SubscriptionID == client.SubscriptionID);
 
-                    Console.WriteLine(subscription.VisitTime.TimeEnd +"\t"+ DateTime.Now.TimeOfDay);
 
                     if (client.DateOfEnd <= DateTime.Now &&
                         subscription.VisitTime.TimeEnd < DateTime.Now.TimeOfDay &&

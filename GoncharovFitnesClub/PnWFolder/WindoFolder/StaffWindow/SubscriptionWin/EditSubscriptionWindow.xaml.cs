@@ -305,7 +305,6 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
 
                 if (MWSubscriptionTI.IsSelected)
                 {
-                    MBClass.Error("");
 
                     MWListSubscriptionDG.ItemsSource = DBEntities.GetContext().
                                  Subscription.Where(u => u.NameSubscription.StartsWith(MWSearchTB.Text)

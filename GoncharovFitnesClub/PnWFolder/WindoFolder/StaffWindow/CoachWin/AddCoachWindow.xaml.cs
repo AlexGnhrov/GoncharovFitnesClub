@@ -211,6 +211,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow
                 coach.Name = SplitSNP[1];
                 if (SplitSNP.Length == 3) 
                     coach.Patronymic = SplitSNP[2];
+
                 coach.PhoneNum = PhoneTB.Text;
                 coach.Email = EmailTB.Text;
                 coach.SpecialityID = (int)SpecialityCB.SelectedValue;

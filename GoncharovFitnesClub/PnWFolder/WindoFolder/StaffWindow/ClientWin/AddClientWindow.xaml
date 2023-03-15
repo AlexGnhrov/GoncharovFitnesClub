@@ -178,18 +178,29 @@
                     Grid.Row="6"
                     Foreground="White"
                     materialDesign:HintAssist.Hint="Абонемент"
-                    DisplayMemberPath="NameSubscription"
                     SelectedValuePath="SubscriptionID"
                     ItemsSource="{Binding Subscription}"
+                          
                     MouseDoubleClick="SubscriptionCB_MouseDoubleClick"
                     SelectionChanged="SubscriptionCB_SelectionChanged"
-                          GotFocus="SubscriptionCB_GotFocus"
+                    GotFocus="SubscriptionCB_GotFocus"
                           
                     materialDesign:HintAssist.Background="{x:Null}"                  
                     materialDesign:HintAssist.Foreground="White"
                     materialDesign:HintAssist.FloatingScale="0.9" 
-                    materialDesign:HintAssist.FloatingOffset="-10,-38.7" Margin="20,15,88,15"      
-                         >
+                    materialDesign:HintAssist.FloatingOffset="-10,-38.7" Margin="20,15,88,15">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}{0} - ({1}р.)">
+                                        <Binding Path="NameSubscription"/>
+                                        <Binding Path="Price"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
                     <ComboBox.Resources>
                         <SolidColorBrush x:Key="MaterialDesignPaper" Color="Gray"/>
                     </ComboBox.Resources>
