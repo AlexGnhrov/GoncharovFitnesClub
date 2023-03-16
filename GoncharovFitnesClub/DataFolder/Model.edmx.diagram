@@ -4,15 +4,16 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="467d1f9d515a470da7d2b8ba4ace2d4d" Name="Diagram1">
+      <Diagram DiagramId="0ffbd228460d41e9894f1b992060553c" Name="Diagram1">
         <EntityTypeShape EntityType="DBModel.Client" Width="1.5" PointX="7.5" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="DBModel.Coach" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DBModel.Role" Width="1.5" PointX="7.75" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.Role" Width="1.5" PointX="7.75" PointY="6.375" IsExpanded="true" />
         <EntityTypeShape EntityType="DBModel.Speciality" Width="1.5" PointX="0.75" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.Staff" Width="1.5" PointX="12.25" PointY="6" IsExpanded="true" />
         <EntityTypeShape EntityType="DBModel.Status" Width="1.5" PointX="5.25" PointY="6" IsExpanded="true" />
         <EntityTypeShape EntityType="DBModel.Subscription" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="DBModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DBModel.User" Width="1.5" PointX="10" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.sysdiagrams" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBModel.User" Width="1.5" PointX="10" PointY="6" IsExpanded="true" />
         <EntityTypeShape EntityType="DBModel.VisitDate" Width="1.5" PointX="3" PointY="5.125" IsExpanded="true" />
         <EntityTypeShape EntityType="DBModel.VisitTime" Width="1.5" PointX="3" PointY="7.5" IsExpanded="true" />
         <AssociationConnector Association="DBModel.FK_Client_Status" ManuallyRouted="false" />
@@ -21,6 +22,7 @@
         <AssociationConnector Association="DBModel.FK_Subscription_Coach" ManuallyRouted="false" />
         <AssociationConnector Association="DBModel.FK_User_Role" ManuallyRouted="false" />
         <AssociationConnector Association="DBModel.FK_Subscription_Speciality" ManuallyRouted="false" />
+        <AssociationConnector Association="DBModel.FK_Staff_User" ManuallyRouted="false" />
         <AssociationConnector Association="DBModel.FK_Subscription_VisitDate" ManuallyRouted="false" />
         <AssociationConnector Association="DBModel.FK_Subscription_VisitTime" ManuallyRouted="false" />
       </Diagram>

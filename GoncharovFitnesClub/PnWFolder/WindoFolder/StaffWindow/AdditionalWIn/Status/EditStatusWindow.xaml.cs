@@ -154,6 +154,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.AdditionalWIndow
 
             var status = DBEntities.GetContext().Status.FirstOrDefault(u => u.NameStatus == StatusTB.Text);
 
+
             if (status != null && oldName != StatusTB.Text)
             {
                 MBClass.Error("Такой статус существует!");
@@ -216,6 +217,10 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.AdditionalWIndow
         {
             status = DBEntities.GetContext().Status.FirstOrDefault(u => u.StatusID == VariableClass.StatusID);
 
+            if (status.StatusID == 2 || status.StatusID == 4)
+                DeleteBT.IsEnabled = false;
+
+
             StatusTB.Text = oldName = status.NameStatus;
         }
 
@@ -224,8 +229,8 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.AdditionalWIndow
             try
             {
                 var StatusIsUsing = DBEntities.GetContext().Client.FirstOrDefault(u => u.StatusID == VariableClass.StatusID);
-                
-                if(StatusIsUsing != null)
+
+                if (StatusIsUsing != null)
                 {
                     MBClass.Error("Данный статус установлен у клиента!\n" +
                         "Убедитесь, что этот статус отсутствует.");

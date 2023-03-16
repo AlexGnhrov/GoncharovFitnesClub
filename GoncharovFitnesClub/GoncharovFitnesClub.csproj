@@ -129,6 +129,9 @@
     <Compile Include="DataFolder\Speciality.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataFolder\Staff.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataFolder\Status.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -156,11 +159,17 @@
     <Compile Include="PnWFolder\PageFolder\StaffPage\MainStaffPage.xaml.cs">
       <DependentUpon>MainStaffPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PnWFolder\WindoFolder\AdminWin\AdminAddUserWindow.xaml.cs">
+    <Compile Include="PnWFolder\WindoFolder\AdminWin\AddStaffWindow.xaml.cs">
+      <DependentUpon>AddStaffWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PnWFolder\WindoFolder\AdminWin\UserData\AdminAddUserWindow.xaml.cs">
       <DependentUpon>AdminAddUserWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PnWFolder\WindoFolder\AdminWin\AdminEditUserWindow.xaml.cs">
+    <Compile Include="PnWFolder\WindoFolder\AdminWin\UserData\AdminEditUserWindow.xaml.cs">
       <DependentUpon>AdminEditUserWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PnWFolder\WindoFolder\AdminWin\EditStaffWindow.xaml.cs">
+      <DependentUpon>EditStaffWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="PnWFolder\WindoFolder\MainWnd.xaml.cs">
       <DependentUpon>MainWnd.xaml</DependentUpon>
@@ -255,6 +264,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="PnWFolder\WindoFolder\AdminWin\AddStaffWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PnWFolder\WindoFolder\AdminWin\EditStaffWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PnWFolder\WindoFolder\StaffWindow\AdditionalWIn\Status\AddStatusWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -315,11 +332,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PnWFolder\WindoFolder\AdminWin\AdminAddUserWindow.xaml">
+    <Page Include="PnWFolder\WindoFolder\AdminWin\UserData\AdminAddUserWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PnWFolder\WindoFolder\AdminWin\AdminEditUserWindow.xaml">
+    <Page Include="PnWFolder\WindoFolder\AdminWin\UserData\AdminEditUserWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -347,6 +364,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="ResourseFolder\ImageFolder\placeholderPhoto.png" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="DataFolder\Model.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model.edmx</DependentUpon>
@@ -357,9 +377,7 @@
       <DependentUpon>Model.edmx</DependentUpon>
       <LastGenOutput>Model.cs</LastGenOutput>
     </Content>
-    <Resource Include="ResourseFolder\ImageFolder\placeholderPhoto.png" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.4.6.1\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.6.1\build\MaterialDesignThemes.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

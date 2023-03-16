@@ -47,6 +47,18 @@
           <Property Name="SpecialityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="NameSpeciality" Type="nvarchar" MaxLength="60" Nullable="false" />
         </EntityType>
+        <EntityType Name="Staff">
+          <Key>
+            <PropertyRef Name="StaffID" />
+          </Key>
+          <Property Name="StaffID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Patronymic" Type="nvarchar" MaxLength="30" />
+          <Property Name="PhoneNum" Type="nvarchar" MaxLength="17" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="30" />
+          <Property Name="UserID" Type="int" />
+        </EntityType>
         <EntityType Name="Status">
           <Key>
             <PropertyRef Name="StatusID" />
@@ -85,6 +97,7 @@
           <Property Name="Login" Type="nvarchar" MaxLength="30" Nullable="false" />
           <Property Name="Password" Type="nvarchar" MaxLength="30" Nullable="false" />
           <Property Name="RoleID" Type="int" Nullable="false" />
+          <Property Name="IsUsing" Type="bit" />
         </EntityType>
         <EntityType Name="VisitDate">
           <Key>
@@ -134,6 +147,18 @@
             </Principal>
             <Dependent Role="Coach">
               <PropertyRef Name="SpecialityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Staff_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Staff" Type="Self.Staff" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Staff">
+              <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -202,6 +227,7 @@
           <EntitySet Name="Coach" EntityType="Self.Coach" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Speciality" EntityType="Self.Speciality" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Staff" EntityType="Self.Staff" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Subscription" EntityType="Self.Subscription" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
@@ -219,6 +245,10 @@
           <AssociationSet Name="FK_Coach_Speciality" Association="Self.FK_Coach_Speciality">
             <End Role="Speciality" EntitySet="Speciality" />
             <End Role="Coach" EntitySet="Coach" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Staff_User" Association="Self.FK_Staff_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Staff" EntitySet="Staff" />
           </AssociationSet>
           <AssociationSet Name="FK_Subscription_Coach" Association="Self.FK_Subscription_Coach">
             <End Role="Coach" EntitySet="Coach" />
@@ -295,6 +325,19 @@
           <NavigationProperty Name="Coach" Relationship="Self.FK_Coach_Speciality" FromRole="Speciality" ToRole="Coach" />
           <NavigationProperty Name="Subscription" Relationship="Self.FK_Subscription_Speciality" FromRole="Speciality" ToRole="Subscription" />
         </EntityType>
+        <EntityType Name="Staff">
+          <Key>
+            <PropertyRef Name="StaffID" />
+          </Key>
+          <Property Name="StaffID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Surname" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Patronymic" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNum" Type="String" MaxLength="17" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="UserID" Type="Int32" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Staff_User" FromRole="Staff" ToRole="User" />
+        </EntityType>
         <EntityType Name="Status">
           <Key>
             <PropertyRef Name="StatusID" />
@@ -339,7 +382,9 @@
           <Property Name="Login" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Password" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="RoleID" Type="Int32" Nullable="false" />
+          <Property Name="IsUsing" Type="Boolean" />
           <NavigationProperty Name="Role" Relationship="Self.FK_User_Role" FromRole="User" ToRole="Role" />
+          <NavigationProperty Name="Staff" Relationship="Self.FK_Staff_User" FromRole="User" ToRole="Staff" />
         </EntityType>
         <EntityType Name="VisitDate">
           <Key>
@@ -430,6 +475,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Staff_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Staff" Type="Self.Staff" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Staff">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Subscription_VisitDate">
           <End Role="VisitDate" Type="Self.VisitDate" Multiplicity="1" />
           <End Role="Subscription" Type="Self.Subscription" Multiplicity="*" />
@@ -459,6 +516,7 @@
           <EntitySet Name="Coach" EntityType="Self.Coach" />
           <EntitySet Name="Role" EntityType="Self.Role" />
           <EntitySet Name="Speciality" EntityType="Self.Speciality" />
+          <EntitySet Name="Staff" EntityType="Self.Staff" />
           <EntitySet Name="Status" EntityType="Self.Status" />
           <EntitySet Name="Subscription" EntityType="Self.Subscription" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
@@ -488,6 +546,10 @@
           <AssociationSet Name="FK_Subscription_Speciality" Association="Self.FK_Subscription_Speciality">
             <End Role="Speciality" EntitySet="Speciality" />
             <End Role="Subscription" EntitySet="Subscription" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Staff_User" Association="Self.FK_Staff_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Staff" EntitySet="Staff" />
           </AssociationSet>
           <AssociationSet Name="FK_Subscription_VisitDate" Association="Self.FK_Subscription_VisitDate">
             <End Role="VisitDate" EntitySet="VisitDate" />
@@ -550,6 +612,19 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Staff">
+            <EntityTypeMapping TypeName="DBModel.Staff">
+              <MappingFragment StoreEntitySet="Staff">
+                <ScalarProperty Name="StaffID" ColumnName="StaffID" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="PhoneNum" ColumnName="PhoneNum" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Status">
             <EntityTypeMapping TypeName="DBModel.Status">
               <MappingFragment StoreEntitySet="Status">
@@ -590,6 +665,7 @@
                 <ScalarProperty Name="Login" ColumnName="Login" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="IsUsing" ColumnName="IsUsing" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

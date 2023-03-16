@@ -1,5 +1,7 @@
 ﻿using GoncharovFitnesClub.ClassFolder;
 using GoncharovFitnesClub.DataFolder;
+using GoncharovFitnesClub.PnWFolder.WindoFolder.AdminWin;
+using GoncharovFitnesClub.PnWFolder.WindoFolder.AdminWin.UserData;
 using GoncharovFitnesClub.WindoFolder.AdminWindow;
 using System;
 using System.Collections.Generic;
@@ -29,12 +31,30 @@ namespace GoncharovFitnesClub.PageFolder.AdminPage
         {
 
             InitializeComponent();
-            ListUserDG.ItemsSource = DBEntities.GetContext().User.ToList()
-                .OrderBy(u => u.UserID);
 
-            CountUsersLB.Content = "Количество пользователей: " + DBEntities.GetContext().User.ToArray().Length;
+            UpdateData();
         }
 
+
+        private void ListStaffDG_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var SelectedStaff = DBEntities.GetContext().Staff.ToArray();
+
+            for (int i = 0; i < SelectedStaff.Length; i++)
+            {
+
+                Staff staff = SelectedStaff[i];
+
+                User user = DBEntities.GetContext().User.First(u => u.UserID == staff.UserID);
+
+                user.IsUsing = true;
+
+                DBEntities.GetContext().SaveChanges();
+
+            }
+
+            UpdateData();
+        }
 
 
         private void ListUserDG_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -49,62 +69,59 @@ namespace GoncharovFitnesClub.PageFolder.AdminPage
 
         private void OpenEdit()
         {
-            if (ListUserDG.SelectedItem != null)
+            if (ListStaffDG.SelectedItem != null)
             {
-                User user = ListUserDG.SelectedItem as User;
+                Staff staff = ListStaffDG.SelectedItem as Staff;
 
-                for (int i = 0; i < 3; i++)
+                if (VariableClass.editStaffWindow != null)
                 {
-                    if (user.UserID == VariableClass.SelectedUserID[i])
+                    if (VariableClass.StaffID == staff.StaffID)
                     {
-                        MBClass.Error("Данный пользователь уже редактируется!");
+                        VariableClass.editStaffWindow.Focus();
                         return;
                     }
+                    else
+                    {
+                        VariableClass.editStaffWindow.Close();
+                    }
                 }
-                if (VariableClass.CountEditWindowUser > 2)
-                {
-                    MBClass.Error("Превышен лимит окон!");
-                }
-                else
-                {
-                    VariableClass.UserID = user.UserID;
 
-                    new AdminEditUserWindow(ListUserDG, SearchTB).Show();
+                VariableClass.StaffID = staff.StaffID;
 
-                    ++VariableClass.CountEditWindowUser;
-                }
+                VariableClass.editStaffWindow = new EditStaffWindow(ListStaffDG, SearchTB, CountUsersLB);
+                VariableClass.editStaffWindow.Show();
+
+
             }
-                
+
         }
 
 
         private void DeleteUser_Click(object sender, RoutedEventArgs e)
         {
-            User user = ListUserDG.SelectedItem as User;
+            Staff staff = ListStaffDG.SelectedItem as Staff;
 
-            if (ListUserDG.SelectedItem != null)
+            if (ListStaffDG.SelectedItem != null)
             {
-                for (int i = 0; i < 3; i++)
+                if (VariableClass.editStaffWindow != null && VariableClass.StaffID == staff.StaffID)
                 {
-                    if (user.UserID == VariableClass.SelectedUserID[i])
-                    {
-                        MBClass.Error("Данный пользователь редактируется!\n" +
-                                      "Закройте окно редактирования");
-                        return;
-                    }
+                    MBClass.Error("Данный сотрудник редактируется!\n" +
+                                  "Убедитесь, что окно редактирования закрыто! ");
                 }
-                if (MBClass.Question("Вы действительно хотите удалить этого пользователя?"))
+                else if (MBClass.Question("Вы действительно хотите удалить этого сотрудника?"))
                 {
                     try
                     {
-                        DBEntities.GetContext().User.Remove(ListUserDG.SelectedItem as User);
+
+                        User user = DBEntities.GetContext().User.FirstOrDefault(u => u.UserID == staff.UserID);
+
+                        DBEntities.GetContext().Staff.Remove(ListStaffDG.SelectedItem as Staff);
+
+                        user.IsUsing = false;
 
                         DBEntities.GetContext().SaveChanges();
 
-                        ListUserDG.ItemsSource = DBEntities.GetContext().
-                                                User.Where(u => u.Login.StartsWith(SearchTB.Text)
-                                                || u.Role.NameRole.StartsWith(SearchTB.Text)).ToList().OrderBy(u => u.UserID);
-
+                        UpdateData();
                     }
                     catch (Exception ex)
                     {
@@ -115,18 +132,17 @@ namespace GoncharovFitnesClub.PageFolder.AdminPage
             }
         }
 
-        private void AddUserBT_Click(object sender, RoutedEventArgs e)
+        private void AddStaffBT_Click(object sender, RoutedEventArgs e)
         {
 
 
-            if (!VariableClass.AddUserWinisUsing)
-            {
-                new AdminAddUserWindow(ListUserDG, AddUserBT, SearchTB).Show();
 
-                VariableClass.AddUserWinisUsing = true;
+            new AddStaffWindow(ListStaffDG, AddStaffBT, SearchTB,CountUsersLB).Show();
 
-                AddUserBT.IsEnabled = false;
-            }
+            VariableClass.AddStaffWinisUsing = true;
+
+            AddStaffBT.IsEnabled = false;
+
 
         }
 
@@ -145,13 +161,13 @@ namespace GoncharovFitnesClub.PageFolder.AdminPage
                     WipeSearchLB.Visibility = Visibility.Hidden;
                 }
 
-
-
-                ListUserDG.ItemsSource = DBEntities.GetContext().
-                                        User.Where(u => u.Login.StartsWith(SearchTB.Text)
-                                        || u.Role.NameRole.StartsWith(SearchTB.Text)).ToList().OrderBy(u=>u.UserID);
-
-                CountUsersLB.Content = "Количество пользователей: "+ DBEntities.GetContext().User.ToArray().Length;
+                ListStaffDG.ItemsSource = DBEntities.GetContext().
+                                Staff.Where(u => u.Surname.StartsWith(SearchTB.Text) ||
+                                            u.Name.StartsWith(SearchTB.Text) ||
+                                            u.Patronymic.StartsWith(SearchTB.Text) ||
+                                            u.User.Login.StartsWith(SearchTB.Text) ||
+                                            u.User.Role.NameRole.StartsWith(SearchTB.Text))
+                                            .ToList().OrderBy(u => u.StaffID);
             }
             catch (Exception ex)
             {
@@ -165,5 +181,19 @@ namespace GoncharovFitnesClub.PageFolder.AdminPage
         {
             SearchTB.Text = "";
         }
+
+        private void UpdateData()
+        {
+            ListStaffDG.ItemsSource = DBEntities.GetContext().
+                            Staff.Where(u => u.Surname.StartsWith(SearchTB.Text) ||
+                                        u.Name.StartsWith(SearchTB.Text) ||
+                                        u.Patronymic.StartsWith(SearchTB.Text) ||
+                                        u.User.Login.StartsWith(SearchTB.Text) ||
+                                        u.User.Role.NameRole.StartsWith(SearchTB.Text))
+                                        .ToList().OrderBy(u => u.StaffID);
+
+            CountUsersLB.Content = "Количество пользователей: " + ListStaffDG.Items.Count;
+        }
+
     }
 }

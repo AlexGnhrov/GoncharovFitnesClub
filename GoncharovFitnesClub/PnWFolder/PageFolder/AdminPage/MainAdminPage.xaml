@@ -60,16 +60,18 @@
         </Border>
 
 
-        <Button x:Name="AddUserBT"
+        <Button x:Name="AddStaffBT"
                 Grid.Row="1" Grid.Column="2"
-                Content="Добавить пользователя" 
+                Content="Добавить сотрудника" 
                 materialDesign:ButtonAssist.CornerRadius="10"
-                Click="AddUserBT_Click" Margin="20,14" />
+                Click="AddStaffBT_Click" Margin="20,14" />
 
-        <DataGrid x:Name="ListUserDG" Margin="20,10"
+        <DataGrid x:Name="ListStaffDG" Margin="20,10"
                   Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
                   AutoGenerateColumns="False" IsReadOnly="True"
-                  MouseDoubleClick="ListUserDG_MouseDoubleClick" ClipToBounds="True" >
+                  MouseDoubleClick="ListUserDG_MouseDoubleClick"
+                  SelectionChanged="ListStaffDG_SelectionChanged"
+                  ClipToBounds="True" >
 
             <DataGrid.ContextMenu>
                 <ContextMenu Name="PopUpMenu">
@@ -79,12 +81,30 @@
                 </ContextMenu>
             </DataGrid.ContextMenu>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Логин" Width="*"
-                                    Binding="{Binding Login}"/>
-                <DataGridTextColumn Header="Пароль" Width="*"
-                                    Binding="{Binding Password}"/>
+                <DataGridTextColumn Header="ФИО Сотрудника" Width="255">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding StringFormat="{}{0} {1} {2}">
+                            <Binding Path="Surname"/>
+                            <Binding Path="Name"/>
+                            <Binding Path="Patronymic"/>
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Номер телефона" Width="150"
+                                     Binding="{Binding PhoneNum}"/>
+                <DataGridTextColumn Header="Почта" Width="*"
+                                     Binding="{Binding Email}"/>
+                <DataGridTextColumn Header="Логин / Пароль" Width="250">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding StringFormat="{}{0} / {1}">
+                            <Binding Path="User.Login"/>
+                            <Binding Path="User.Password"/>
+                            <Binding Path="User.Role.NameRole"/>
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
                 <DataGridTextColumn Header="Роль" Width="*"
-                                     Binding="{Binding Role.NameRole}"/>
+                                     Binding="{Binding User.Role.NameRole}"/>
             </DataGrid.Columns>
         </DataGrid>
 

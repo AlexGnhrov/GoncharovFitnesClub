@@ -212,7 +212,7 @@
                                 </MultiBinding>
                             </DataGridTextColumn.Binding>
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Количество дней" Width="200"
+                        <DataGridTextColumn Header="Количество дней" Width="155"
                                     Binding="{Binding AmountOfDays}"/>
                         <DataGridTextColumn Header="Дни посещения" Width="150"
                                     Binding="{Binding VisitDate.DayOfVisit}" />

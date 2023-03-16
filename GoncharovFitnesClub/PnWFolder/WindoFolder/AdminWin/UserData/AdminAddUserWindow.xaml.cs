@@ -16,16 +16,10 @@ namespace GoncharovFitnesClub.WindoFolder.AdminWindow
     /// </summary>
     public partial class AdminAddUserWindow : Window
     {
-        DataGrid MWdataGrid;
-        Button MWaddUserBT;
-        TextBox MWSearchTB;
         
-        public AdminAddUserWindow(DataGrid dataGrid, Button MWaddUserBT, TextBox textBox)
+        public AdminAddUserWindow()
         {
             InitializeComponent();
-            MWdataGrid = dataGrid;
-            this.MWaddUserBT = MWaddUserBT;
-            this.MWSearchTB = textBox;
 
             RoleCB.ItemsSource = DBEntities.GetContext().Role.ToList();
         }
@@ -198,17 +192,16 @@ namespace GoncharovFitnesClub.WindoFolder.AdminWindow
                 {
                     Login = LoginTB.Text,
                     Password = PasswordTB.Text,
-                    RoleID = (int)RoleCB.SelectedValue
-                });
+                    RoleID = (int)RoleCB.SelectedValue,
+                    IsUsing = false
+
+                }); 
 
                 DBEntities.GetContext().SaveChanges();
 
-                MBClass.Info("Пользователь успешно добавлен!");
+                MBClass.Info("Данные пользователя успешно добавлен!");
 
-
-                MWdataGrid.ItemsSource = DBEntities.GetContext().Coach.ToList()
-                                                .OrderBy(u => u.CoachID);
-
+                VariableClass.newUserDataCreated = true;
             }
             catch (Exception ex)
             {
@@ -267,8 +260,7 @@ namespace GoncharovFitnesClub.WindoFolder.AdminWindow
 
         private void CloseSetUp()
         {
-            VariableClass.AddUserWinisUsing = false;
-            MWaddUserBT.IsEnabled = true;
+            VariableClass.AddStaffWinisUsing = false;
         }
     }
 }

@@ -12,22 +12,16 @@ namespace GoncharovFitnesClub.DataFolder
     using System;
     using System.Collections.Generic;
     
-    public partial class User
+    public partial class Staff
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public User()
-        {
-            this.Staff = new HashSet<Staff>();
-        }
+        public int StaffID { get; set; }
+        public string Surname { get; set; }
+        public string Name { get; set; }
+        public string Patronymic { get; set; }
+        public string PhoneNum { get; set; }
+        public string Email { get; set; }
+        public Nullable<int> UserID { get; set; }
     
-        public int UserID { get; set; }
-        public string Login { get; set; }
-        public string Password { get; set; }
-        public int RoleID { get; set; }
-        public Nullable<bool> IsUsing { get; set; }
-    
-        public virtual Role Role { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Staff> Staff { get; set; }
+        public virtual User User { get; set; }
     }
 }

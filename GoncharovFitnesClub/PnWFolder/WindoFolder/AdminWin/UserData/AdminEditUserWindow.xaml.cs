@@ -15,34 +15,14 @@ namespace GoncharovFitnesClub.WindoFolder.AdminWindow
     /// </summary>
     public partial class AdminEditUserWindow : Window
     {
-        DataGrid MWListUserDG;
-        TextBox MWSearchTB;
 
         User user = new User();
 
-        int SaveUserID = VariableClass.UserID;
-        int savePosition;
-
         string oldLogin;
 
-        public AdminEditUserWindow(DataGrid MWListUserDG, TextBox MWSearchTB)
+        public AdminEditUserWindow()
         {
             InitializeComponent();
-
-            this.MWListUserDG = MWListUserDG;
-            this.MWSearchTB = MWSearchTB;
-
-
-            for (int i = 0; i < 3; i++)
-            {
-                if (VariableClass.SelectedUserID[i] == 0)
-                {
-                    VariableClass.SelectedUserID[i] = SaveUserID;
-                    savePosition = i;
-                    break;
-                }
-            }
-
 
             RoleCB.ItemsSource = DBEntities.GetContext().Role.ToList();
         }
@@ -76,7 +56,7 @@ namespace GoncharovFitnesClub.WindoFolder.AdminWindow
 
             if (!HideBIsUsing && !ResizeIsUsing && CloseB.IsMouseOver)
             {
-                CloseSetup();
+
                 Close();
             }
 
@@ -206,34 +186,33 @@ namespace GoncharovFitnesClub.WindoFolder.AdminWindow
             {
                 MBClass.Error("Такой логин уже существует!");
                 LoginTB.Focus();
-                return;
-            }   
-            try
-            {
-                user = DBEntities.GetContext().User.FirstOrDefault(u => u.UserID == SaveUserID);
-
-                user.Login = LoginTB.Text;
-                user.Password = PasswordTB.Text;
-                user.RoleID = (int)RoleCB.SelectedValue;
-                
-
-                DBEntities.GetContext().SaveChanges();
-
-                MBClass.Info("Пользователь успешно отредактирован!");
-
-                oldLogin = LoginTB.Text;
-
-                MWListUserDG.ItemsSource = DBEntities.GetContext().
-                        User.Where(u => u.Login.StartsWith(MWSearchTB.Text)
-                        || u.Role.NameRole.StartsWith(MWSearchTB.Text)).ToList().OrderBy(u => u.UserID);
-
-
 
             }
-            catch (Exception ex)
+            else
             {
+                try
+                {
+                    user = DBEntities.GetContext().User.FirstOrDefault(u => u.UserID == VariableClass.UserID);
 
-                MBClass.Error(ex);
+                    user.Login = LoginTB.Text;
+                    user.Password = PasswordTB.Text;
+                    user.RoleID = (int)RoleCB.SelectedValue;
+
+
+                    DBEntities.GetContext().SaveChanges();
+
+                    MBClass.Info("Пользователь успешно отредактирован!");
+
+                    oldLogin = LoginTB.Text;
+
+
+
+                }
+                catch (Exception ex)
+                {
+
+                    MBClass.Error(ex);
+                }
             }
         }
 
@@ -274,14 +253,22 @@ namespace GoncharovFitnesClub.WindoFolder.AdminWindow
             }
             if (e.Key == Key.Escape)
             {
-                CloseSetup();
                 Close();
             }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            user = DBEntities.GetContext().User.FirstOrDefault(u => u.UserID == SaveUserID);
+            var StaffIsUsing = DBEntities.GetContext().Staff.FirstOrDefault(u => u.StaffID == VariableClass.StaffID);
+
+
+            user = DBEntities.GetContext().User.FirstOrDefault(u => u.UserID == VariableClass.UserID);
+
+            if (user.UserID == 1 || user.UserID == 2 ||
+                StaffIsUsing != null &&  StaffIsUsing.UserID == VariableClass.UserID)
+            {
+                DeleteBT.IsEnabled = false;
+            }
 
             LoginTB.Text = user.Login;
             PasswordTB.Text = user.Password;
@@ -290,18 +277,20 @@ namespace GoncharovFitnesClub.WindoFolder.AdminWindow
             oldLogin = user.Login;
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+
+        private void DeleteBT_Click(object sender, RoutedEventArgs e)
         {
-            CloseSetup();
+            if (MBClass.Question("Вы действительно хотите удалить эти данные?"))
+            {
+                user = DBEntities.GetContext().User.FirstOrDefault(u => u.UserID == VariableClass.UserID);
+
+                DBEntities.GetContext().User.Remove(user);
+
+                DBEntities.GetContext().SaveChanges();
+
+                Close();
+
+            }
         }
-
-
-        private void CloseSetup()
-        {
-            --VariableClass.CountEditWindowUser;
-            VariableClass.SelectedUserID[savePosition] = 0;
-
-        }
-
     }
 }

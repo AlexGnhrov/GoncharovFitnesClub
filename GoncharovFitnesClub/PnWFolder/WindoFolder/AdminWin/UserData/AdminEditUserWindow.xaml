@@ -14,7 +14,7 @@
         MinHeight="450" MinWidth="375"
         Title="Редактирование пользователя"
         Icon="/GoncharovFitnesClub;component/ResourseFolder/ImageFolder/Logo.png"
-        KeyDown="Window_KeyDown" Loaded="Window_Loaded" Closing="Window_Closing" >
+        KeyDown="Window_KeyDown" Loaded="Window_Loaded"  >
 
     <Border x:Name="MainB" MouseDown="MainB_MouseDown" BorderBrush="Gray" BorderThickness="1"
                           Background="{StaticResource BorderColorMain}" >
@@ -116,11 +116,16 @@
 
                 <Button x:Name="EditUserBT" Grid.Row="6"
                         Content="Редактировать"
-                        Width="200"
                         materialDesign:ButtonAssist.CornerRadius="10"
                         IsEnabled="False"
                         BorderBrush="{StaticResource BorderAccentMain}"
-                        Click="AddUserBT_Click"/>
+                        Click="AddUserBT_Click" Margin="20,10,163,8"/>
+                <Button x:Name="DeleteBT" Grid.Row="6"
+                    Content="Удалить"
+                    materialDesign:ButtonAssist.CornerRadius="10"
+                    IsEnabled="True"
+                    Background="{StaticResource BorderAccentAdditional}"
+                    Click="DeleteBT_Click" Margin="229,10,20,8"/>
 
             </Grid>
         </Grid>

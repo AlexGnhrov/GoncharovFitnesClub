@@ -29,6 +29,7 @@ namespace GoncharovFitnesClub.DataFolder
         public virtual DbSet<Coach> Coach { get; set; }
         public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<Speciality> Speciality { get; set; }
+        public virtual DbSet<Staff> Staff { get; set; }
         public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<Subscription> Subscription { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
