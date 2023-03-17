@@ -45,10 +45,12 @@ namespace GoncharovFitnesClub.PageFolder.AdminPage
 
                 Staff staff = SelectedStaff[i];
 
-                User user = DBEntities.GetContext().User.First(u => u.UserID == staff.UserID);
+                if (VariableClass.StaffID == staff.StaffID && VariableClass.editStaffWindow == null)
+                {
+                    User user = DBEntities.GetContext().User.First(u => u.UserID == staff.UserID);
 
-                user.IsUsing = true;
-
+                    user.IsUsing = true;
+                }
                 DBEntities.GetContext().SaveChanges();
 
             }

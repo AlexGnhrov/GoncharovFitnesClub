@@ -48,9 +48,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.AdminWin
             PhoneTB.CaretIndex = 4;
 
 
-
-
-            UserDataCB.ItemsSource = DBEntities.GetContext().User.Where(u=>u.IsUsing == false).ToList().OrderBy(u => u.UserID);
+            UserDataCB.ItemsSource = DBEntities.GetContext().User.Where(u => u.IsUsing == false).ToList().OrderBy(u => u.UserID);
 
         }
 
@@ -477,7 +475,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.AdminWin
         {
            
             UserDataCB.ItemsSource = DBEntities.GetContext().
-                User.Where(u => u.IsUsing == false).ToList().OrderBy(u => u.UserID);
+               User.Where(u => u.IsUsing == false).ToList().OrderBy(u => u.UserID);
         }
     }
 }
