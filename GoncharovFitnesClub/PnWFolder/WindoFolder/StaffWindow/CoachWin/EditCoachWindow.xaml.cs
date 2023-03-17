@@ -219,7 +219,6 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow
                 if (MWCoachTI.IsSelected)
                 {
 
-                    //MBClass.Error("");
 
                     MWListCoachDG.ItemsSource = DBEntities.GetContext().Coach.Where(u => u.Surname.StartsWith(MWSearchTB.Text)
                             || u.Name.StartsWith(MWSearchTB.Text)

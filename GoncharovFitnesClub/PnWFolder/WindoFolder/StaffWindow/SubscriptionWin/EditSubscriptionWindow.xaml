@@ -17,7 +17,7 @@
         Title="Редактирование абонемента"
         Closing="Window_Closing" Loaded="Window_Loaded">
 
-    <Border x:Name="MainB" MouseDown="MainB_MouseDown" BorderBrush="Black" BorderThickness="0.6"
+    <Border x:Name="MainB" MouseDown="MainB_MouseDown"  BorderBrush="Gray" BorderThickness="1"
                           Background="{StaticResource BorderColorMain}" >
         <Grid >
             <Grid.RowDefinitions>
@@ -122,7 +122,6 @@
                     Grid.Row="3"
                     Foreground="White"
                     materialDesign:HintAssist.Hint="ФИО Тренера"
-                    DisplayMemberPath="Surname"
                     SelectedValuePath="CoachID"
                     ItemsSource="{Binding Coach}"
                                                    
@@ -131,8 +130,20 @@
                     materialDesign:HintAssist.FloatingScale="0.9" 
                     materialDesign:HintAssist.FloatingOffset="-10,-38.7" Grid.ColumnSpan="2"
                     SelectionChanged="CoachCB_SelectionChanged"
-                          GotFocus="CoachCB_GotFocus"
-                         >
+                          GotFocus="CoachCB_GotFocus">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}{0} {1} {2}">
+                                        <Binding Path="Surname"/>
+                                        <Binding Path="Name"/>
+                                        <Binding Path="Patronymic"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
                     <ComboBox.Resources>
                         <SolidColorBrush x:Key="MaterialDesignPaper" Color="Gray"/>
                     </ComboBox.Resources>
