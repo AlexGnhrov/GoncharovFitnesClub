@@ -14,7 +14,9 @@
         MinHeight="650" MinWidth="950"
         Icon="/GoncharovFitnesClub;component/ResourseFolder/ImageFolder/Logo.png"
         Title="{Binding ElementName=MainFrame, Path=Content.Title}" 
-        MouseDown="Window_MouseDown" Closing="Window_Closing" >
+        MouseDown="Window_MouseDown"
+        Closing="Window_Closing"
+ MouseMove="Window_MouseMove">
 
 
 
@@ -25,7 +27,8 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="35" />
                 <RowDefinition Height="30" />
-                <RowDefinition/>
+                <RowDefinition Height="381*"/>
+                <RowDefinition Height="202*"/>
             </Grid.RowDefinitions>
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -90,7 +93,18 @@
                 </Menu>
             </Border>
 
-            <Frame x:Name="MainFrame" Grid.Row="2" NavigationUIVisibility="Hidden" />
+            <Frame x:Name="MainFrame" Grid.Row="2" NavigationUIVisibility="Hidden" Grid.RowSpan="2" />
+
+            <Border x:Name="RightCornerB"
+                    Background="Black" Width="10"  Opacity="0"
+                    HorizontalAlignment="Right" Grid.RowSpan="4" Cursor="SizeWE"
+                    Margin="0,15,-5,15" />
+            <Border x:Name="BottomCornerB"
+                Background="Black" Opacity="0"
+                VerticalAlignment="Bottom" Cursor="SizeNS"
+                Margin="15,0,15,-5" Grid.Row="3" Height="10"/>
+
         </Grid>
     </Border>
+
 </Window>

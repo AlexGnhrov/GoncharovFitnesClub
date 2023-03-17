@@ -192,7 +192,7 @@ namespace GoncharovFitnesClub.PageFolder.AdminPage
                                         u.User.Role.NameRole.StartsWith(SearchTB.Text))
                                         .ToList().OrderBy(u => u.StaffID);
 
-            CountUsersLB.Content = "Количество пользователей: " + ListStaffDG.Items.Count;
+            CountUsersLB.Content = "Колиество сотрудников: " + ListStaffDG.Items.Count;
         }
 
     }

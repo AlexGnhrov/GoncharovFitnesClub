@@ -1,5 +1,6 @@
 ﻿using GoncharovFitnesClub.ClassFolder;
 using GoncharovFitnesClub.PageFolder;
+using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -226,6 +227,7 @@ namespace GoncharovFitnesClub.WindoFolder
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
+
             if (e.ChangedButton == MouseButton.Middle)
             {
                 foreach (Window item in App.Current.Windows)
@@ -249,6 +251,68 @@ namespace GoncharovFitnesClub.WindoFolder
             }
 
         }
+
+
+        Point MousePosition;
+
+
+        private void Window_MouseMove(object sender, MouseEventArgs e)
+        {
+
+
+            if (Width < 950)
+            {
+                Width = 950;
+                return;
+            }
+            if (Height < 650)
+            {
+                Height = 650;
+                return;
+            }
+
+          
+
+            if (RightCornerB.IsMouseOver && e.LeftButton == MouseButtonState.Pressed)
+            {
+                RightCornerB.CaptureMouse();
+
+                MousePosition = Mouse.GetPosition(RightCornerB);
+
+                if (MousePosition.X < -949)
+                {
+
+                    return;
+                }
+                Width += (int)MousePosition.X;
+
+            }
+            else if (BottomCornerB.IsMouseOver && e.LeftButton == MouseButtonState.Pressed)
+            {
+                BottomCornerB.CaptureMouse();
+
+                MousePosition = Mouse.GetPosition(BottomCornerB);
+
+                if (MousePosition.Y < -649)
+                {        
+                    return;
+                }
+                Height += (int)MousePosition.Y;
+
+            }
+            else if (Mouse.LeftButton == MouseButtonState.Released)
+            {
+                RightCornerB.ReleaseMouseCapture();
+                BottomCornerB.ReleaseMouseCapture();
+            }
+
+
+
+
+
+
+        }
+
 
     }
 }

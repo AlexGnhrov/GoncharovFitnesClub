@@ -241,8 +241,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.AdminWin
                                                     u.User.Role.NameRole.StartsWith(MWSearchTB.Text))
                                                     .ToList().OrderBy(u => u.StaffID);
 
-
-                MWCountLabel.Content = "Количество пользователей: " + DBEntities.GetContext().Staff.ToArray().Length;
+                MWCountLabel.Content =  = "Колиество сотрудников: " + DBEntities.GetContext().Staff.ToArray().Length;
 
                 VariableClass.StaffID = staff.StaffID;
             }

@@ -28,7 +28,7 @@
 
 
         <Label Grid.Column="1"
-               Content="Список пользователей"
+               Content="Список сотрудников"
                Style="{DynamicResource LabelMain}"
                Foreground="White"  Grid.ColumnSpan="2"/>
 
@@ -110,7 +110,7 @@
 
 
         <Label x:Name="CountUsersLB" Grid.Column="1" FontSize="12" Height="35"
-            Content="Колиество пользователей: "
+            Content="Колиество сотрудников: "
             VerticalAlignment="Center"
             Foreground="White" Margin="20,0" Grid.Row="3" Grid.RowSpan="2"  Grid.ColumnSpan="2"  />
     </Grid>
