@@ -507,8 +507,14 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
 
         private void CoachCB_GotFocus(object sender, RoutedEventArgs e)
         {
-            CoachCB.ItemsSource = CoachCB.ItemsSource = DBEntities.GetContext().Coach
-                    .Where(u => u.SpecialityID == (int)SpecialityCB.SelectedValue).ToList();
+            if (SpecialityCB.SelectedValue != null)
+            {
+
+                CoachCB.ItemsSource = DBEntities.GetContext().Coach.Where(u => u.SpecialityID == (int)SpecialityCB.SelectedValue).ToList();
+
+                CoachCB.IsEnabled = true;
+
+            }
         }
     }
 }
