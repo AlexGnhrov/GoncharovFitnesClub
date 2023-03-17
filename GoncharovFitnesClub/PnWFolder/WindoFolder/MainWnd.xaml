@@ -16,7 +16,7 @@
         Title="{Binding ElementName=MainFrame, Path=Content.Title}" 
         MouseDown="Window_MouseDown"
         Closing="Window_Closing"
- MouseMove="Window_MouseMove">
+        MouseMove="Window_MouseMove">
 
 
 

@@ -222,9 +222,37 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.AdminWin
 
                 staff.PhoneNum = PhoneTB.Text;
                 staff.Email = EmailTB.Text;
+
+                if (user.IsUsing == true)
+                {
+                    MBClass.Error("Данны уже используются!\n" +
+                                  "Создайте новые данные!");
+
+                    UserDataCB.SelectedValue = null;
+                    return;
+                }
+
+                object[] checkStaff = DBEntities.GetContext().Staff.ToArray();
+
+                for (int i = 0; i < checkStaff.Length; i++)
+                {
+                    Staff checkingStaff = checkStaff[i] as Staff;
+
+                    if(checkingStaff.UserID == (int)UserDataCB.SelectedValue)
+                    {
+                        MBClass.Error("Эти данные присутствуют у редактируемого сотрудника!\n");
+                        return;
+                    }
+                    
+                }
+
+                
+
+
                 staff.UserID = SaveUsing = (int)UserDataCB.SelectedValue;
 
                 user.IsUsing = true;
+                
 
                 DBEntities.GetContext().Staff.Add(staff);
 
@@ -401,6 +429,8 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.AdminWin
                 UserDataCB.SelectedIndex = UserDataCB.Items.Count - 1;
                 VariableClass.newUserDataCreated = false;
 
+                Focus();
+
             }
         }
 
@@ -434,15 +464,20 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.AdminWin
               
                 UserDataCB.ItemsSource = DBEntities.GetContext().User.Where(u => u.IsUsing == false).ToList().OrderBy(u => u.UserID);
 
-                
-
-
+                Focus();
             }
         }
 
         private void PhoneTB_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             e.Handled = new Regex("[^0-9]+").IsMatch(e.Text);
+        }
+
+        private void UserDataCB_GotFocus(object sender, RoutedEventArgs e)
+        {
+           
+            UserDataCB.ItemsSource = DBEntities.GetContext().
+                User.Where(u => u.IsUsing == false).ToList().OrderBy(u => u.UserID);
         }
     }
 }

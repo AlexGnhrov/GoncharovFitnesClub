@@ -421,6 +421,8 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
                 VisitDateCB.ItemsSource = DBEntities.GetContext().VisitDate.
                     ToList().OrderBy(u => u.VisitDateID);
 
+
+                Focus();
             }
         }
 
@@ -450,6 +452,9 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
 
                 VisitDateCB.SelectedIndex = VisitDateCB.Items.Count - 1;
                 VariableClass.newVisitDayCreated = false;
+
+
+                Focus();
 
             }
         }
@@ -482,6 +487,9 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
                 VisitTimeCB.ItemsSource = DBEntities.GetContext().VisitTime.
                     ToList().OrderBy(u => u.VisitTimeID);
 
+
+                Focus();
+
             }
         }
 
@@ -502,6 +510,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
                 VisitTimeCB.SelectedIndex = VisitTimeCB.Items.Count - 1;
                 VariableClass.newVisitTimeCreated = false;
 
+                Focus();
             }
         }
 

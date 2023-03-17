@@ -117,7 +117,7 @@
                           ItemsSource="{Binding User}"
                           MouseDoubleClick="UserDataCB_MouseDoubleClick"
                           SelectionChanged="UserDataCB_SelectionChanged"
-                                                   
+                          GotFocus="UserDataCB_GotFocus"
                            materialDesign:HintAssist.Background="{x:Null}"                  
                            materialDesign:HintAssist.Foreground="White"
                            materialDesign:HintAssist.FloatingScale="0.9" 

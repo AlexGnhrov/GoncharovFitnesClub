@@ -356,6 +356,9 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Client
                 StatusCB.SelectedIndex = StatusCB.Items.Count - 1;
                 VariableClass.newStatusCreated = false;
 
+
+                Focus();
+
             }
         }
 
@@ -372,6 +375,8 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Client
                 StatusCB.ItemsSource = DBEntities.GetContext().Status.ToList()
                     .OrderBy(u => u.StatusID);
 
+
+                Focus();
             }
         }
 
@@ -542,6 +547,8 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Client
                 VariableClass.SubscriptionWinisUsing = true;
 
                 VariableClass.AddBT.IsEnabled = false;
+
+                Focus();
             }
             else
             {

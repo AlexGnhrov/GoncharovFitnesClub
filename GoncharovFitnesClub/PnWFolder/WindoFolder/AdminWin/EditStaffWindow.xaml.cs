@@ -451,5 +451,11 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.AdminWin.UserData
 
 
         }
+
+        private void UserDataCB_GotFocus(object sender, RoutedEventArgs e)
+        {
+            UserDataCB.ItemsSource = DBEntities.GetContext().
+                User.Where(u => u.IsUsing == false).ToList().OrderBy(u => u.UserID);
+        }
     }
 }

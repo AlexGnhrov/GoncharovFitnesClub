@@ -405,6 +405,9 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow
                 SpecialityCB.SelectedIndex = SpecialityCB.Items.Count - 1;
                 VariableClass.newSpecialityCreated = false;
 
+
+                Focus();
+
             }
         }
 
@@ -424,6 +427,8 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow
                 SpecialityCB.ItemsSource = DBEntities.GetContext().Speciality.ToList()
                     .OrderBy(u => u.SpecialityID);
 
+
+                Focus();
             }
         }
 
