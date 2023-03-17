@@ -275,6 +275,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
                 if(nameSub != null)
                 {
                     MBClass.Error("Такое название абонемента уже существует!");
+                    return;
                 }
 
                 DataFolder.Subscription subscription = new DataFolder.Subscription();
