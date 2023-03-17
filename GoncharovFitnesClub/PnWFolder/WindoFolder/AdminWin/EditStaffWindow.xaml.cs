@@ -40,8 +40,6 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.AdminWin.UserData
 
             PhoneTB.Text = "+7 ";
             PhoneTB.CaretIndex = 4;
-
-
         }
 
 
@@ -368,7 +366,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.AdminWin.UserData
 
         private void UserDataCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            UserDataCB.ItemsSource = DBEntities.GetContext().User.Where(u => u.IsUsing == false).ToList().OrderBy(u => u.UserID);
+            UpdateLoadUserData();
 
             EnableButt();
         }
@@ -381,7 +379,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.AdminWin.UserData
 
             if (VariableClass.newUserDataCreated)
             {
-                UserDataCB.ItemsSource = DBEntities.GetContext().User.ToList().OrderBy(u => u.UserID);
+                UpdateLoadUserData();
 
                 UserDataCB.SelectedIndex = UserDataCB.Items.Count - 1;
                 VariableClass.newUserDataCreated = false;
@@ -413,8 +411,8 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.AdminWin.UserData
                 VariableClass.UserID = (int)UserDataCB.SelectedValue;
                 new AdminEditUserWindow().ShowDialog();
 
-                UserDataCB.ItemsSource = DBEntities.GetContext().User.Where(u => u.IsUsing == false).ToList().OrderBy(u => u.UserID);
-                
+                UpdateLoadUserData();
+
 
             }
         }
@@ -436,26 +434,34 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.AdminWin.UserData
             DBEntities.GetContext().SaveChanges();
 
 
+            UpdateLoadUserData();
 
-
-            UserDataCB.ItemsSource = DBEntities.GetContext().User.Where(u => u.IsUsing == false).ToList().OrderBy(u => u.UserID);
-
-            SNPStaffTB.Text = staff.Surname +" "+ staff.Name;
-            if (staff.Patronymic != null)
-                SNPStaffTB.Text +=" "+ staff.Patronymic;
-
-            PhoneTB.Text = staff.PhoneNum;
-            EmailTB.Text = staff.Email;
-
-            UserDataCB.SelectedValue = SaveUsing= (int)staff.UserID;
+            LoadStaffData(staff);
 
 
         }
 
         private void UserDataCB_GotFocus(object sender, RoutedEventArgs e)
         {
+            UpdateLoadUserData();
+        }
+
+        private void UpdateLoadUserData()
+        {
             UserDataCB.ItemsSource = DBEntities.GetContext().
                 User.Where(u => u.IsUsing == false).ToList().OrderBy(u => u.UserID);
+        }
+
+        private void LoadStaffData(Staff staff)
+        {
+            SNPStaffTB.Text = staff.Surname + " " + staff.Name;
+            if (staff.Patronymic != null)
+                SNPStaffTB.Text += " " + staff.Patronymic;
+
+            PhoneTB.Text = staff.PhoneNum;
+            EmailTB.Text = staff.Email;
+
+            UserDataCB.SelectedValue = SaveUsing = (int)staff.UserID;
         }
     }
 }

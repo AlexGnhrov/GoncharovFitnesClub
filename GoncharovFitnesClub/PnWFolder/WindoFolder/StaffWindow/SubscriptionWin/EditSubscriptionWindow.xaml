@@ -196,7 +196,7 @@
                     Margin="0,15,20,15"  Grid.Column="1" Click="AddVisitDayBT_Click" Height="Auto"  />
 
 
-                <TextBox x:Name="PriceTB" MaxLength="0" 
+                <TextBox x:Name="PriceTB" MaxLength="12" 
                     Foreground="White" CaretBrush="White" 
                     materialDesign:HintAssist.Hint="Цена*" 
                     materialDesign:HintAssist.Background="{x:Null}"                  
@@ -205,7 +205,8 @@
                     materialDesign:HintAssist.FloatingOffset="-10,-38.7"      
                  
                     BorderBrush="{StaticResource BorderAccentMain}"
-                    Grid.Row="7" Grid.ColumnSpan="2" Height="Auto" Margin="20,14" TextChanged="PriceTB_TextChanged" />
+                    Grid.Row="7" Grid.ColumnSpan="2"
+                    TextChanged="PriceTB_TextChanged"/>
 
 
                 <ComboBox x:Name="VisitTimeCB"

@@ -95,7 +95,7 @@
                           DisplayMemberPath="NameSpeciality"
                           SelectedValuePath="SpecialityID"
                           ItemsSource="{Binding Speciality}"
-                          
+
                           materialDesign:HintAssist.Background="{x:Null}"                  
                           materialDesign:HintAssist.Foreground="White"
                           materialDesign:HintAssist.FloatingScale="0.9" 
@@ -195,7 +195,7 @@
                      Grid.Column="1" Click="AddVisitDayBT_Click" Margin="0,14,20,14"  />
 
 
-                <TextBox x:Name="PriceTB" MaxLength="0" 
+                <TextBox x:Name="PriceTB" MaxLength="12" 
                     Foreground="White" CaretBrush="White" 
                     materialDesign:HintAssist.Hint="Цена*" 
                     materialDesign:HintAssist.Background="{x:Null}"                  
@@ -204,7 +204,8 @@
                     materialDesign:HintAssist.FloatingOffset="-10,-38.7"      
                  
                     BorderBrush="{StaticResource BorderAccentMain}"
-                    Grid.Row="7" Grid.ColumnSpan="2" TextChanged="PriceTB_TextChanged" />
+                    Grid.Row="7" Grid.ColumnSpan="2"
+                    TextChanged="PriceTB_TextChanged"/>
 
                 <ComboBox x:Name="VisitTimeCB"
                     Grid.Row="6"

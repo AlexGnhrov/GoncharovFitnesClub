@@ -38,8 +38,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
             this.MWCountLB = MWCountLB;
 
 
-            SpecialityCB.ItemsSource = DBEntities.GetContext().Speciality.
-                ToList().OrderBy(u => u.SpecialityID);
+            LoadUpdateSpeciality();
 
             VisitDateCB.ItemsSource = DBEntities.GetContext().VisitDate.
                 ToList().OrderBy(u => u.VisitDateID);
@@ -187,7 +186,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
         }
 
 
-
+        bool ClampLast;
         private void EnableButt()
         {
 
@@ -196,7 +195,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
                 VisitDateCB.SelectedValue == null ||
                 VisitTimeCB.SelectedValue == null ||
                 VisitTimeCB.SelectedValue == null ||
-                string.IsNullOrWhiteSpace(PriceTB.Text))
+                string.IsNullOrWhiteSpace(PriceTB.Text) || ClampLast)
             {
                 AddSubscriptiontBT.IsEnabled = false;
             }
@@ -295,6 +294,10 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
                 subscription.AmountOfDays = Convert.ToInt32(AmountOfDayTB.Text);
                 subscription.VisitDateID = (int)VisitDateCB.SelectedValue;
                 subscription.VisitTimeID = (int)VisitTimeCB.SelectedValue;
+                if(!ClampLast)
+                {
+                    PriceTB.Text += ",00";
+                }
                 subscription.Price = Convert.ToDecimal(PriceTB.Text);
 
 
@@ -370,7 +373,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
         {
             if (e.ChangedButton == MouseButton.Left)
             {
-                SpecialityCB.ItemsSource = DBEntities.GetContext().Speciality.ToList().OrderBy(u => u.SpecialityID);
+                LoadUpdateSpeciality();
 
                 SpecialityCB.SelectedValue = null;
                 CoachCB.SelectedValue = null;
@@ -379,13 +382,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
 
         private void CoachCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(SpecialityCB.SelectedValue != null)
-            {
-                var Coach = DBEntities.GetContext().Coach.FirstOrDefault(u => u.SpecialityID == (int)SpecialityCB.SelectedValue);
-
-                CoachCB.ItemsSource = DBEntities.GetContext().Coach.Where(u => u.SpecialityID == (int)SpecialityCB.SelectedValue).ToList();
-
-            }
+            LoadUpdateCoach();
         }
 
         private void AmountOfDayTB_TextChanged(object sender, TextChangedEventArgs e)
@@ -417,6 +414,8 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
 
         private void PriceTB_TextChanged(object sender, TextChangedEventArgs e)
         {
+            PriceValidation();
+
             EnableButt();
         }
 
@@ -514,20 +513,88 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
 
         private void SpecialityCB_GotFocus(object sender, RoutedEventArgs e)
         {
-            SpecialityCB.ItemsSource = DBEntities.GetContext().Speciality.
-                ToList().OrderBy(u => u.SpecialityID);
+            LoadUpdateSpeciality();
         }
 
         private void CoachCB_GotFocus(object sender, RoutedEventArgs e)
         {
+            LoadUpdateCoach();
+        }
+
+
+        private void LoadUpdateCoach()
+        {
             if (SpecialityCB.SelectedValue != null)
             {
 
-                CoachCB.ItemsSource = DBEntities.GetContext().Coach.Where(u => u.SpecialityID == (int)SpecialityCB.SelectedValue).ToList();
+                CoachCB.ItemsSource = DBEntities.GetContext().Coach.
+                                      Where(u => u.SpecialityID == (int)SpecialityCB.SelectedValue).
+                                      ToList();
 
                 CoachCB.IsEnabled = true;
 
             }
         }
+
+        private void LoadUpdateSpeciality()
+        {
+         SpecialityCB.ItemsSource = DBEntities.GetContext().Speciality.
+                                    ToList().OrderBy(u => u.SpecialityID);
+        }
+
+
+        private void PriceValidation()
+        {
+            string result = "";
+            char[] validChars = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ',' };
+
+
+            int i = 1;
+            byte afterClampleng = 0;
+            bool CommaIsUsing = false;
+
+            foreach (char c in PriceTB.Text)
+            {
+
+                if (Array.IndexOf(validChars, c) != -1)
+                {
+
+                    if (c == ',')
+                    {
+                        if (i != 1 && !CommaIsUsing)
+                        {
+                            result += c;
+                            CommaIsUsing = true;
+
+                        }
+                    }
+                    else if (CommaIsUsing && afterClampleng < 2)
+                    {
+                        result += c;
+                        ++afterClampleng;
+                    }
+                    else if (result.Length < 9 && afterClampleng < 2)
+                    {
+                        result += c;
+                    }
+                }
+
+                if (CommaIsUsing && afterClampleng < 2)
+                {
+                    ClampLast = true;
+                }
+                else
+                {
+                    ClampLast = false;
+                }
+
+                ++i;
+            }
+
+            PriceTB.Text = result;
+            PriceTB.CaretIndex = PriceTB.Text.Length;
+        }
+
+
     }
 }

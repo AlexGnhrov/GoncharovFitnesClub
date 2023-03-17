@@ -27,8 +27,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="35" />
                 <RowDefinition Height="30" />
-                <RowDefinition Height="381*"/>
-                <RowDefinition Height="202*"/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -93,16 +92,16 @@
                 </Menu>
             </Border>
 
-            <Frame x:Name="MainFrame" Grid.Row="2" NavigationUIVisibility="Hidden" Grid.RowSpan="2" />
+            <Frame x:Name="MainFrame" Grid.Row="2" NavigationUIVisibility="Hidden" />
 
             <Border x:Name="RightCornerB"
                     Background="Black" Width="10"  Opacity="0"
-                    HorizontalAlignment="Right" Grid.RowSpan="4" Cursor="SizeWE"
+                    HorizontalAlignment="Right" Grid.RowSpan="3" Cursor="SizeWE"
                     Margin="0,15,-5,15" />
             <Border x:Name="BottomCornerB"
                 Background="Black" Opacity="0"
                 VerticalAlignment="Bottom" Cursor="SizeNS"
-                Margin="15,0,15,-5" Grid.Row="3" Height="10"/>
+                Margin="15,0,15,-5" Grid.Row="2" Height="10"/>
 
         </Grid>
     </Border>

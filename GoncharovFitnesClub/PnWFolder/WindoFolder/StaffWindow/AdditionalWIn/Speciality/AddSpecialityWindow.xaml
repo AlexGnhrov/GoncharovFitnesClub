@@ -60,7 +60,7 @@
                          Grid.Row="1"
                          Foreground="White" CaretBrush="White" 
                          
-                         materialDesign:HintAssist.Hint="Специальность" MaxLength="30"     
+                         materialDesign:HintAssist.Hint="Специальность" MaxLength="60"     
                          materialDesign:HintAssist.Background="{x:Null}"                  
                          materialDesign:HintAssist.Foreground="White"
                          materialDesign:HintAssist.FloatingScale="0.9" 

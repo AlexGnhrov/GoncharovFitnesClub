@@ -48,7 +48,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.AdminWin
             PhoneTB.CaretIndex = 4;
 
 
-            UserDataCB.ItemsSource = DBEntities.GetContext().User.Where(u => u.IsUsing == false).ToList().OrderBy(u => u.UserID);
+            UpdateLoadUserData();
 
         }
 
@@ -230,19 +230,8 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.AdminWin
                     return;
                 }
 
-                object[] checkStaff = DBEntities.GetContext().Staff.ToArray();
-
-                for (int i = 0; i < checkStaff.Length; i++)
-                {
-                    Staff checkingStaff = checkStaff[i] as Staff;
-
-                    if(checkingStaff.UserID == (int)UserDataCB.SelectedValue)
-                    {
-                        MBClass.Error("Эти данные присутствуют у редактируемого сотрудника!\n");
-                        return;
-                    }
-                    
-                }
+                if (CheckUserData())
+                    return;
 
                 
 
@@ -409,7 +398,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.AdminWin
 
         private void UserDataCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            UserDataCB.ItemsSource = DBEntities.GetContext().User.Where(u => u.IsUsing == false).ToList().OrderBy(u => u.UserID);
+            UpdateLoadUserData();
 
             EnableButt();
         }
@@ -422,7 +411,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.AdminWin
 
             if (VariableClass.newUserDataCreated)
             {
-                UserDataCB.ItemsSource = DBEntities.GetContext().User.ToList().OrderBy(u => u.UserID);
+                UpdateLoadUserData();
 
                 UserDataCB.SelectedIndex = UserDataCB.Items.Count - 1;
                 VariableClass.newUserDataCreated = false;
@@ -459,8 +448,8 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.AdminWin
 
                 new AdminEditUserWindow().ShowDialog();
 
-              
-                UserDataCB.ItemsSource = DBEntities.GetContext().User.Where(u => u.IsUsing == false).ToList().OrderBy(u => u.UserID);
+
+                UpdateLoadUserData();
 
                 Focus();
             }
@@ -473,9 +462,60 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.AdminWin
 
         private void UserDataCB_GotFocus(object sender, RoutedEventArgs e)
         {
-           
-            UserDataCB.ItemsSource = DBEntities.GetContext().
-               User.Where(u => u.IsUsing == false).ToList().OrderBy(u => u.UserID);
+            UpdateLoadUserData();
+
+            object[] checkStaff = DBEntities.GetContext().Staff.ToArray();
+
+            for (int i = 0; i < checkStaff.Length; i++)
+            {
+                Staff checkingStaff = checkStaff[i] as Staff;
+
+                if (UserDataCB.SelectedValue != null &&
+                    checkingStaff.UserID == (int)UserDataCB.SelectedValue)
+                {
+                    UserDataCB.SelectedValue = null;
+                    break;
+                }
+
+            }
+        }
+
+
+        private void UpdateLoadUserData()
+        {
+            if (VariableClass.StaffID != 0)
+            {
+                var staff = DBEntities.GetContext().Staff.FirstOrDefault(u => u.StaffID == VariableClass.StaffID);
+                var user = DBEntities.GetContext().User.FirstOrDefault(u => u.UserID == staff.UserID);
+
+                UserDataCB.ItemsSource = DBEntities.GetContext().User.
+                             Where(u => u.UserID != user.UserID && u.IsUsing == false).
+                             ToList().OrderBy(u => u.UserID);
+            }
+            else
+            {
+                   UserDataCB.ItemsSource = DBEntities.GetContext().User.
+                             Where(u => u.IsUsing == false).
+                             ToList().OrderBy(u => u.UserID);
+            }
+        }
+
+        private bool CheckUserData()
+        {
+            object[] checkStaff = DBEntities.GetContext().Staff.ToArray();
+
+            for (int i = 0; i < checkStaff.Length; i++)
+            {
+                Staff checkingStaff = checkStaff[i] as Staff;
+
+                if (checkingStaff.UserID == (int)UserDataCB.SelectedValue)
+                {
+                    MBClass.Error("Эти данные присутствуют у редактируемого сотрудника!\n");
+                    return true;
+                }
+
+            }
+            return false;
         }
     }
 }
