@@ -73,21 +73,20 @@
                     Grid.Row="1" Grid.RowSpan="1"
                     BorderBrush="White" BorderThickness="0,0,0,1"
                     Visibility="Hidden">
-                <Menu Height="30" >
-                    <MenuItem Header="Сменить запись"
-                      Foreground="White"
-                      FontSize="13" Height="30" Margin="1"
-                      Click="ChangeUserMI_Click"/>
+                <Menu Height="30">
+                    <MenuItem Header="Сменить запись" 
+                              Foreground="White"
+                              FontSize="13" Height="30"
+                              Click="ChangeUserMI_Click"/>
                     <MenuItem Header="Информация"
-                     Foreground="White"
-                      FontSize="13" Height="30" Margin="1"
-                          Background="{x:Null}">
+                              Foreground="White" Background="DimGray"
+                              FontSize="13" Height="30" >
                         <MenuItem Header="О программе"
-                              Background="{x:Null}"
-                              Foreground="Black"
-                              FontSize="13"  
-
-                              Click="InfoMI_Click"/>
+                              Background="DimGray"
+                              Foreground="White"
+                              FontSize="14" Height="27" Margin="0" 
+                              Click="InfoMI_Click">
+                        </MenuItem>
                     </MenuItem>
                 </Menu>
             </Border>

@@ -74,11 +74,10 @@
                             MouseDoubleClick="ListUserDG_MouseDoubleClick">
 
                     <DataGrid.ContextMenu>
-                        <ContextMenu Name="ClientPU">
-                            <MenuItem Header="Редактировать" Click="EditUser_Click"/>
-                            <MenuItem Header="Обновить" Click="UpdateList_Click"/>
+                        <ContextMenu Name="ClientPU" Background="DimGray">
+                            <MenuItem Header="Редактировать" Click="EditUser_Click" Foreground="White" Height="25"/>
                             <Separator/>
-                            <MenuItem Header="Удалить" Click="DeleteUser_Click" />
+                            <MenuItem Header="Удалить" Click="DeleteUser_Click" Foreground="White" Height="25"/>
                         </ContextMenu>
                     </DataGrid.ContextMenu>
 
@@ -148,11 +147,10 @@
                   AutoGenerateColumns="False" IsReadOnly="True" HorizontalScrollBarVisibility="Visible"
                   MouseDoubleClick="ListUserDG_MouseDoubleClick">
                     <DataGrid.ContextMenu>
-                        <ContextMenu Name="CoachPU">
-                            <MenuItem Header="Редактировать" Click="EditUser_Click"/>
-                            <MenuItem Header="Обновить" Click="UpdateList_Click"/>
+                        <ContextMenu Name="CoachPU" Background="DimGray">
+                            <MenuItem Header="Редактировать" Click="EditUser_Click" Foreground="White" Height="25"/>
                             <Separator/>
-                            <MenuItem Header="Удалить" Click="DeleteUser_Click" />
+                            <MenuItem Header="Удалить" Click="DeleteUser_Click" Foreground="White" Height="25"/>
                         </ContextMenu>
                     </DataGrid.ContextMenu>
                     <DataGrid.Columns>
@@ -193,11 +191,10 @@
                   AutoGenerateColumns="False" IsReadOnly="True" HorizontalScrollBarVisibility="Visible"
                   MouseDoubleClick="ListUserDG_MouseDoubleClick" >
                     <DataGrid.ContextMenu>
-                        <ContextMenu Name="SubscriptionPU">
-                            <MenuItem Header="Редактировать" Click="EditUser_Click"/>
-                            <MenuItem Header="Обновить" Click="UpdateList_Click"/>
+                        <ContextMenu Name="SubscriptionPU" Background="DimGray">
+                            <MenuItem Header="Редактировать" Click="EditUser_Click" Foreground="White" Height="25"/>
                             <Separator/>
-                            <MenuItem Header="Удалить" Click="DeleteUser_Click" />
+                            <MenuItem Header="Удалить" Click="DeleteUser_Click" Foreground="White" Height="25"/>
                         </ContextMenu>
                     </DataGrid.ContextMenu>
                     <DataGrid.Columns>

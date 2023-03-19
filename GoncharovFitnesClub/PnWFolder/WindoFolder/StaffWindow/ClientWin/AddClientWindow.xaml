@@ -146,15 +146,17 @@
                     Margin="350,15,20,15" Height="Auto" Click="AddStatusBT_Click" />
 
                 <DatePicker x:Name="DateOfRegDP" 
-                    Grid.Row="4"
-                    Foreground="Gray"  
+                    Grid.Row="4" 
+                    Foreground="LightGray"  
                     materialDesign:HintAssist.Hint="Дата поступления" 
                     materialDesign:HintAssist.Background="Black"                  
                     materialDesign:HintAssist.Foreground="{x:Null}"
                     materialDesign:HintAssist.FloatingScale="0.9" 
-                    materialDesign:HintAssist.FloatingOffset="8,-38.7"                                
+                    materialDesign:HintAssist.FloatingOffset="8,-38.7"   
+                    materialDesign:HintAssist.IsFloating="False"
+                            
                     BorderBrush="{StaticResource BorderAccentMain}"
-                    SelectedDateChanged="DateOfRegDP_SelectedDateChanged">
+                    SelectedDateChanged="DateOfRegDP_SelectedDateChanged" SelectedDateFormat="Long">
                     
                     <DatePicker.Resources>
                         <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#FFF47F2A" Opacity="0.8"/>
@@ -162,17 +164,14 @@
                     
                 </DatePicker>
 
-                <DatePicker x:Name="DateOfEndDP"
+                <DatePicker x:Name="DateOfEndDP" 
                     Grid.Row="5"
                     Foreground="White"  
                     materialDesign:HintAssist.Hint="Дата окончания" 
-                         
-                    materialDesign:HintAssist.Background="{x:Null}"                  
-                    materialDesign:HintAssist.Foreground="White"
+                    materialDesign:HintAssist.IsFloating="False"
                     materialDesign:HintAssist.FloatingScale="0.9" 
-                    materialDesign:HintAssist.FloatingOffset="8,-38.7"      
-                    BorderBrush="{StaticResource BorderAccentMain}" 
-                    IsEnabled="False" Margin="20,14" />
+                    materialDesign:HintAssist.FloatingOffset="8,-38.7"       
+                    IsEnabled="False" />
 
                 <ComboBox x:Name="SubscriptionCB"
                     Grid.Row="6"
@@ -188,7 +187,8 @@
                     materialDesign:HintAssist.Background="{x:Null}"                  
                     materialDesign:HintAssist.Foreground="White"
                     materialDesign:HintAssist.FloatingScale="0.9" 
-                    materialDesign:HintAssist.FloatingOffset="-10,-38.7" Margin="20,15,88,15">
+                    materialDesign:HintAssist.FloatingOffset="-10,-38.7"
+                          Margin="20,15,88,15">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock>

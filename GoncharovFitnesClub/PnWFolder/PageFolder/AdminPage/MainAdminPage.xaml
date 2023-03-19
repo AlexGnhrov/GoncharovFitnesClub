@@ -74,10 +74,10 @@
                   ClipToBounds="True" >
 
             <DataGrid.ContextMenu>
-                <ContextMenu Name="PopUpMenu">
-                    <MenuItem Header="Редактировать" Click="EditUser_Click"/>
-                    <Separator/>
-                    <MenuItem Header="Удалить" Click="DeleteUser_Click" />
+                <ContextMenu Name="PopUpMenu"  Background="DimGray">
+                    <MenuItem Header="Редактировать" Click="EditUser_Click" Foreground="White" Height="25" />
+                    <Separator Height="25" />
+                    <MenuItem Header="Удалить" Click="DeleteUser_Click"  Foreground="White" Height="25"/>
                 </ContextMenu>
             </DataGrid.ContextMenu>
             <DataGrid.Columns>

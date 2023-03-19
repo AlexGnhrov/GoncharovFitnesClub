@@ -220,17 +220,6 @@
 
     </Style>
 
-    <!--<Style TargetType="{x:Type TabItem}"
-           BasedOn="{StaticResource MaterialDesignTabItem}" >
-        <Setter Property="FontSize" Value="16"/>
-        <Setter Property="FontFamily" Value="Kadwa"/>
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property="BorderBrush"  Value="{DynamicResource BorderAccentMain}"/>
-        <Setter Property="Background" Value="Red"/>
-        <Setter Property="Margin" Value="20,10"/>
-        <Setter Property="TextElement.Foreground" Value="{DynamicResource MaterialDesignBody}"/>
-        <Setter Property="Background" Value="{DynamicResource MaterialDesignPaper}"></Setter>
-    </Style>-->
 
     <Style TargetType="{x:Type Menu}"
            BasedOn="{StaticResource MaterialDesignMenu}" >
