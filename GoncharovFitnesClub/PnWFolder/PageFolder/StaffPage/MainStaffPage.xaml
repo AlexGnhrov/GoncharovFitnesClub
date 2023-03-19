@@ -154,7 +154,7 @@
                         </ContextMenu>
                     </DataGrid.ContextMenu>
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="ФИО Тренера" Width="250">
+                        <DataGridTextColumn Header="ФИО Тренера" Width="*">
                             <DataGridTextColumn.Binding>
                                 <MultiBinding StringFormat="{}{0} {1} {2}">
                                     <Binding Path="Surname" />
@@ -165,7 +165,7 @@
                         </DataGridTextColumn>
                         <DataGridTextColumn Header="Номер Телефона" Width="150"
                                     Binding="{Binding PhoneNum}"/>
-                        <DataGridTextColumn Header="Почта" Width="175"
+                        <DataGridTextColumn Header="Почта" Width="150"
                                     Binding="{Binding Email}"/>
                         <DataGridTextColumn Header="Специальность"
                                             Width="*"
