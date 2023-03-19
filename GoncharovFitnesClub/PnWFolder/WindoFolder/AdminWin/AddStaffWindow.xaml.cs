@@ -90,9 +90,9 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.AdminWin
         }
 
 
-        private void Borders_MouseEnter(object sender, MouseEventArgs e)
+        private async void Borders_MouseEnter(object sender, MouseEventArgs e)
         {
-            ChangeColorButton();
+            await ChangeColorButton();
         }
 
 

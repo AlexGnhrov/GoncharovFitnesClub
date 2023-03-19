@@ -87,9 +87,9 @@ namespace GoncharovFitnesClub.WindoFolder
 
 
 
-        private void ResizeB_MouseEnter(object sender, MouseEventArgs e)
+        private async void ResizeB_MouseEnter(object sender, MouseEventArgs e)
         {
-            ChangeColorButton();
+           await ChangeColorButton();
         }
 
 
