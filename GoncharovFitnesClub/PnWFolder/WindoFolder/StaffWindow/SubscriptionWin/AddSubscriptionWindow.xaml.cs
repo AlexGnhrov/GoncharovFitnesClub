@@ -27,7 +27,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
         Label MWCountLB;
 
         public AddSubscriptionWindow(DataGrid MWListSubscriptionDG, Button MWaddBT,
-                                     TextBox MWSearchTB, TabItem MWSubscriptionTI,Label MWCountLB)
+                                     TextBox MWSearchTB, TabItem MWSubscriptionTI, Label MWCountLB)
         {
             InitializeComponent();
 
@@ -186,16 +186,16 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
         }
 
 
-        bool ClampLast;
+        bool isCommaDone;
         private void EnableButt()
         {
 
             if (string.IsNullOrWhiteSpace(NameSubscriptionTB.Text) ||
-                string.IsNullOrWhiteSpace(AmountOfDayTB.Text) || 7 > Convert.ToInt32(AmountOfDayTB.Text)||
+                string.IsNullOrWhiteSpace(AmountOfDayTB.Text) || 7 > Convert.ToInt32(AmountOfDayTB.Text) ||
                 VisitDateCB.SelectedValue == null ||
                 VisitTimeCB.SelectedValue == null ||
                 VisitTimeCB.SelectedValue == null ||
-                string.IsNullOrWhiteSpace(PriceTB.Text) || ClampLast)
+                string.IsNullOrWhiteSpace(PriceTB.Text) || !isCommaDone)
             {
                 AddSubscriptiontBT.IsEnabled = false;
             }
@@ -220,9 +220,9 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
                         SpecialityCB.Focus();
                         SpecialityCB.IsDropDownOpen = true;
                     }
-                    else if(SpecialityCB.IsFocused)
+                    else if (SpecialityCB.IsFocused)
                     {
-                        if(SpecialityCB.SelectedValue != null)
+                        if (SpecialityCB.SelectedValue != null)
                         {
                             CoachCB.Focus();
                             CoachCB.IsDropDownOpen = true;
@@ -232,7 +232,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
                             AmountOfDayTB.Focus();
                         }
                     }
-                    else if(CoachCB.IsFocused)
+                    else if (CoachCB.IsFocused)
                     {
                         AmountOfDayTB.Focus();
                     }
@@ -247,7 +247,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
                         VisitTimeCB.IsDropDownOpen = true;
 
                     }
-                    else if(VisitTimeCB.IsFocused)
+                    else if (VisitTimeCB.IsFocused)
                     {
                         PriceTB.Focus();
                     }
@@ -270,8 +270,8 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
             try
             {
                 var nameSub = DBEntities.GetContext().Subscription.FirstOrDefault(u => u.NameSubscription == NameSubscriptionTB.Text);
-                
-                if(nameSub != null)
+
+                if (nameSub != null)
                 {
                     MBClass.Error("Такое название абонемента уже существует!");
                     return;
@@ -294,10 +294,13 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
                 subscription.AmountOfDays = Convert.ToInt32(AmountOfDayTB.Text);
                 subscription.VisitDateID = (int)VisitDateCB.SelectedValue;
                 subscription.VisitTimeID = (int)VisitTimeCB.SelectedValue;
-                if(!ClampLast)
+
+
+                if (!CommaIsUsing)
                 {
                     PriceTB.Text += ",00";
                 }
+
                 subscription.Price = Convert.ToDecimal(PriceTB.Text);
 
 
@@ -319,7 +322,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
                                  || u.Coach.Patronymic.StartsWith(MWSearchTB.Text))
                                  .ToList().OrderBy(u => u.SubscriptionID);
 
-                   MWCountLB.Content = "Количество абонементов: " + DBEntities.GetContext().Subscription.ToArray().Length;
+                    MWCountLB.Content = "Количество абонементов: " + DBEntities.GetContext().Subscription.ToArray().Length;
 
                 }
 
@@ -377,7 +380,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
 
                 SpecialityCB.SelectedValue = null;
                 CoachCB.SelectedValue = null;
-            }    
+            }
         }
 
         private void CoachCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -389,7 +392,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
         {
             EnableButt();
 
-            if(!string.IsNullOrWhiteSpace(AmountOfDayTB.Text) && 365 < Convert.ToInt32(AmountOfDayTB.Text))
+            if (!string.IsNullOrWhiteSpace(AmountOfDayTB.Text) && 365 < Convert.ToInt32(AmountOfDayTB.Text))
             {
                 AmountOfDayTB.Text = "365";
                 AmountOfDayTB.CaretIndex = 3;
@@ -399,7 +402,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
 
         private void AmountOfDayTB_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(AmountOfDayTB.Text) &&  7 > Convert.ToInt32(AmountOfDayTB.Text))
+            if (!string.IsNullOrWhiteSpace(AmountOfDayTB.Text) && 7 > Convert.ToInt32(AmountOfDayTB.Text))
             {
                 AmountOfDayTB.Text = "7";
                 AmountOfDayTB.CaretIndex = 1;
@@ -538,10 +541,11 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
 
         private void LoadUpdateSpeciality()
         {
-         SpecialityCB.ItemsSource = DBEntities.GetContext().Speciality.
-                                    ToList().OrderBy(u => u.SpecialityID);
+            SpecialityCB.ItemsSource = DBEntities.GetContext().Speciality.
+                                       ToList().OrderBy(u => u.SpecialityID);
         }
 
+        bool CommaIsUsing;
 
         private void PriceValidation()
         {
@@ -550,51 +554,71 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
 
 
             int i = 1;
-            byte afterClampleng = 0;
-            bool CommaIsUsing = false;
+
+            byte afterCommaleng = 0;
+            CommaIsUsing = false;
 
             foreach (char c in PriceTB.Text)
             {
 
                 if (Array.IndexOf(validChars, c) != -1)
                 {
-
-                    if (c == ',')
+                    if (c == '0' && i == 1)
+                    {
+                       //Пропуск 0 и не заполнение строки
+                    }
+                    else if (c == ',')
                     {
                         if (i != 1 && !CommaIsUsing)
                         {
-                            result += c;
-                            CommaIsUsing = true;
 
+                            result += c;
+                            CommaIsUsing = CommaIsUsing = true;
                         }
                     }
-                    else if (CommaIsUsing && afterClampleng < 2)
+                    else if (CommaIsUsing && afterCommaleng < 2)
                     {
                         result += c;
-                        ++afterClampleng;
+                        ++afterCommaleng;
                     }
-                    else if (result.Length < 9 && afterClampleng < 2)
+                    else if (result.Length < 9 && afterCommaleng < 2)
                     {
                         result += c;
                     }
                 }
 
-                if (CommaIsUsing && afterClampleng < 2)
+                if (CommaIsUsing  && afterCommaleng < 2)
                 {
-                    ClampLast = true;
+                    isCommaDone = false;
                 }
                 else
                 {
-                    ClampLast = false;
+                    isCommaDone = true;
                 }
 
                 ++i;
             }
 
             PriceTB.Text = result;
-            PriceTB.CaretIndex = PriceTB.Text.Length;
+
+
+
+            if (!Keyboard.IsKeyDown(Key.Back))
+            {
+
+                if (PriceTB.CaretIndex == PriceTB.Text.Length)
+                {
+                    PriceTB.CaretIndex = PriceTB.Text.Length;
+                }
+                if (PriceTB.CaretIndex == 0)
+                {
+                    PriceTB.CaretIndex = PriceTB.Text.Length;
+                }
+
+            }
+
+
         }
-
-
     }
 }
+

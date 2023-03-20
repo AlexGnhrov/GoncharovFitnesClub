@@ -97,10 +97,10 @@
                                             Width="150" MaxWidth="150"
                                     Binding="{Binding PhoneNum}"/>
                         <DataGridTextColumn Header="Почта"
-                                            Width="200" MaxWidth="350"
+                                            Width="200" MaxWidth="250"
                                     Binding="{Binding Email}"/>
                         <DataGridTextColumn Header="Дата поступления / окончания"
-                                            Width="265" MaxWidth="265" >
+                                            Width="255" MaxWidth="255" >
                             <DataGridTextColumn.Binding>
                                 <MultiBinding StringFormat="{}{0:dd/MM/yyyy} | {1:dd/MM/yyyy} ">
                                     <Binding Path="DateOfReg"/>

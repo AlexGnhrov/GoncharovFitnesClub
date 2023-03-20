@@ -217,7 +217,10 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.AdditionalWIndow
         {
             status = DBEntities.GetContext().Status.FirstOrDefault(u => u.StatusID == VariableClass.StatusID);
 
-            if (status.StatusID == 2 || status.StatusID == 4)
+
+            if (status.StatusID == 1 || status.StatusID == 4 ||
+                status.StatusID == 3 || status.StatusID == 2 ||
+                status.StatusID == 7)
                 DeleteBT.IsEnabled = false;
 
 

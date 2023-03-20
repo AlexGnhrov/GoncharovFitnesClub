@@ -7,7 +7,7 @@
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
       d:DesignHeight="800" d:DesignWidth="1200"
-      Title="ИС фитнес клуб Kometa - Авторизация" KeyDown="Page_KeyDown">
+      Title="ИС Фитнес клуб Kometa - Авторизация" KeyDown="Page_KeyDown">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />

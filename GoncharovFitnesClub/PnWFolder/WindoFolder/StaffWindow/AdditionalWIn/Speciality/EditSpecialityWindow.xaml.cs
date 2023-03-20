@@ -212,7 +212,8 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.AdditionalWIndow
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            speciality = DBEntities.GetContext().Speciality.FirstOrDefault(u => u.SpecialityID == VariableClass.SpecialityID);
+            speciality = DBEntities.GetContext().Speciality.
+                         FirstOrDefault(u => u.SpecialityID == VariableClass.SpecialityID);
 
             SpecialityTB.Text = oldName = speciality.NameSpeciality;
         }

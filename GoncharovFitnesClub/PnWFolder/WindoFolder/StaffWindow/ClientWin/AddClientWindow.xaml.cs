@@ -50,8 +50,9 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Client
 
             SubscriptionCB.ItemsSource = DBEntities.GetContext().Subscription.ToList()
                                             .OrderBy(u => u.SubscriptionID);
-            StatusCB.ItemsSource = DBEntities.GetContext().Status.ToList().
-                                            OrderBy(u => u.StatusID);
+
+            StatusCB.ItemsSource = DBEntities.GetContext().Status.ToList()
+                .OrderBy(u => u.NameStatus);
 
 
         }
@@ -356,6 +357,8 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Client
                 StatusCB.SelectedIndex = StatusCB.Items.Count - 1;
                 VariableClass.newStatusCreated = false;
 
+                StatusCB.ItemsSource = DBEntities.GetContext().Status.ToList()
+                    .OrderBy(u => u.NameStatus);
 
                 Focus();
 
@@ -373,7 +376,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Client
                 new EditStatusWindow().ShowDialog();
 
                 StatusCB.ItemsSource = DBEntities.GetContext().Status.ToList()
-                    .OrderBy(u => u.StatusID);
+                    .OrderBy(u => u.NameStatus);
 
 
                 Focus();
@@ -469,47 +472,53 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Client
 
         private void SubscriptionCB_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (e.ChangedButton == MouseButton.Left)
+            switch (e.ChangedButton)
             {
-                SubscriptionCB.ItemsSource = DBEntities.GetContext().Subscription.ToList()
-                                .OrderBy(u => u.SubscriptionID);
+                case MouseButton.Left:
 
-                SubscriptionCB.SelectedValue = null;
-                DateOfEndDP.Text = null;
-            }
-            else if (e.ChangedButton == MouseButton.Right)
-            {
-                if(SubscriptionCB.SelectedValue != null)
-                {
-                    subscription = DBEntities.GetContext().Subscription.
-                                            FirstOrDefault(u => u.SubscriptionID == (int)SubscriptionCB.SelectedValue);
+                    SubscriptionCB.ItemsSource = DBEntities.GetContext().Subscription.ToList()
+                                         .OrderBy(u => u.SubscriptionID);
 
-                    if (VariableClass.editSubscriptionWindow != null)
+                    SubscriptionCB.SelectedValue = null;
+                    DateOfEndDP.Text = null;
+
+                    break;
+                case MouseButton.Right:
+
+                    if (SubscriptionCB.SelectedValue != null)
                     {
-                        if (VariableClass.SubscriptionID == subscription.SubscriptionID)
+                        subscription = DBEntities.GetContext().Subscription.
+                                                FirstOrDefault(u => u.SubscriptionID == (int)SubscriptionCB.SelectedValue);
+
+                        if (VariableClass.editSubscriptionWindow != null)
                         {
-                            VariableClass.editSubscriptionWindow.Focus();
-                            return;
+                            if (VariableClass.SubscriptionID == subscription.SubscriptionID)
+                            {
+                                VariableClass.editSubscriptionWindow.Focus();
+                                return;
+                            }
+                            else
+                            {
+                                VariableClass.editSubscriptionWindow.Close();
+                            }
                         }
-                        else
-                        {
-                            VariableClass.editSubscriptionWindow.Close();
-                        }
+
+
+                            VariableClass.SubscriptionID = subscription.SubscriptionID;
+
+                            VariableClass.editSubscriptionWindow =
+                                                new EditSubscriptionWindow(VariableClass.ListSubscriptionDG,
+                                                                           VariableClass.SearchTB,
+                                                                           VariableClass.SubscriptionTI,
+                                                                           VariableClass.CountUsersLB);
+
+                            VariableClass.editSubscriptionWindow.Show();
+                        
                     }
 
-
-                    VariableClass.SubscriptionID = subscription.SubscriptionID;
-
-                    VariableClass.editSubscriptionWindow =
-                                        new EditSubscriptionWindow(VariableClass.ListSubscriptionDG,
-                                                                   VariableClass.SearchTB, 
-                                                                   VariableClass.SubscriptionTI,
-                                                                   VariableClass.CountUsersLB);
-
-                    VariableClass.editSubscriptionWindow.Show();
-                }
-
+                    break;
             }
+
         }
 
         private void CountDate()

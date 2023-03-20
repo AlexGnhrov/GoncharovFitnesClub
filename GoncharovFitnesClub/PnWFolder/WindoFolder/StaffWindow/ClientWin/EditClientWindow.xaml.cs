@@ -348,6 +348,8 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.ClientWindow
                 StatusCB.SelectedIndex = StatusCB.Items.Count - 1;
                 VariableClass.newStatusCreated = false;
 
+                StatusCB.ItemsSource = DBEntities.GetContext().Status.ToList().OrderBy(u => u.NameStatus);
+
 
                 Focus();
 
@@ -364,8 +366,8 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.ClientWindow
                 VariableClass.StatusID = (int)StatusCB.SelectedValue;
                 new EditStatusWindow().ShowDialog();
 
-                StatusCB.ItemsSource = DBEntities.GetContext().Status.ToList()
-                    .OrderBy(u => u.StatusID);
+                StatusCB.ItemsSource = DBEntities.GetContext().Status.ToList().
+                    OrderBy(u => u.NameStatus);
 
 
 

@@ -188,7 +188,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
         }
 
 
-        bool ClampLast;
+        bool isCommaDone;
         private void EnableButt()
         {
 
@@ -197,7 +197,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
                 VisitDateCB.SelectedValue == null ||
                 VisitTimeCB.SelectedValue == null ||
                 VisitTimeCB.SelectedValue == null ||
-                string.IsNullOrWhiteSpace(PriceTB.Text) || ClampLast)
+                string.IsNullOrWhiteSpace(PriceTB.Text) || !isCommaDone)
             {
                 EditSubscriptiontBT.IsEnabled = false;
             }
@@ -295,16 +295,22 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
                 subscription.AmountOfDays = Convert.ToInt32(AmountOfDayTB.Text);
                 subscription.VisitDateID = (int)VisitDateCB.SelectedValue;
                 subscription.VisitTimeID = (int)VisitTimeCB.SelectedValue;
-                if (!ClampLast)
+
+
+
+                if (!CommaIsUsing)
                 {
                     PriceTB.Text += ",00";
                 }
                 subscription.Price = Convert.ToDecimal(PriceTB.Text);
 
 
+
                 DBEntities.GetContext().SaveChanges();
 
                 MBClass.Info("Абонемент успешно отредактирован!");
+
+
 
                 if (MWSubscriptionTI.IsSelected)
                 {
@@ -543,6 +549,8 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
                                         ToList().OrderBy(u => u.SpecialityID);
         }
 
+        bool CommaIsUsing;
+
         private void PriceValidation()
         {
             string result = "";
@@ -550,53 +558,71 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
 
 
             int i = 1;
-            byte afterClampleng = 0;
-            bool CommaIsUsing = false;
+
+            byte afterCommaleng = 0;
+            CommaIsUsing = false;
 
             foreach (char c in PriceTB.Text)
             {
 
                 if (Array.IndexOf(validChars, c) != -1)
                 {
-
-                    if (c == ',')
+                    if (c == '0' && i == 1)
+                    {
+                        //Пропуск 0 и не заполнение строки
+                    }
+                    else if (c == ',')
                     {
                         if (i != 1 && !CommaIsUsing)
                         {
-                            result += c;
-                            CommaIsUsing = true;
 
+                            result += c;
+                            CommaIsUsing = CommaIsUsing = true;
                         }
                     }
-                    else if (CommaIsUsing && afterClampleng < 2)
+                    else if (CommaIsUsing && afterCommaleng < 2)
                     {
                         result += c;
-                        ++afterClampleng;
+                        ++afterCommaleng;
                     }
-                    else if (result.Length < 9 && afterClampleng < 2)
+                    else if (result.Length < 9 && afterCommaleng < 2)
                     {
                         result += c;
                     }
                 }
 
-                if (CommaIsUsing && afterClampleng < 2)
+                if (CommaIsUsing && afterCommaleng < 2)
                 {
-                    ClampLast = true;
+                    isCommaDone = false;
                 }
                 else
                 {
-                    ClampLast = false;
+                    isCommaDone = true;
                 }
 
                 ++i;
             }
 
-
-
             PriceTB.Text = result;
-            PriceTB.CaretIndex = PriceTB.Text.Length;
+
+
+
+            if (!Keyboard.IsKeyDown(Key.Back))
+            {
+
+                if (PriceTB.CaretIndex == PriceTB.Text.Length)
+                {
+                    PriceTB.CaretIndex = PriceTB.Text.Length;
+                }
+                if (PriceTB.CaretIndex == 0)
+                {
+                    PriceTB.CaretIndex = PriceTB.Text.Length;
+                }
+
+            }
+
+
         }
-
-
     }
 }
+

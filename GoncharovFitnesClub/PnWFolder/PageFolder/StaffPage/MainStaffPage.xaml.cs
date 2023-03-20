@@ -318,7 +318,7 @@ namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
 
                     SearchTB.Text = SaveSearchText[0];
 
-                    EndOfSubStatusUpdate();
+                    SubStatusUpdate();
 
 
                     UpdateData(1);
@@ -391,7 +391,7 @@ namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
         {
             if (ClientTI.IsSelected)
             {
-                EndOfSubStatusUpdate();
+                SubStatusUpdate();
 
                 UpdateData(1);
 
@@ -408,7 +408,7 @@ namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
         }
 
 
-        private void EndOfSubStatusUpdate()
+        private void SubStatusUpdate()
         {
             object[] ClientSelected = DBEntities.GetContext().Client.ToArray();
 
@@ -421,18 +421,40 @@ namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
                 {
                     Subscription subscription = DBEntities.GetContext().Subscription.FirstOrDefault(u => u.SubscriptionID == client.SubscriptionID);
 
-
-                    if (client.DateOfEnd <= DateTime.Now &&
-                        subscription.VisitTime.TimeEnd < DateTime.Now.TimeOfDay &&
-                        client.StatusID != 2 && client.StatusID != 4)
-                    {
-                        client.StatusID = 2;
-
-                        DBEntities.GetContext().SaveChanges();
-
-                        MBClass.Info($"Абонемент у {client.Surname} {client.Name} {client.Patronymic} Закончился!");
-                    }
+                    StartSubscriptionUpdate(client, subscription);
+                    EndSubscriptionUpdate(client, subscription);
                 }
+            }
+        }
+
+
+
+
+
+        private void StartSubscriptionUpdate(Client client, Subscription subscription)
+        {
+            if (client.DateOfReg <= DateTime.Now &&
+                subscription.VisitTime.TimeStart <= DateTime.Now.TimeOfDay &&
+                client.StatusID != 1 && client.StatusID != 4 &&
+                client.StatusID != 3 && client.StatusID != 2)
+            {
+                client.StatusID = 1;
+
+                DBEntities.GetContext().SaveChanges();
+            }
+        }
+
+        private void EndSubscriptionUpdate(Client client, Subscription subscription)
+        {
+            if (client.DateOfEnd <= DateTime.Now &&
+                subscription.VisitTime.TimeEnd < DateTime.Now.TimeOfDay &&
+                client.StatusID != 2 && client.StatusID != 4)
+            {
+                client.StatusID = 2;
+
+                DBEntities.GetContext().SaveChanges();
+
+                MBClass.Info($"Абонемент у {client.Surname} {client.Name} {client.Patronymic} Закончился!");
             }
         }
 
