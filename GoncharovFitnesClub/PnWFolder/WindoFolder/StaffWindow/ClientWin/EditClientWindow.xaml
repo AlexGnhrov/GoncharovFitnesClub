@@ -155,7 +155,7 @@
                     materialDesign:HintAssist.FloatingOffset="8,-38.7"
                                         
                     BorderBrush="{StaticResource BorderAccentMain}"
-                            SelectedDateChanged="DateOfRegDP_SelectedDateChanged">
+                    SelectedDateChanged="DateOfRegDP_SelectedDateChanged">
 
                     <DatePicker.Resources>
                         <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#FFF47F2A" Opacity="0.8"/>

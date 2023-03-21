@@ -388,6 +388,8 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Client
         {
             string[] SplitSNP = SNPClientTB.Text.Split(' ');
 
+            DateOfRegDP_SelectedDateChanged(sender, null);
+
             try
             {
 
@@ -458,8 +460,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Client
         }
 
         private void DateOfRegDP_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
-        {
-           
+        {         
             CountDate();
         }
 

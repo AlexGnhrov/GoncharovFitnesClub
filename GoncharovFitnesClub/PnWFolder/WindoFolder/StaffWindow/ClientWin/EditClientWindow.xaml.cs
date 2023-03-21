@@ -381,6 +381,8 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.ClientWindow
         { 
             string[] SplitSNP = SNPClientTB.Text.Split(' ');
 
+            DateOfRegDP_SelectedDateChanged(sender, null);
+
             try
             {
 
