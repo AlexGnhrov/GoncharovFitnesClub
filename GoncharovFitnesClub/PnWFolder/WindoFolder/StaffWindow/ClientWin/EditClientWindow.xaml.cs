@@ -43,8 +43,9 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.ClientWindow
 
             SubscriptionCB.ItemsSource = DBEntities.GetContext().Subscription.ToList()
                                             .OrderBy(u => u.SubscriptionID);
-            StatusCB.ItemsSource = DBEntities.GetContext().Status.ToList().
-                                            OrderBy(u => u.StatusID);
+
+            StatusCB.ItemsSource = DBEntities.GetContext().Status.
+                                   ToList().OrderBy(u => u.NameStatus);
 
 
         }

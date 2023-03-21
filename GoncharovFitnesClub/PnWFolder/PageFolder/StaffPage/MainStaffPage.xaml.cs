@@ -20,6 +20,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
 {
@@ -306,75 +307,74 @@ namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
 
 
 
-
+        bool isClientUpdated = false;
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
-            try
+
+            if (ClientTI.IsSelected)
             {
-                if (ClientTI.IsSelected)
+
+                SearchTB.Text = SaveSearchText[0];
+
+                UpdateData(1);
+
+                if (!isClientUpdated)
                 {
-
-                    SearchTB.Text = SaveSearchText[0];
-
                     SubStatusUpdate();
-
-
-                    UpdateData(1);
-
-                    PageLabel.Content = "Список клиентов";
-                    AddBT.Content = "Добавить клиента";
-
-                    ListSubscriptionDG.ItemsSource = null;
-                    ListCoachDG.ItemsSource = null;
-
-
-                    AddBT.IsEnabled = !VariableClass.ClientWinisUsing;
-
-                }
-                else if (CoachTI.IsSelected)
-                {
-                    SearchTB.Text = SaveSearchText[1];
-
-                    UpdateData(2);
-
-                    PageLabel.Content = "Список тренеров";
-                    AddBT.Content = "Добавить тренера";
-
-                    ListClientDG.ItemsSource = null;
-                    ListSubscriptionDG.ItemsSource = null;
-
-
-
-                    AddBT.IsEnabled = !VariableClass.CoachWinisUsing;
-
-                }
-                else if (SubscriptionTI.IsSelected)
-                {
-                    SearchTB.Text = SaveSearchText[2];
-
-                    UpdateData(3);
-
-
-                    PageLabel.Content = "Список абонементов";
-                    AddBT.Content = "Добавить абонемент";
-
-                    ListClientDG.ItemsSource = null;
-                    ListCoachDG.ItemsSource = null;
-
-
-                    AddBT.IsEnabled = !VariableClass.SubscriptionWinisUsing;
-
+                    isClientUpdated = true;
                 }
 
+                PageLabel.Content = "Список клиентов";
+                AddBT.Content = "Добавить клиента";
 
+                ListSubscriptionDG.ItemsSource = null;
+                ListCoachDG.ItemsSource = null;
+
+
+                AddBT.IsEnabled = !VariableClass.ClientWinisUsing;
 
             }
-            catch (Exception ex)
+            else if (CoachTI.IsSelected)
             {
-                MBClass.Error(ex);
+                isClientUpdated = false;
+
+                SearchTB.Text = SaveSearchText[1];
+
+                UpdateData(2);
+
+                PageLabel.Content = "Список тренеров";
+                AddBT.Content = "Добавить тренера";
+
+                ListClientDG.ItemsSource = null;
+                ListSubscriptionDG.ItemsSource = null;
+
+
+
+                AddBT.IsEnabled = !VariableClass.CoachWinisUsing;
+
             }
+            else if (SubscriptionTI.IsSelected)
+            {
+                isClientUpdated = false;
+
+                SearchTB.Text = SaveSearchText[2];
+
+                UpdateData(3);
+
+
+                PageLabel.Content = "Список абонементов";
+                AddBT.Content = "Добавить абонемент";
+
+                ListClientDG.ItemsSource = null;
+                ListCoachDG.ItemsSource = null;
+
+
+                AddBT.IsEnabled = !VariableClass.SubscriptionWinisUsing;
+
+            }
+
         }
 
 
@@ -407,6 +407,8 @@ namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
             }
         }
 
+        bool resetIsOn = false;
+
 
         private void SubStatusUpdate()
         {
@@ -419,44 +421,71 @@ namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
 
                 if (client.SubscriptionID != null)
                 {
-                    Subscription subscription = DBEntities.GetContext().Subscription.FirstOrDefault(u => u.SubscriptionID == client.SubscriptionID);
+                    Subscription subscription = DBEntities.GetContext().Subscription.
+                                                FirstOrDefault(u => u.SubscriptionID == client.SubscriptionID);
 
                     StartSubscriptionUpdate(client, subscription);
                     EndSubscriptionUpdate(client, subscription);
                 }
             }
+
+            if (!resetIsOn)
+            {
+                resetIsOn = true;
+
+                ResetUpdate();
+            }
         }
 
 
 
+        private async Task ResetUpdate()
+        {
 
+            await Task.Delay(300000);
+
+            isClientUpdated = resetIsOn = false;
+        }
 
         private void StartSubscriptionUpdate(Client client, Subscription subscription)
         {
-            if (client.DateOfReg <= DateTime.Now &&
-                subscription.VisitTime.TimeStart <= DateTime.Now.TimeOfDay &&
-                client.StatusID != 1 && client.StatusID != 4 &&
-                client.StatusID != 3 && client.StatusID != 2)
-            {
-                client.StatusID = 1;
+            DateTime DateStart = (DateTime)client.DateOfReg;
 
-                DBEntities.GetContext().SaveChanges();
+            if (client.StatusID == 7)
+            {
+ 
+                if (DateStart.AddDays(1) < DateTime.Now ||
+                    DateStart < DateTime.Now &&
+                    subscription.VisitTime.TimeStart <= DateTime.Now.TimeOfDay)
+                {
+                    client.StatusID = 1;
+
+                    DBEntities.GetContext().SaveChanges();
+                }
             }
         }
 
         private void EndSubscriptionUpdate(Client client, Subscription subscription)
         {
-            if (client.DateOfEnd <= DateTime.Now &&
-                subscription.VisitTime.TimeEnd < DateTime.Now.TimeOfDay &&
-                client.StatusID != 2 && client.StatusID != 4)
+            DateTime DateEnd = (DateTime)client.DateOfEnd;
+
+            if(client.StatusID == 1)
             {
-                client.StatusID = 2;
 
-                DBEntities.GetContext().SaveChanges();
+                if (DateEnd.AddDays(1) < DateTime.Now ||
+                    DateEnd <= DateTime.Now &&
+                    subscription.VisitTime.TimeEnd <= DateTime.Now.TimeOfDay)
 
-                MBClass.Info($"Абонемент у {client.Surname} {client.Name} {client.Patronymic} Закончился!");
+                {
+                    client.StatusID = 2;
+
+                    DBEntities.GetContext().SaveChanges();
+
+                    MBClass.Info($"Абонемент у {client.Surname} {client.Name} {client.Patronymic} Закончился!");
+                }
             }
         }
+
 
         private void UpdateData(int i)
         {
@@ -498,6 +527,12 @@ namespace GoncharovFitnesClub.PnWFolder.PageFolder.StaffPage
 
                     break;
             }
+        }
+
+        private void UpdateClient_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateData(1);
+            SubStatusUpdate();
         }
     }
 }

@@ -75,6 +75,7 @@
 
                     <DataGrid.ContextMenu>
                         <ContextMenu Name="ClientPU" Background="DimGray">
+                            <MenuItem Header="Обновить" Click="UpdateClient_Click" Foreground="White" Height="25"/>
                             <MenuItem Header="Редактировать" Click="EditUser_Click" Foreground="White" Height="25"/>
                             <Separator/>
                             <MenuItem Header="Удалить" Click="DeleteUser_Click" Foreground="White" Height="25"/>
