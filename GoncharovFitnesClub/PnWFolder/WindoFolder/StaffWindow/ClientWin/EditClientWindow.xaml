@@ -153,7 +153,7 @@
                     materialDesign:HintAssist.Foreground="{x:Null}"
                     materialDesign:HintAssist.FloatingScale="0.9" 
                     materialDesign:HintAssist.FloatingOffset="8,-38.7"
-                                        
+                   materialDesign:HintAssist.IsFloating="False"
                     BorderBrush="{StaticResource BorderAccentMain}"
                     SelectedDateChanged="DateOfRegDP_SelectedDateChanged">
 
@@ -171,7 +171,8 @@
                     materialDesign:HintAssist.Background="{x:Null}"                  
                     materialDesign:HintAssist.Foreground="White"
                     materialDesign:HintAssist.FloatingScale="0.9" 
-                    materialDesign:HintAssist.FloatingOffset="8,-38.7"      
+                    materialDesign:HintAssist.FloatingOffset="8,-38.7"    
+                    materialDesign:HintAssist.IsFloating="False"
                     BorderBrush="{StaticResource BorderAccentMain}" 
                     IsEnabled="False"/>
 
