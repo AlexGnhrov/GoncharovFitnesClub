@@ -12,7 +12,7 @@
         Height="250" Width="425"
         MinHeight="250" MinWidth="425"
         MaxHeight="250" MaxWidth="425"
-        Title="Добавление дней посещения"
+        Title="Редактирование времени посещения"
         Icon="/GoncharovFitnesClub;component/ResourseFolder/ImageFolder/Logo.png"
         KeyDown="Window_KeyDown" Loaded="Window_Loaded">
 
@@ -34,7 +34,7 @@
 
                 <Image Source="/GoncharovFitnesClub;component/ResourseFolder/ImageFolder/Logo.png"
                        Width="25" Height="25" Margin="8,5"/>
-                <Label Name="WinLB" Content="Добавление дней посещения" Grid.Column="1" 
+                <Label Name="WinLB" Content="Редактирование времени посещения" Grid.Column="1" 
                        Style="{StaticResource LabelNameWin}"/>
 
                 <Border x:Name="ToolBarGrid" Background="White" Opacity="0" Grid.ColumnSpan="4"/>
@@ -76,7 +76,7 @@
                          PreviewTextInput="VisitDayTB_PreviewTextInput" Grid.ColumnSpan="2" />
 
                 <Button x:Name="EditVisitTimeBT" Grid.Row="2"
-                        Content="Добавить"
+                        Content="Редактировать"
                         materialDesign:ButtonAssist.CornerRadius="10"
                         IsEnabled="False"
                         BorderBrush="{StaticResource BorderAccentMain}"

@@ -147,10 +147,10 @@
 
                 <DatePicker x:Name="DateOfRegDP" 
                     Grid.Row="4" 
-                    Foreground="LightGray"  
+                    Foreground="Gray"  
                     materialDesign:HintAssist.Hint="Дата поступления" 
-                    materialDesign:HintAssist.Background="Black"                  
-                    materialDesign:HintAssist.Foreground="{x:Null}"
+                    materialDesign:HintAssist.Background="White"                  
+                    materialDesign:HintAssist.Foreground="White"
                     materialDesign:HintAssist.FloatingScale="0.9" 
                     materialDesign:HintAssist.FloatingOffset="8,-38.7"   
                     materialDesign:HintAssist.IsFloating="False"

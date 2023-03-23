@@ -38,13 +38,12 @@
                     <ColumnDefinition Width="40"/>
                 </Grid.ColumnDefinitions>
 
+                <Border x:Name="ToolBarGrid" Background="#FF616161" Opacity="1" Grid.ColumnSpan="5" />
+
                 <Image Source="/GoncharovFitnesClub;component/ResourseFolder/ImageFolder/Logo.png"
                        Width="25" Height="25"/>
                 <Label Name="WinNameL" Content="{Binding ElementName=MainFrame, Path=Content.Title}" Grid.Column="1" 
                        Style="{StaticResource LabelNameWin}"/>
-
-                <Border x:Name="ToolBarGrid" Background="White" Opacity="0" Grid.ColumnSpan="5"/>
-
 
                 <Border x:Name="CloseB"  Style="{DynamicResource BorderExitButton}"
                 MouseEnter="Borders_MouseEnter"          
@@ -69,20 +68,19 @@
 
             </Grid>
 
-            <Border x:Name="ToolMenuB"
+            <Border x:Name="ToolMenuB" 
                     Grid.Row="1" Grid.RowSpan="1"
                     BorderBrush="White" BorderThickness="0,0,0,1"
                     Visibility="Hidden">
-                <Menu Height="30">
+                <Menu Height="30" Background="#FF616161">
                     <MenuItem Header="Сменить запись" 
-                              Foreground="White"
+                              Foreground="White" Background="#FF616161"
                               FontSize="13" Height="30"
                               Click="ChangeUserMI_Click"/>
                     <MenuItem Header="Информация"
-                              Foreground="White" Background="DimGray"
+                              Foreground="White" Background="#FF616161"
                               FontSize="13" Height="30" >
                         <MenuItem Header="О программе"
-                              Background="DimGray"
                               Foreground="White"
                               FontSize="14" Height="27" Margin="0" 
                               Click="InfoMI_Click">
@@ -98,9 +96,9 @@
                     HorizontalAlignment="Right" Grid.RowSpan="3" Cursor="SizeWE"
                     Margin="0,15,-5,15" />
             <Border x:Name="BottomCornerB"
-                Background="Black" Opacity="0"
-                VerticalAlignment="Bottom" Cursor="SizeNS"
-                Margin="15,0,15,-5" Grid.Row="2" Height="10"/>
+                    Background="Black" Opacity="0"
+                    VerticalAlignment="Bottom" Cursor="SizeNS"
+                    Margin="15,0,15,-5" Grid.Row="2" Height="10"/>
 
         </Grid>
     </Border>
