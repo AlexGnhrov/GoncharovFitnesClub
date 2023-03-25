@@ -258,7 +258,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.AdminWin
 
                 MWCountLabel.Content =  "Колиество сотрудников: " + DBEntities.GetContext().Staff.ToArray().Length;
 
-                VariableClass.StaffID = staff.StaffID;
+ 
             }
             catch (Exception ex)
             {
