@@ -361,7 +361,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.StaffWindow.Subscription
             {
 
                 CoachCB.ItemsSource = DBEntities.GetContext().Coach
-                    .Where(u => u.SpecialityID == (int)SpecialityCB.SelectedValue).ToList();
+                     .Where(u => u.SpecialityID == (int)SpecialityCB.SelectedValue).ToList();
 
                 CoachCB.IsEnabled = true;
 
