@@ -62,10 +62,10 @@
                 Grid.Row="1" Grid.Column="2"
                 Content="Добавить Клиента" 
                 materialDesign:ButtonAssist.CornerRadius="10" Click="AddBT_Click"  />
-        <TabControl Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
+        <TabControl Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" 
                     SelectionChanged="TabControl_SelectionChanged"  Background="{x:Null}" >
 
-            <TabItem x:Name="ClientTI" Header="Клиенты" Background="Gray">
+            <TabItem x:Name="ClientTI" Header="Клиенты" Background="Gray" materialDesign:ColorZoneAssist.Foreground="Red">
 
 
                 <DataGrid x:Name="ListClientDG"
@@ -192,7 +192,7 @@
                   AutoGenerateColumns="False" IsReadOnly="True" HorizontalScrollBarVisibility="Visible"
                   MouseDoubleClick="ListUserDG_MouseDoubleClick" >
                     <DataGrid.ContextMenu>
-                        <ContextMenu Name="SubscriptionPU" Background="DimGray">
+                        <ContextMenu Name="SubscriptionPU">
                             <MenuItem Header="Редактировать" Click="EditUser_Click" Foreground="White" Height="25"/>
                             <Separator/>
                             <MenuItem Header="Удалить" Click="DeleteUser_Click" Foreground="White" Height="25"/>

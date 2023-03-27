@@ -133,9 +133,7 @@
                          materialDesign:HintAssist.FloatingScale="0.9" 
                          materialDesign:HintAssist.FloatingOffset="-10,-38.7"      
                          >
-                    <ComboBox.Resources>
-                        <SolidColorBrush x:Key="MaterialDesignPaper" Color="Gray"/>
-                    </ComboBox.Resources>
+
                 </ComboBox>
 
                 <Button x:Name="AddCoachBT" Grid.Row="6"

@@ -180,10 +180,6 @@
                     materialDesign:HintAssist.FloatingOffset="-10,-38.7"
                     SelectionChanged="VisitDateCB_SelectionChanged" 
                     MouseDoubleClick="VisitDateCB_MouseDoubleClick">
-
-                    <ComboBox.Resources>
-                        <SolidColorBrush x:Key="MaterialDesignPaper" Color="Gray"/>
-                    </ComboBox.Resources>
                     <ComboBox.BorderBrush>
                         <StaticResource ResourceKey="BorderAccentMain"/>
                     </ComboBox.BorderBrush>
@@ -237,9 +233,6 @@
                             </TextBlock>
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
-                    <ComboBox.Resources>
-                        <SolidColorBrush x:Key="MaterialDesignPaper" Color="Gray"/>
-                    </ComboBox.Resources>
                     <ComboBox.BorderBrush>
                         <StaticResource ResourceKey="BorderAccentMain"/>
                     </ComboBox.BorderBrush>

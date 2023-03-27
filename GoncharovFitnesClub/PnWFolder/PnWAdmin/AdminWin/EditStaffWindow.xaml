@@ -138,10 +138,6 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
 
-
-                    <ComboBox.Resources>
-                        <SolidColorBrush x:Key="MaterialDesignPaper" Color="Gray"/>
-                    </ComboBox.Resources>
                 </ComboBox>
 
                 <Button x:Name="AddStaffBT" Grid.Row="5"

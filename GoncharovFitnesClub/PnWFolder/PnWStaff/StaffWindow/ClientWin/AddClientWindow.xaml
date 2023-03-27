@@ -60,8 +60,7 @@
             </Grid>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="404*"/>
-                    <ColumnDefinition Width="19*"/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="20"/>
@@ -86,7 +85,7 @@
                      
                          
                      BorderBrush="{StaticResource BorderAccentMain}"
-                         TextChanged="SNPClientTB_TextChanged" Margin="20,10,0.667,18" Grid.Row="1"/>
+                         TextChanged="SNPClientTB_TextChanged" Grid.Row="1"/>
 
                 <TextBox x:Name="PhoneTB"
                          Grid.Row="2"
@@ -100,7 +99,7 @@
                          
                          BorderBrush="{StaticResource BorderAccentMain}"
                          TextChanged="PhoneTB_TextChanged"
-                         PreviewTextInput="PhoneTB_PreviewTextInput" MaxLength="17" Margin="20,14,0.667,14"/>
+                         PreviewTextInput="PhoneTB_PreviewTextInput" MaxLength="17" />
 
                 <TextBox x:Name="EmailTB"
                          Grid.Row="3"
@@ -111,7 +110,7 @@
                          materialDesign:HintAssist.Foreground="White"
                          materialDesign:HintAssist.FloatingScale="0.9" 
                          materialDesign:HintAssist.FloatingOffset="-10,-38.7"      
-                         BorderBrush="{StaticResource BorderAccentMain}" Margin="20,14,0.667,14" />
+                         BorderBrush="{StaticResource BorderAccentMain}" />
 
                 <ComboBox x:Name="StatusCB"
                           Grid.Row="7"
@@ -123,16 +122,12 @@
                           ItemsSource="{Binding Role}"
                           MouseDoubleClick="StatusCB_MouseDoubleClick"
                           SelectionChanged="StatusCB_SelectionChanged"
-                          Margin="20,15,68.667,15"  
+                          Margin="20,15,88,15"  
                                                    
                          materialDesign:HintAssist.Background="{x:Null}"                  
                          materialDesign:HintAssist.Foreground="White"
                          materialDesign:HintAssist.FloatingScale="0.9" 
-                         materialDesign:HintAssist.FloatingOffset="-10,-38.7"      
-                         >
-                    <ComboBox.Resources>
-                        <SolidColorBrush x:Key="MaterialDesignPaper" Color="Gray"/>
-                    </ComboBox.Resources>
+                         materialDesign:HintAssist.FloatingOffset="-10,-38.7">
                 </ComboBox>
 
                 <Button x:Name="AddClientBT" Grid.Row="8"
@@ -141,13 +136,13 @@
                         IsEnabled="False"
                         BorderBrush="{StaticResource BorderAccentMain}"
                         Click="AddClientBT_Click"  
-                        Width="200" Margin="112,20,91.667,21"/>
+                        Width="200" Margin="112,20,111,21"/>
 
                 <Button x:Name="AddStatusBT" Grid.Row="7"
                     Content="+" FontSize="32"
                     materialDesign:ButtonAssist.CornerRadius="10"
                     BorderBrush="{StaticResource BorderAccentMain}"
-                    Margin="350,15,0.667,15" Height="Auto" Click="AddStatusBT_Click" />
+                    Margin="350,15,20,15" Height="Auto" Click="AddStatusBT_Click" />
 
                 <DatePicker x:Name="DateOfRegDP" 
                     Grid.Row="4" 
@@ -158,9 +153,10 @@
                     materialDesign:HintAssist.FloatingScale="0.9" 
                     materialDesign:HintAssist.FloatingOffset="8,-38.7"   
                     materialDesign:HintAssist.IsFloating="False"
-                            
+
+             
                     BorderBrush="{StaticResource BorderAccentMain}"
-                    SelectedDateChanged="DateOfRegDP_SelectedDateChanged" Margin="20,14,0.667,14">
+                    SelectedDateChanged="DateOfRegDP_SelectedDateChanged">
 
                     <DatePicker.Resources>
                         <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#FFF47F2A" Opacity="0.8"/>
@@ -175,7 +171,7 @@
                     materialDesign:HintAssist.IsFloating="False"
                     materialDesign:HintAssist.FloatingScale="0.9" 
                     materialDesign:HintAssist.FloatingOffset="8,-38.7"       
-                    IsEnabled="False" Margin="20,14,0.667,14" />
+                    IsEnabled="False" Margin="20,14" />
 
                 <ComboBox x:Name="SubscriptionCB"
                     Grid.Row="6"
@@ -192,7 +188,7 @@
                     materialDesign:HintAssist.Foreground="White"
                     materialDesign:HintAssist.FloatingScale="0.9" 
                     materialDesign:HintAssist.FloatingOffset="-10,-38.7"
-                          Margin="20,15,68.667,15">
+                          Margin="20,15,88,15">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock>
@@ -217,7 +213,7 @@
                     Content="+" FontSize="32"
                     materialDesign:ButtonAssist.CornerRadius="10"
                     BorderBrush="{StaticResource BorderAccentMain}"
-                    Margin="350,15,0.667,15" Height="Auto" Click="AddSubscriptionBT_Click" />
+                    Margin="350,15,20,15" Height="Auto" Click="AddSubscriptionBT_Click" />
             </Grid>
         </Grid>
     </Border>

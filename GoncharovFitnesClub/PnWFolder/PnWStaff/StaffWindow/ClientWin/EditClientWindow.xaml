@@ -124,11 +124,7 @@
                          materialDesign:HintAssist.Background="{x:Null}"                  
                          materialDesign:HintAssist.Foreground="White"
                          materialDesign:HintAssist.FloatingScale="0.9" 
-                         materialDesign:HintAssist.FloatingOffset="-10,-38.7"      
-                         >
-                    <ComboBox.Resources>
-                        <SolidColorBrush x:Key="MaterialDesignPaper" Color="Gray"/>
-                    </ComboBox.Resources>
+                         materialDesign:HintAssist.FloatingOffset="-10,-38.7">
                 </ComboBox>
 
                 <Button x:Name="EditClientBT" Grid.Row="8"
@@ -203,9 +199,6 @@
                             </TextBlock>
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
-                    <ComboBox.Resources>
-                        <SolidColorBrush x:Key="MaterialDesignPaper" Color="Gray"/>
-                    </ComboBox.Resources>
                     <ComboBox.BorderBrush>
                         <StaticResource ResourceKey="BorderAccentMain"/>
                     </ComboBox.BorderBrush>
