@@ -18,11 +18,19 @@ namespace GoncharovFitnesClub.WindoFolder.AdminWindow
 
         User user = new User();
 
+        DataGrid MWListStaffDG;
+        TextBox MWSearchTB;
+        Label MWCountLabel;
+
         string oldLogin;
 
-        public AdminEditUserWindow()
+        public AdminEditUserWindow(DataGrid MWListStaffDG, TextBox MWSearchTB, Label MWCountLabel)
         {
             InitializeComponent();
+
+            this.MWListStaffDG = MWListStaffDG;
+            this.MWSearchTB = MWSearchTB;
+            this.MWCountLabel = MWCountLabel;
 
             RoleCB.ItemsSource = DBEntities.GetContext().Role.ToList();
         }
@@ -205,7 +213,15 @@ namespace GoncharovFitnesClub.WindoFolder.AdminWindow
 
                     oldLogin = LoginTB.Text;
 
+                    MWListStaffDG.ItemsSource = DBEntities.GetContext().
+                        Staff.Where(u => u.Surname.StartsWith(MWSearchTB.Text) ||
+                                    u.Name.StartsWith(MWSearchTB.Text) ||
+                                    u.Patronymic.StartsWith(MWSearchTB.Text) ||
+                                    u.User.Login.StartsWith(MWSearchTB.Text) ||
+                                    u.User.Role.NameRole.StartsWith(MWSearchTB.Text))
+                                    .ToList().OrderBy(u => u.StaffID);
 
+                    MWCountLabel.Content = "Колиество сотрудников: " + DBEntities.GetContext().Staff.ToArray().Length;
 
                 }
                 catch (Exception ex)

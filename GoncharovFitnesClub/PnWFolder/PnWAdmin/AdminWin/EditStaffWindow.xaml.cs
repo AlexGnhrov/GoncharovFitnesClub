@@ -409,7 +409,7 @@ namespace GoncharovFitnesClub.PnWFolder.WindoFolder.AdminWin.UserData
             {
 
                 VariableClass.UserID = (int)UserDataCB.SelectedValue;
-                new AdminEditUserWindow().ShowDialog();
+                new AdminEditUserWindow(MWListStaffDG, MWSearchTB, MWCountLabel).ShowDialog();
 
                 UpdateLoadUserData();
 
