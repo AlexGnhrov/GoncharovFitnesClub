@@ -176,46 +176,46 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PnWFolder\PnWStaff\StaffWindow\AdditionalWIn\Status\AddStatusWindow.xaml.cs">
+    <Compile Include="PnWFolder\PnWStaff\StaffWin\AdditionalWIn\Status\AddStatusWindow.xaml.cs">
       <DependentUpon>AddStatusWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PnWFolder\PnWStaff\StaffWindow\AdditionalWIn\Status\EditStatusWindow.xaml.cs">
+    <Compile Include="PnWFolder\PnWStaff\StaffWin\AdditionalWIn\Status\EditStatusWindow.xaml.cs">
       <DependentUpon>EditStatusWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PnWFolder\PnWStaff\StaffWindow\AdditionalWIn\VisitDay\AddVisitDateWindow.xaml.cs">
+    <Compile Include="PnWFolder\PnWStaff\StaffWin\AdditionalWIn\VisitDay\AddVisitDateWindow.xaml.cs">
       <DependentUpon>AddVisitDateWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PnWFolder\PnWStaff\StaffWindow\AdditionalWIn\VisitDay\EditVisitDateWindow.xaml.cs">
+    <Compile Include="PnWFolder\PnWStaff\StaffWin\AdditionalWIn\VisitDay\EditVisitDateWindow.xaml.cs">
       <DependentUpon>EditVisitDateWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PnWFolder\PnWStaff\StaffWindow\AdditionalWIn\VisitTime\AddVisitTimeWindow.xaml.cs">
+    <Compile Include="PnWFolder\PnWStaff\StaffWin\AdditionalWIn\VisitTime\AddVisitTimeWindow.xaml.cs">
       <DependentUpon>AddVisitTimeWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PnWFolder\PnWStaff\StaffWindow\AdditionalWIn\VisitTime\EditVisitTimeWindow.xaml.cs">
+    <Compile Include="PnWFolder\PnWStaff\StaffWin\AdditionalWIn\VisitTime\EditVisitTimeWindow.xaml.cs">
       <DependentUpon>EditVisitTimeWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PnWFolder\PnWStaff\StaffWindow\ClientWin\AddClientWindow.xaml.cs">
+    <Compile Include="PnWFolder\PnWStaff\StaffWin\ClientWin\AddClientWindow.xaml.cs">
       <DependentUpon>AddClientWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PnWFolder\PnWStaff\StaffWindow\ClientWin\EditClientWindow.xaml.cs">
+    <Compile Include="PnWFolder\PnWStaff\StaffWin\ClientWin\EditClientWindow.xaml.cs">
       <DependentUpon>EditClientWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PnWFolder\PnWStaff\StaffWindow\CoachWin\AddCoachWindow.xaml.cs">
+    <Compile Include="PnWFolder\PnWStaff\StaffWin\CoachWin\AddCoachWindow.xaml.cs">
       <DependentUpon>AddCoachWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PnWFolder\PnWStaff\StaffWindow\AdditionalWIn\Speciality\EditSpecialityWindow.xaml.cs">
+    <Compile Include="PnWFolder\PnWStaff\StaffWin\AdditionalWIn\Speciality\EditSpecialityWindow.xaml.cs">
       <DependentUpon>EditSpecialityWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PnWFolder\PnWStaff\StaffWindow\AdditionalWIn\Speciality\AddSpecialityWindow.xaml.cs">
+    <Compile Include="PnWFolder\PnWStaff\StaffWin\AdditionalWIn\Speciality\AddSpecialityWindow.xaml.cs">
       <DependentUpon>AddSpecialityWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PnWFolder\PnWStaff\StaffWindow\CoachWin\EditCoachWindow.xaml.cs">
+    <Compile Include="PnWFolder\PnWStaff\StaffWin\CoachWin\EditCoachWindow.xaml.cs">
       <DependentUpon>EditCoachWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PnWFolder\PnWStaff\StaffWindow\SubscriptionWin\AddSubscriptionWindow.xaml.cs">
+    <Compile Include="PnWFolder\PnWStaff\StaffWin\SubscriptionWin\AddSubscriptionWindow.xaml.cs">
       <DependentUpon>AddSubscriptionWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PnWFolder\PnWStaff\StaffWindow\SubscriptionWin\EditSubscriptionWindow.xaml.cs">
+    <Compile Include="PnWFolder\PnWStaff\StaffWin\SubscriptionWin\EditSubscriptionWindow.xaml.cs">
       <DependentUpon>EditSubscriptionWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -272,59 +272,59 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PnWFolder\PnWStaff\StaffWindow\AdditionalWIn\Status\AddStatusWindow.xaml">
+    <Page Include="PnWFolder\PnWStaff\StaffWin\AdditionalWIn\Status\AddStatusWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PnWFolder\PnWStaff\StaffWindow\AdditionalWIn\Status\EditStatusWindow.xaml">
+    <Page Include="PnWFolder\PnWStaff\StaffWin\AdditionalWIn\Status\EditStatusWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PnWFolder\PnWStaff\StaffWindow\AdditionalWIn\VisitDay\AddVisitDateWindow.xaml">
+    <Page Include="PnWFolder\PnWStaff\StaffWin\AdditionalWIn\VisitDay\AddVisitDateWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PnWFolder\PnWStaff\StaffWindow\AdditionalWIn\VisitDay\EditVisitDateWindow.xaml">
+    <Page Include="PnWFolder\PnWStaff\StaffWin\AdditionalWIn\VisitDay\EditVisitDateWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PnWFolder\PnWStaff\StaffWindow\AdditionalWIn\VisitTime\AddVisitTimeWindow.xaml">
+    <Page Include="PnWFolder\PnWStaff\StaffWin\AdditionalWIn\VisitTime\AddVisitTimeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PnWFolder\PnWStaff\StaffWindow\AdditionalWIn\VisitTime\EditVisitTimeWindow.xaml">
+    <Page Include="PnWFolder\PnWStaff\StaffWin\AdditionalWIn\VisitTime\EditVisitTimeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PnWFolder\PnWStaff\StaffWindow\ClientWin\AddClientWindow.xaml">
+    <Page Include="PnWFolder\PnWStaff\StaffWin\ClientWin\AddClientWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PnWFolder\PnWStaff\StaffWindow\ClientWin\EditClientWindow.xaml">
+    <Page Include="PnWFolder\PnWStaff\StaffWin\ClientWin\EditClientWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PnWFolder\PnWStaff\StaffWindow\CoachWin\AddCoachWindow.xaml">
+    <Page Include="PnWFolder\PnWStaff\StaffWin\CoachWin\AddCoachWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PnWFolder\PnWStaff\StaffWindow\AdditionalWIn\Speciality\EditSpecialityWindow.xaml">
+    <Page Include="PnWFolder\PnWStaff\StaffWin\AdditionalWIn\Speciality\EditSpecialityWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PnWFolder\PnWStaff\StaffWindow\AdditionalWIn\Speciality\AddSpecialityWindow.xaml">
+    <Page Include="PnWFolder\PnWStaff\StaffWin\AdditionalWIn\Speciality\AddSpecialityWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PnWFolder\PnWStaff\StaffWindow\CoachWin\EditCoachWindow.xaml">
+    <Page Include="PnWFolder\PnWStaff\StaffWin\CoachWin\EditCoachWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PnWFolder\PnWStaff\StaffWindow\SubscriptionWin\AddSubscriptionWindow.xaml">
+    <Page Include="PnWFolder\PnWStaff\StaffWin\SubscriptionWin\AddSubscriptionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PnWFolder\PnWStaff\StaffWindow\SubscriptionWin\EditSubscriptionWindow.xaml">
+    <Page Include="PnWFolder\PnWStaff\StaffWin\SubscriptionWin\EditSubscriptionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

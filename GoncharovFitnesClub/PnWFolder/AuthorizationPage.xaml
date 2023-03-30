@@ -48,7 +48,7 @@
                     <DropShadowEffect BlurRadius="50"  Direction ="-10" RenderingBias ="Performance" ShadowDepth ="2" Color ="Black" />
                 </Border.Effect>
             </Border>
-            
+
 
             <Image Grid.Column="1" Grid.Row="2" Width="110"
                    Source="/GoncharovFitnesClub;component/ResourseFolder/ImageFolder/Logo.png" />
