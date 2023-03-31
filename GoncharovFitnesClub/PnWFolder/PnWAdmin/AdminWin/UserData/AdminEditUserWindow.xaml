@@ -124,7 +124,7 @@
                     Content="Удалить"
                     materialDesign:ButtonAssist.CornerRadius="10"
                     IsEnabled="True"
-                    Background="{StaticResource BorderAccentAdditional}"
+                    Background="#FFBB2525"
                     Click="DeleteBT_Click" Margin="229,10,20,8"/>
 
             </Grid>

@@ -84,7 +84,8 @@
 
 
                 <Button x:Name="DeleteBT" Grid.Row="2"
-                    Content="Удалить" Background="{StaticResource BorderAccentAdditional}"
+                    Content="Удалить"
+                    Background="#FFBB2525"
                     materialDesign:ButtonAssist.CornerRadius="10"
                     Click="DeleteBT_Click" Grid.Column="1" Margin="0,26,20,25" HorizontalAlignment="Right" Width="123"   />
             </Grid>
